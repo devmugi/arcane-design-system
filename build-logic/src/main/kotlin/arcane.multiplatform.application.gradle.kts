@@ -1,3 +1,4 @@
+import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -41,6 +42,7 @@ kotlin {
         }
 
         androidMain.dependencies {
+            val libs = the<VersionCatalogsExtension>().named("libs")
             implementation(libs.findLibrary("androidx-activity-compose").get())
         }
 
