@@ -36,6 +36,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.ui)
+            implementation(compose.material3)
         }
     }
 }
