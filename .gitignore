@@ -17,3 +17,6 @@ local.properties
 iosApp/Pods/
 *.xcworkspace
 *.xcuserdata
+
+# Worktrees
+.worktrees/
