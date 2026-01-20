@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+*.iml
+
+# Gradle
+.gradle/
+build/
+local.properties
+
+# Kotlin
+*.class
+
+# iOS
+iosApp/Pods/
+*.xcworkspace
+*.xcuserdata
