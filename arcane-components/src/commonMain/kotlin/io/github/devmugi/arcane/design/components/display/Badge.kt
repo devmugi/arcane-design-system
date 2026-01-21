@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
+import io.github.devmugi.arcane.design.foundation.tokens.ArcaneBorder
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneRadius
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
@@ -47,16 +48,13 @@ fun ArcaneBadge(
         is ArcaneBadgeStyle.Custom -> style.backgroundColor to style.contentColor
     }
 
-    val borderColor = when (style) {
-        is ArcaneBadgeStyle.Custom -> style.contentColor.copy(alpha = 0.5f)
-        else -> contentColor.copy(alpha = 0.5f)
-    }
+    val borderColor = contentColor.copy(alpha = 0.5f)
 
     Box(
         modifier = modifier
             .height(20.dp)
             .background(backgroundColor, ArcaneRadius.Small)
-            .border(1.dp, borderColor, ArcaneRadius.Small)
+            .border(ArcaneBorder.Title, borderColor, ArcaneRadius.Small)
             .padding(horizontal = ArcaneSpacing.XSmall),
         contentAlignment = Alignment.Center
     ) {
