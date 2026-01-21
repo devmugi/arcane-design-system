@@ -6,7 +6,14 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +29,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.unit.dp
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneBorder
+import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
 /**
  * Represents the state of a step in a stepper component.
@@ -168,6 +176,245 @@ internal fun StepIndicator(
                 style = typography.labelSmall,
                 color = textColor
             )
+        }
+    }
+}
+
+private val ConnectorHeight = 2.dp
+private val VerticalConnectorHeight = 32.dp
+
+/**
+ * Horizontal connector line between step indicators.
+ *
+ * @param isCompleted Whether the previous step is completed (affects color)
+ */
+@Composable
+private fun RowScope.HorizontalConnector(isCompleted: Boolean) {
+    val colors = ArcaneTheme.colors
+    val connectorColor by animateColorAsState(
+        targetValue = if (isCompleted) colors.primary else colors.textDisabled,
+        animationSpec = tween(200),
+        label = "connectorColor"
+    )
+
+    Box(
+        modifier = Modifier
+            .weight(1f)
+            .height(ConnectorHeight)
+            .background(connectorColor)
+    )
+}
+
+/**
+ * Vertical connector line between step indicators.
+ *
+ * @param isCompleted Whether the previous step is completed (affects color)
+ */
+@Composable
+private fun VerticalConnector(isCompleted: Boolean) {
+    val colors = ArcaneTheme.colors
+    val connectorColor by animateColorAsState(
+        targetValue = if (isCompleted) colors.primary else colors.textDisabled,
+        animationSpec = tween(200),
+        label = "verticalConnectorColor"
+    )
+
+    Box(
+        modifier = Modifier
+            .width(ConnectorHeight)
+            .height(VerticalConnectorHeight)
+            .background(connectorColor)
+    )
+}
+
+/**
+ * Horizontal stepper layout with steps arranged left to right.
+ *
+ * @param steps List of steps to display
+ * @param modifier Modifier to be applied to the stepper
+ */
+@Composable
+private fun HorizontalStepper(
+    steps: List<ArcaneStep>,
+    modifier: Modifier = Modifier
+) {
+    val colors = ArcaneTheme.colors
+    val typography = ArcaneTheme.typography
+
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.Top
+    ) {
+        steps.forEachIndexed { index, step ->
+            // Each step column
+            Column(
+                modifier = Modifier.weight(1f),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                // Row with optional connectors and indicator
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Left connector (except for first step)
+                    if (index > 0) {
+                        val previousCompleted = steps[index - 1].state == ArcaneStepState.Completed
+                        HorizontalConnector(isCompleted = previousCompleted)
+                    } else {
+                        Box(modifier = Modifier.weight(1f))
+                    }
+
+                    // Step indicator
+                    StepIndicator(
+                        stepNumber = index + 1,
+                        state = step.state
+                    )
+
+                    // Right connector (except for last step)
+                    if (index < steps.lastIndex) {
+                        val currentCompleted = step.state == ArcaneStepState.Completed
+                        HorizontalConnector(isCompleted = currentCompleted)
+                    } else {
+                        Box(modifier = Modifier.weight(1f))
+                    }
+                }
+
+                // Label below indicator
+                Text(
+                    text = step.label,
+                    style = typography.labelSmall,
+                    color = when (step.state) {
+                        ArcaneStepState.Active -> colors.primary
+                        ArcaneStepState.Completed -> colors.text
+                        ArcaneStepState.Pending -> colors.textDisabled
+                    },
+                    modifier = Modifier.padding(top = ArcaneSpacing.XSmall)
+                )
+
+                // Description only for active step
+                if (step.state == ArcaneStepState.Active && step.description != null) {
+                    Text(
+                        text = step.description,
+                        style = typography.bodySmall,
+                        color = colors.textSecondary,
+                        modifier = Modifier.padding(top = ArcaneSpacing.XXSmall)
+                    )
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Vertical stepper layout with steps arranged top to bottom.
+ *
+ * @param steps List of steps to display
+ * @param modifier Modifier to be applied to the stepper
+ */
+@Composable
+private fun VerticalStepper(
+    steps: List<ArcaneStep>,
+    modifier: Modifier = Modifier
+) {
+    val colors = ArcaneTheme.colors
+    val typography = ArcaneTheme.typography
+
+    Column(modifier = modifier) {
+        steps.forEachIndexed { index, step ->
+            // Row with indicator and text
+            Row(
+                verticalAlignment = Alignment.Top
+            ) {
+                // Column with indicator and optional connector
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    StepIndicator(
+                        stepNumber = index + 1,
+                        state = step.state
+                    )
+
+                    // Vertical connector (except for last step)
+                    if (index < steps.lastIndex) {
+                        val currentCompleted = step.state == ArcaneStepState.Completed
+                        VerticalConnector(isCompleted = currentCompleted)
+                    }
+                }
+
+                // Label and description to the right
+                Column(
+                    modifier = Modifier.padding(start = ArcaneSpacing.Small)
+                ) {
+                    Text(
+                        text = step.label,
+                        style = typography.labelMedium,
+                        color = when (step.state) {
+                            ArcaneStepState.Active -> colors.primary
+                            ArcaneStepState.Completed -> colors.text
+                            ArcaneStepState.Pending -> colors.textDisabled
+                        }
+                    )
+
+                    // Description for active step or always if provided
+                    if (step.description != null) {
+                        Text(
+                            text = step.description,
+                            style = typography.bodySmall,
+                            color = if (step.state == ArcaneStepState.Active) {
+                                colors.textSecondary
+                            } else {
+                                colors.textDisabled
+                            },
+                            modifier = Modifier.padding(top = ArcaneSpacing.XXSmall)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Stepper component for displaying multi-step progress.
+ *
+ * Supports both horizontal and vertical orientations with visual indicators
+ * for completed, active, and pending steps.
+ *
+ * ## Visual Styling
+ * - Completed steps: Primary-colored indicator with checkmark
+ * - Active step: Primary-bordered indicator with glow effect
+ * - Pending steps: Disabled-colored indicator
+ * - Connector lines: Primary when previous step completed, disabled otherwise
+ *
+ * ## Horizontal Layout
+ * - Steps arranged left to right with equal spacing
+ * - Connector lines between indicators
+ * - Labels below indicators
+ * - Description shown only for active step
+ *
+ * ## Vertical Layout
+ * - Steps arranged top to bottom
+ * - Vertical connector lines between steps
+ * - Labels and descriptions to the right of indicators
+ *
+ * @param steps List of steps to display in the stepper
+ * @param modifier Modifier to be applied to the stepper container
+ * @param orientation Layout orientation (Horizontal or Vertical)
+ */
+@Composable
+fun ArcaneStepper(
+    steps: List<ArcaneStep>,
+    modifier: Modifier = Modifier,
+    orientation: ArcaneStepperOrientation = ArcaneStepperOrientation.Horizontal
+) {
+    if (steps.isEmpty()) return
+
+    when (orientation) {
+        is ArcaneStepperOrientation.Horizontal -> {
+            HorizontalStepper(steps = steps, modifier = modifier)
+        }
+        is ArcaneStepperOrientation.Vertical -> {
+            VerticalStepper(steps = steps, modifier = modifier)
         }
     }
 }
