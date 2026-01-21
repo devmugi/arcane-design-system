@@ -11,6 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import io.github.devmugi.arcane.catalog.screens.ControlsScreen
+import io.github.devmugi.arcane.catalog.screens.DataDisplayScreen
 import io.github.devmugi.arcane.catalog.screens.NavigationScreen
 import io.github.devmugi.arcane.design.components.navigation.ArcaneTab
 import io.github.devmugi.arcane.design.components.navigation.ArcaneTabs
@@ -27,7 +28,11 @@ fun App() {
                 .background(ArcaneTheme.colors.surface)
         ) {
             ArcaneTabs(
-                tabs = listOf(ArcaneTab("Controls"), ArcaneTab("Navigation")),
+                tabs = listOf(
+                    ArcaneTab("Controls"),
+                    ArcaneTab("Navigation"),
+                    ArcaneTab("Data Display")
+                ),
                 selectedIndex = selectedScreen,
                 onTabSelected = { selectedScreen = it }
             )
@@ -35,6 +40,7 @@ fun App() {
             when (selectedScreen) {
                 0 -> ControlsScreen()
                 1 -> NavigationScreen()
+                2 -> DataDisplayScreen()
             }
         }
     }
