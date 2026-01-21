@@ -41,7 +41,8 @@ fun App() {
                     onNavigateToControls = { currentScreen = Screen.Controls },
                     onNavigateToNavigation = { currentScreen = Screen.Navigation },
                     onNavigateToDataDisplay = { currentScreen = Screen.DataDisplay },
-                    onNavigateToFeedback = { currentScreen = Screen.Feedback }
+                    onNavigateToFeedback = { currentScreen = Screen.Feedback },
+                    onNavigateToChat = { currentScreen = Screen.Chat }
                 )
                 Screen.Controls -> ControlsScreen(
                     onBack = { currentScreen = Screen.DesignSpec }

@@ -56,6 +56,8 @@ import io.github.devmugi.arcane.design.components.display.ArcaneCard
 import io.github.devmugi.arcane.design.components.display.ArcaneCardContent
 import io.github.devmugi.arcane.design.components.display.ArcaneListItem
 import io.github.devmugi.arcane.design.components.display.ArcaneTooltip
+import io.github.devmugi.arcane.design.components.controls.ArcaneAssistantMessageBlock
+import io.github.devmugi.arcane.design.components.controls.ArcaneUserMessageBlock
 import io.github.devmugi.arcane.design.components.feedback.ArcaneAlertBanner
 import io.github.devmugi.arcane.design.components.feedback.ArcaneAlertStyle
 import io.github.devmugi.arcane.design.components.feedback.ArcaneCircularProgress
@@ -84,7 +86,8 @@ fun DesignSpecScreen(
     onNavigateToControls: () -> Unit,
     onNavigateToNavigation: () -> Unit,
     onNavigateToDataDisplay: () -> Unit,
-    onNavigateToFeedback: () -> Unit
+    onNavigateToFeedback: () -> Unit,
+    onNavigateToChat: () -> Unit
 ) {
     val colors = ArcaneTheme.colors
     val typography = ArcaneTheme.typography
@@ -115,6 +118,10 @@ fun DesignSpecScreen(
         // ========== FEEDBACK SECTION ==========
         SectionHeader(title = "FEEDBACK", onClick = onNavigateToFeedback)
         FeedbackSection()
+
+        // ========== CHAT SECTION ==========
+        SectionHeader(title = "CHAT", onClick = onNavigateToChat)
+        ChatSection()
 
         Spacer(modifier = Modifier.height(ArcaneSpacing.XLarge))
     }
@@ -655,6 +662,34 @@ private fun FeedbackSection() {
                 Column(modifier = Modifier.weight(1f)) {
                     ArcaneAlertBanner(message = "Error", style = ArcaneAlertStyle.Error)
                 }
+            }
+        }
+    }
+}
+
+// ==================== CHAT SECTION ====================
+
+@Composable
+private fun ChatSection() {
+    Column(verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
+        ) {
+            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+                SubsectionLabel("User Message")
+                ArcaneUserMessageBlock(
+                    text = "Hello, Claude!"
+                )
+            }
+
+            Column(modifier = Modifier.weight(2f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+                SubsectionLabel("Assistant Message")
+                ArcaneAssistantMessageBlock(
+                    text = "Hello! I'd be happy to help you with that.",
+                    title = "Claude",
+                    onCopyClick = {}
+                )
             }
         }
     }
