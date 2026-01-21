@@ -1,5 +1,28 @@
 package io.github.devmugi.arcane.design.components.navigation
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.unit.dp
+import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
+import io.github.devmugi.arcane.design.foundation.tokens.ArcaneRadius
+import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 import kotlin.math.max
 import kotlin.math.min
 
@@ -97,4 +120,187 @@ internal fun calculatePaginationItems(
     }
 
     return result
+}
+
+private val PaginationButtonSize = 32.dp
+
+/**
+ * Private composable for pagination buttons with animated background.
+ * Used for page numbers and navigation arrows.
+ */
+@Composable
+private fun PaginationButton(
+    onClick: () -> Unit,
+    enabled: Boolean,
+    selected: Boolean,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    val colors = ArcaneTheme.colors
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+
+    val backgroundColor by animateColorAsState(
+        targetValue = when {
+            !enabled -> Color.Transparent
+            isPressed -> colors.surfacePressed
+            selected -> colors.primary
+            else -> Color.Transparent
+        },
+        animationSpec = tween(150),
+        label = "paginationButtonBackground"
+    )
+
+    val contentColor = when {
+        !enabled -> colors.textDisabled
+        selected -> colors.surface
+        else -> colors.text
+    }
+
+    Box(
+        modifier = modifier
+            .size(PaginationButtonSize)
+            .clip(ArcaneRadius.Medium)
+            .background(backgroundColor, ArcaneRadius.Medium)
+            .then(
+                if (enabled) {
+                    Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        role = Role.Button,
+                        onClick = onClick
+                    )
+                } else {
+                    Modifier
+                }
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "",
+            style = ArcaneTheme.typography.bodySmall,
+            color = contentColor
+        )
+        Box(contentAlignment = Alignment.Center) {
+            androidx.compose.runtime.CompositionLocalProvider(
+                androidx.compose.material3.LocalContentColor provides contentColor
+            ) {
+                content()
+            }
+        }
+    }
+}
+
+/**
+ * Pagination component for navigating through multiple pages of content.
+ *
+ * Displays page numbers with ellipsis for large page counts, previous/next arrows,
+ * and optional "Page X of Y" information.
+ *
+ * ## Visual Styling
+ * - Current page: Primary background with surface text color
+ * - Other pages: Transparent background with text color
+ * - Disabled arrows: textDisabled color at boundaries
+ * - Ellipsis: Non-interactive, textSecondary color
+ *
+ * ## Page Number Display (with siblingCount=1, boundaryCount=1)
+ * - Page 1:  < [1] 2 3 ... 10 >
+ * - Page 5:  < 1 ... 4 [5] 6 ... 10 >
+ * - Page 10: < 1 ... 8 9 [10] >
+ *
+ * @param currentPage The currently selected page (1-indexed)
+ * @param totalPages The total number of pages
+ * @param onPageSelected Callback when a page is selected
+ * @param modifier Modifier to be applied to the pagination container
+ * @param showPageInfo Whether to show "Page X of Y" text
+ * @param siblingCount Number of pages to show on each side of current page
+ * @param boundaryCount Number of pages to show at the start and end
+ */
+@Composable
+fun ArcanePagination(
+    currentPage: Int,
+    totalPages: Int,
+    onPageSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    showPageInfo: Boolean = true,
+    siblingCount: Int = 1,
+    boundaryCount: Int = 1
+) {
+    if (totalPages <= 0) return
+
+    val colors = ArcaneTheme.colors
+    val typography = ArcaneTheme.typography
+    val items = calculatePaginationItems(currentPage, totalPages, siblingCount, boundaryCount)
+
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        // Page info text
+        if (showPageInfo) {
+            Text(
+                text = "Page $currentPage of $totalPages",
+                style = typography.bodySmall,
+                color = colors.textSecondary
+            )
+        }
+
+        // Previous button
+        PaginationButton(
+            onClick = { if (currentPage > 1) onPageSelected(currentPage - 1) },
+            enabled = currentPage > 1,
+            selected = false
+        ) {
+            Text(
+                text = "<",
+                style = typography.bodySmall,
+                color = if (currentPage > 1) colors.text else colors.textDisabled
+            )
+        }
+
+        // Page items
+        items.forEach { item ->
+            when (item) {
+                is PaginationItem.Page -> {
+                    PaginationButton(
+                        onClick = { onPageSelected(item.number) },
+                        enabled = true,
+                        selected = item.number == currentPage
+                    ) {
+                        Text(
+                            text = item.number.toString(),
+                            style = typography.bodySmall,
+                            color = if (item.number == currentPage) colors.surface else colors.text
+                        )
+                    }
+                }
+                is PaginationItem.Ellipsis -> {
+                    Box(
+                        modifier = Modifier.size(PaginationButtonSize),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "...",
+                            style = typography.bodySmall,
+                            color = colors.textSecondary
+                        )
+                    }
+                }
+            }
+        }
+
+        // Next button
+        PaginationButton(
+            onClick = { if (currentPage < totalPages) onPageSelected(currentPage + 1) },
+            enabled = currentPage < totalPages,
+            selected = false
+        ) {
+            Text(
+                text = ">",
+                style = typography.bodySmall,
+                color = if (currentPage < totalPages) colors.text else colors.textDisabled
+            )
+        }
+    }
 }
