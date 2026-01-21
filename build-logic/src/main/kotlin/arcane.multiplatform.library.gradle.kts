@@ -5,7 +5,11 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.compose")
+    `maven-publish`
 }
+
+group = "io.github.devmugi.design.arcane"
+version = "0.1.0"
 
 kotlin {
     androidTarget {
