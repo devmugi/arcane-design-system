@@ -39,6 +39,8 @@ import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 sealed class ArcaneButtonStyle {
     data object Primary : ArcaneButtonStyle()
     data object Secondary : ArcaneButtonStyle()
+    data object Destructive : ArcaneButtonStyle()
+    data class Outlined(val tintColor: Color? = null) : ArcaneButtonStyle()
 }
 
 @Composable
@@ -58,22 +60,30 @@ fun ArcaneButton(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
+    val outlineTint = (style as? ArcaneButtonStyle.Outlined)?.tintColor ?: colors.primary
+
     val backgroundColor = when {
         !enabled -> colors.surfaceInset
         loading -> colors.surfacePressed
         isPressed -> colors.surfacePressed
         style is ArcaneButtonStyle.Primary -> colors.primary
+        style is ArcaneButtonStyle.Destructive -> colors.error
+        style is ArcaneButtonStyle.Outlined -> Color.Transparent
         else -> colors.surface
     }
 
     val contentColor = when {
         !enabled -> colors.textDisabled
-        style is ArcaneButtonStyle.Primary && !isPressed && !loading -> colors.surface
+        style is ArcaneButtonStyle.Outlined -> outlineTint
+        style is ArcaneButtonStyle.Primary && !isPressed && !loading -> colors.text
+        style is ArcaneButtonStyle.Destructive && !isPressed && !loading -> colors.text
         else -> colors.text
     }
 
     val borderColor = when {
         !enabled -> colors.textDisabled.copy(alpha = 0.3f)
+        style is ArcaneButtonStyle.Outlined -> outlineTint
+        style is ArcaneButtonStyle.Destructive -> colors.error
         else -> colors.border
     }
 

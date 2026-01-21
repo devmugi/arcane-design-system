@@ -113,16 +113,13 @@ fun ArcaneConfirmationDialog(
                         onDismiss()
                     },
                     modifier = Modifier.weight(1f),
-                    style = ArcaneButtonStyle.Primary
+                    style = if (style is ArcaneConfirmationStyle.Destructive) {
+                        ArcaneButtonStyle.Destructive
+                    } else {
+                        ArcaneButtonStyle.Primary
+                    }
                 ) {
-                    Text(
-                        text = confirmText,
-                        color = if (style is ArcaneConfirmationStyle.Destructive) {
-                            colors.error
-                        } else {
-                            ArcaneTheme.colors.surface
-                        }
-                    )
+                    Text(text = confirmText)
                 }
             }
         }

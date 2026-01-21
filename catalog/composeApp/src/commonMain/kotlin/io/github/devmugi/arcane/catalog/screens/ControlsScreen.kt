@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import io.github.devmugi.arcane.design.components.controls.ArcaneButtonStyle
 import io.github.devmugi.arcane.design.components.controls.ArcaneCheckbox
 import io.github.devmugi.arcane.design.components.controls.ArcaneRadioButton
@@ -78,6 +79,16 @@ fun ControlsScreen() {
                     text = "Disabled",
                     onClick = {},
                     enabled = false
+                )
+                ArcaneTextButton(
+                    text = "Outlined",
+                    onClick = {},
+                    style = ArcaneButtonStyle.Outlined()
+                )
+                ArcaneTextButton(
+                    text = "Outlined Gold",
+                    onClick = {},
+                    style = ArcaneButtonStyle.Outlined(tintColor = Color(0xFFD4A574))
                 )
             }
         }
