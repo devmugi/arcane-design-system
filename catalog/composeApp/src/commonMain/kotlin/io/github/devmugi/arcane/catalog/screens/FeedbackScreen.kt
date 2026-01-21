@@ -1,6 +1,7 @@
 package io.github.devmugi.arcane.catalog.screens
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -77,19 +78,14 @@ fun FeedbackScreen() {
         style = ArcaneConfirmationStyle.Destructive
     )
 
-    // Toast Host
-    ArcaneToastHost(
-        state = toastState,
-        position = ArcaneToastPosition.BottomCenter
-    )
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-            .padding(ArcaneSpacing.Medium),
-        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
-    ) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+                .padding(ArcaneSpacing.Medium),
+            verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
+        ) {
         Text(
             text = "Feedback",
             style = typography.displayMedium,
@@ -281,7 +277,14 @@ fun FeedbackScreen() {
             }
         }
 
-        Spacer(modifier = Modifier.height(ArcaneSpacing.XLarge))
+            Spacer(modifier = Modifier.height(ArcaneSpacing.XLarge))
+        }
+
+        // Toast Host as overlay
+        ArcaneToastHost(
+            state = toastState,
+            position = ArcaneToastPosition.BottomCenter
+        )
     }
 }
 
