@@ -10,8 +10,10 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -183,5 +185,28 @@ fun ArcaneTabs(
                 )
             }
         }
+    }
+}
+
+@Composable
+fun ArcaneTabLayout(
+    tabs: List<ArcaneTab>,
+    selectedIndex: Int,
+    onTabSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    style: ArcaneTabStyle = ArcaneTabStyle.Filled,
+    scrollable: Boolean = false,
+    content: @Composable (selectedIndex: Int) -> Unit
+) {
+    Column(modifier = modifier) {
+        ArcaneTabs(
+            tabs = tabs,
+            selectedIndex = selectedIndex,
+            onTabSelected = onTabSelected,
+            modifier = Modifier.fillMaxWidth(),
+            style = style,
+            scrollable = scrollable
+        )
+        content(selectedIndex)
     }
 }
