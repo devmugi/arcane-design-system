@@ -4,21 +4,16 @@ package io.github.devmugi.arcane.design.components.controls
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -35,9 +30,6 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
@@ -53,17 +45,17 @@ private val AssistantMessageShape = RoundedCornerShape(
 
 @Composable
 fun ArcaneAssistantMessageBlock(
-    text: String,
     modifier: Modifier = Modifier,
     title: String? = null,
     isLoading: Boolean = false,
     maxContentHeight: Dp = 160.dp,
+    enableTruncation: Boolean = true,
     showBottomActions: Boolean = false,
     autoShowWhenTruncated: Boolean = true,
-    onCopyClick: (() -> Unit)? = null,
     onShowMoreClick: (() -> Unit)? = null,
     titleActions: @Composable (RowScope.() -> Unit)? = null,
-    bottomActions: @Composable (RowScope.() -> Unit)? = null
+    bottomActions: @Composable (RowScope.() -> Unit)? = null,
+    content: @Composable () -> Unit
 ) {
     val colors = ArcaneTheme.colors
     val typography = ArcaneTheme.typography
@@ -73,7 +65,8 @@ fun ArcaneAssistantMessageBlock(
     var isTruncated by remember { mutableStateOf(false) }
 
     val showTitleRow = title != null || isLoading
-    val shouldShowBottomActions = showBottomActions || (autoShowWhenTruncated && isTruncated && !isExpanded)
+    val shouldShowBottomActions = showBottomActions ||
+        (enableTruncation && autoShowWhenTruncated && isTruncated && !isExpanded)
 
     Column(
         modifier = modifier
@@ -112,30 +105,11 @@ fun ArcaneAssistantMessageBlock(
                     }
                 }
 
-                // Right side: Copy + custom actions
+                // Right side: custom actions
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XXSmall),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (onCopyClick != null) {
-                        Box(
-                            modifier = Modifier
-                                .size(32.dp)
-                                .clip(ArcaneRadius.Full)
-                                .clickable(
-                                    interactionSource = remember { MutableInteractionSource() },
-                                    indication = null,
-                                    onClick = onCopyClick
-                                )
-                                .semantics { contentDescription = "Copy message" },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CopyIcon(
-                                tint = colors.textSecondary,
-                                modifier = Modifier.size(18.dp)
-                            )
-                        }
-                    }
                     titleActions?.invoke(this)
                 }
             }
@@ -147,20 +121,20 @@ fun ArcaneAssistantMessageBlock(
             modifier = Modifier
                 .fillMaxWidth()
                 .then(
-                    if (!isExpanded) {
+                    if (enableTruncation && !isExpanded) {
                         Modifier.heightIn(max = maxContentHeight)
                     } else {
                         Modifier
                     }
                 )
                 .onSizeChanged { size ->
-                    if (!isExpanded) {
+                    if (enableTruncation && !isExpanded) {
                         isTruncated = size.height >= maxHeightPx.toInt()
                     }
                 }
                 .drawWithContent {
                     drawContent()
-                    if (isTruncated && !isExpanded) {
+                    if (enableTruncation && isTruncated && !isExpanded) {
                         drawRect(
                             brush = Brush.verticalGradient(
                                 colors = listOf(Color.Transparent, colors.surfaceRaised),
@@ -171,12 +145,7 @@ fun ArcaneAssistantMessageBlock(
                     }
                 }
         ) {
-            Text(
-                text = text,
-                style = typography.bodyMedium,
-                color = colors.text,
-                overflow = if (!isExpanded) TextOverflow.Clip else TextOverflow.Visible
-            )
+            content()
         }
 
         // Bottom Actions Row
@@ -210,46 +179,5 @@ fun ArcaneAssistantMessageBlock(
                 bottomActions?.invoke(this)
             }
         }
-    }
-}
-
-/**
- * Custom copy icon placeholder.
- * Uses simple shapes to represent a copy/clipboard icon since Icons.Outlined.ContentCopy
- * is not available in material-icons-core.
- */
-@Composable
-private fun CopyIcon(
-    tint: Color,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier,
-        contentAlignment = Alignment.Center
-    ) {
-        // Back document (slightly offset)
-        Box(
-            modifier = Modifier
-                .width(10.dp)
-                .height(12.dp)
-                .offset(x = 2.dp, y = (-2).dp)
-                .border(
-                    width = 1.5.dp,
-                    color = tint,
-                    shape = RoundedCornerShape(2.dp)
-                )
-        )
-        // Front document
-        Box(
-            modifier = Modifier
-                .width(10.dp)
-                .height(12.dp)
-                .offset(x = (-2).dp, y = 2.dp)
-                .border(
-                    width = 1.5.dp,
-                    color = tint,
-                    shape = RoundedCornerShape(2.dp)
-                )
-        )
     }
 }
