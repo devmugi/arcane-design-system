@@ -7,5 +7,8 @@ kotlin {
         commonMain.dependencies {
             api(project(":arcane-foundation"))
         }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
     }
 }
