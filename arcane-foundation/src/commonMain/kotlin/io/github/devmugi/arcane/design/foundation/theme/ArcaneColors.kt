@@ -14,6 +14,8 @@ data class ArcaneColors(
     val surfacePressed: Color = Color(0xFF252A40),
     val glow: Color = Color(0xFF8B5CF6).copy(alpha = 0.3f),
     val glowStrong: Color = Color(0xFF8B5CF6).copy(alpha = 0.6f),
+    val glowRaised: Color = Color(0xFF4ADE80),      // Green/teal for Raised variant
+    val glowPressed: Color = Color(0xFFD4A574),     // Golden/warm for Pressed variant
     val text: Color = Color(0xFFFFFFFF),
     val textSecondary: Color = Color(0xFF9CA3AF),
     val textDisabled: Color = Color(0xFF4B5563),

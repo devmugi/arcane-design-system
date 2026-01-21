@@ -84,7 +84,7 @@ fun ArcaneTextField(
                 .fillMaxWidth()
                 .clip(ArcaneRadius.Medium)
                 .background(backgroundColor)
-                .border(ArcaneBorder.Title, borderColor, ArcaneRadius.Medium)
+                .border(ArcaneBorder.Thin, borderColor, ArcaneRadius.Medium)
                 .padding(ArcaneSpacing.Small),
             enabled = enabled,
             readOnly = readOnly,

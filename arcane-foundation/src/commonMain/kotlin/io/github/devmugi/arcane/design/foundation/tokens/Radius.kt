@@ -6,20 +6,20 @@ import androidx.compose.ui.unit.dp
 
 @Immutable
 object ArcaneRadius {
-    /** No rounding */
+    /** R0 - No rounding */
     val None = RoundedCornerShape(0.dp)
 
-    /** B4 - 4px subtle rounding */
+    /** R4 - 4px subtle rounding */
     val Small = RoundedCornerShape(4.dp)
 
-    /** B8 - 6px (labeled as B8 but 6px per design) */
-    val Medium = RoundedCornerShape(6.dp)
+    /** R8 - 8px standard rounding */
+    val Medium = RoundedCornerShape(8.dp)
 
-    /** R12 - 12px standard rounding */
+    /** R12 - 12px moderate rounding */
     val Large = RoundedCornerShape(12.dp)
 
-    /** R15 - 18px (labeled R15 but 18px per design) */
-    val ExtraLarge = RoundedCornerShape(18.dp)
+    /** R15 - 16px large rounding */
+    val ExtraLarge = RoundedCornerShape(16.dp)
 
     /** Full pill shape */
     val Full = RoundedCornerShape(50)

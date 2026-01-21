@@ -80,7 +80,7 @@ fun ArcaneCheckbox(
                 .size(22.dp)
                 .clip(ArcaneRadius.Small)
                 .background(backgroundColor)
-                .border(ArcaneBorder.Title, borderColor, ArcaneRadius.Small)
+                .border(ArcaneBorder.Thin, borderColor, ArcaneRadius.Small)
                 .drawWithContent {
                     drawContent()
                     if (checked) {

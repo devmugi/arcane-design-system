@@ -6,12 +6,12 @@ import androidx.compose.ui.unit.dp
 
 @Immutable
 object ArcaneBorder {
-    /** Title border - 1px thin accent line */
-    val Title: Dp = 1.dp
+    /** Thin border - 1px accent line */
+    val Thin: Dp = 1.dp
 
     /** Medium border - 2px standard border */
     val Medium: Dp = 2.dp
 
-    /** Thick border - 6px heavy emphasis */
-    val Thick: Dp = 6.dp
+    /** Thick border - 3px heavy emphasis */
+    val Thick: Dp = 3.dp
 }

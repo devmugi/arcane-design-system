@@ -6,11 +6,11 @@ import androidx.compose.ui.unit.dp
 
 @Immutable
 object ArcaneIconography {
-    /** 15dp - Small icons for dense UI */
-    val Small: Dp = 15.dp
+    /** 18dp - Small icons for dense UI */
+    val Small: Dp = 18.dp
 
-    /** 25dp - Standard icon size */
-    val Medium: Dp = 25.dp
+    /** 22dp - Standard icon size */
+    val Medium: Dp = 22.dp
 
     /** 26dp - Large icons for emphasis */
     val Large: Dp = 26.dp

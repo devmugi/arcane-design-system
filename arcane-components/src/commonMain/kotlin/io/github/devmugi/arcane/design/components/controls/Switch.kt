@@ -102,7 +102,7 @@ fun ArcaneSwitch(
                 .height(trackHeight)
                 .clip(ArcaneRadius.Full)
                 .background(trackColor)
-                .border(ArcaneBorder.Title, borderColor, ArcaneRadius.Full)
+                .border(ArcaneBorder.Thin, borderColor, ArcaneRadius.Full)
                 .padding(thumbPadding),
             contentAlignment = Alignment.CenterStart
         ) {

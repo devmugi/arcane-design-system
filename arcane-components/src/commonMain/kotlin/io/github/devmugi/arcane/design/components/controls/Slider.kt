@@ -91,7 +91,7 @@ fun ArcaneSlider(
                     .width(48.dp)
                     .clip(ArcaneRadius.Small)
                     .background(colors.surfaceRaised)
-                    .border(ArcaneBorder.Title, colors.border, ArcaneRadius.Small)
+                    .border(ArcaneBorder.Thin, colors.border, ArcaneRadius.Small)
                     .padding(horizontal = ArcaneSpacing.XSmall, vertical = ArcaneSpacing.XXSmall),
                 contentAlignment = Alignment.Center
             ) {
@@ -143,7 +143,7 @@ fun ArcaneSlider(
                     .height(trackHeight)
                     .clip(ArcaneRadius.Full)
                     .background(trackColor)
-                    .border(ArcaneBorder.Title, borderColor, ArcaneRadius.Full)
+                    .border(ArcaneBorder.Thin, borderColor, ArcaneRadius.Full)
             )
 
             // Active track

@@ -79,7 +79,7 @@ fun ArcaneRadioButton(
                 .size(22.dp)
                 .clip(CircleShape)
                 .background(colors.surfaceInset)
-                .border(ArcaneBorder.Title, borderColor, CircleShape)
+                .border(ArcaneBorder.Thin, borderColor, CircleShape)
                 .padding(4.dp),
             contentAlignment = Alignment.Center
         ) {

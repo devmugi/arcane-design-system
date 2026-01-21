@@ -54,7 +54,7 @@ fun ArcaneBadge(
         modifier = modifier
             .height(20.dp)
             .background(backgroundColor, ArcaneRadius.Small)
-            .border(ArcaneBorder.Title, borderColor, ArcaneRadius.Small)
+            .border(ArcaneBorder.Thin, borderColor, ArcaneRadius.Small)
             .padding(horizontal = ArcaneSpacing.XSmall),
         contentAlignment = Alignment.Center
     ) {

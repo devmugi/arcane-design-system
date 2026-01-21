@@ -114,7 +114,7 @@ fun ArcaneButton(
             )
             .clip(ArcaneRadius.Full)
             .background(backgroundColor, ArcaneRadius.Full)
-            .border(ArcaneBorder.Title, borderColor, ArcaneRadius.Full)
+            .border(ArcaneBorder.Thin, borderColor, ArcaneRadius.Full)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,

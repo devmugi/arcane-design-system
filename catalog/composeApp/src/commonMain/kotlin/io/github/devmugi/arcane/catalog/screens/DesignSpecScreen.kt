@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -33,6 +34,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import io.github.devmugi.arcane.design.components.controls.ArcaneButtonStyle
@@ -158,35 +162,38 @@ private fun FoundationSection() {
                 }
             }
 
-            // Elevation
+            // Elevation - 3D stacked visualization
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
                 SubsectionLabel("Elevation Levels")
-                Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                    ElevationBox("L1", 0.2f)
-                    ElevationBox("L2", 0.25f)
-                    ElevationBox("L3", 0.8f)
+                Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)) {
+                    ElevationStack(
+                        label = "Level 1: Low",
+                        spec = "(3px, 0, 4px)",
+                        layers = 2,
+                        shadowAlpha = 0.2f
+                    )
+                    ElevationStack(
+                        label = "Level 2: Mid",
+                        spec = "(4px, 0, 8px)",
+                        layers = 3,
+                        shadowAlpha = 0.25f
+                    )
+                    ElevationStack(
+                        label = "Level 3: High",
+                        spec = "(8px, 0, 16px)",
+                        shadowAlpha = 0.3f,
+                        layers = 4
+                    )
                 }
             }
 
             // Iconography
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
                 SubsectionLabel("Iconography Rules")
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small),
-                    verticalAlignment = Alignment.Bottom
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(Icons.Default.Home, null, tint = colors.primary, modifier = Modifier.size(15.dp))
-                        Text("15px", style = ArcaneTheme.typography.labelSmall, color = colors.textSecondary)
-                    }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(Icons.Default.Search, null, tint = colors.primary, modifier = Modifier.size(25.dp))
-                        Text("25px", style = ArcaneTheme.typography.labelSmall, color = colors.textSecondary)
-                    }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(Icons.Default.Settings, null, tint = colors.primary, modifier = Modifier.size(26.dp))
-                        Text("26px", style = ArcaneTheme.typography.labelSmall, color = colors.textSecondary)
-                    }
+                Column(verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+                    IconRow(size = 18.dp, label = "18px", colors = colors)
+                    IconRow(size = 22.dp, label = "22px", colors = colors)
+                    IconRow(size = 26.dp, label = "26px", colors = colors)
                 }
             }
         }
@@ -200,9 +207,9 @@ private fun FoundationSection() {
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
                 SubsectionLabel("Border Thickness Tokens")
                 Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                    BorderBox("Title", ArcaneBorder.Title)
-                    BorderBox("Medium", ArcaneBorder.Medium)
-                    BorderBox("Thick", ArcaneBorder.Thick)
+                    BorderBox("Thin", ArcaneBorder.Thin, "(1px)")
+                    BorderBox("Medium", ArcaneBorder.Medium, "(2px)")
+                    BorderBox("Thick", ArcaneBorder.Thick, "(3px)")
                 }
             }
 
@@ -210,11 +217,11 @@ private fun FoundationSection() {
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
                 SubsectionLabel("Radius Scale")
                 Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                    RadiusBox("B0", RoundedCornerShape(0.dp))
-                    RadiusBox("B4", RoundedCornerShape(4.dp))
-                    RadiusBox("B8", RoundedCornerShape(8.dp))
-                    RadiusBox("R12", RoundedCornerShape(12.dp))
-                    RadiusBox("R15", RoundedCornerShape(18.dp))
+                    RadiusBox("R0", RoundedCornerShape(0.dp))
+                    RadiusBox("R4", RoundedCornerShape(4.dp), "(4px)")
+                    RadiusBox("R8", RoundedCornerShape(8.dp), "(8px)")
+                    RadiusBox("R12", RoundedCornerShape(12.dp), "(12px)")
+                    RadiusBox("R15", RoundedCornerShape(16.dp), "(16px)")
                 }
             }
         }
@@ -223,31 +230,128 @@ private fun FoundationSection() {
 
 @Composable
 private fun SurfaceBox(label: String, variant: SurfaceVariant) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        ArcaneSurface(
-            variant = variant,
-            modifier = Modifier.size(50.dp)
-        ) {}
-        Text(label, style = ArcaneTheme.typography.labelSmall, color = ArcaneTheme.colors.textSecondary)
-    }
-}
-
-@Composable
-private fun ElevationBox(label: String, glowAlpha: Float) {
     val colors = ArcaneTheme.colors
+    val surfaceSize = 70.dp
+    val innerSize = 50.dp
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
-            modifier = Modifier
-                .size(50.dp)
-                .background(colors.surfaceRaised, ArcaneRadius.Small)
-                .border(1.dp, colors.primary.copy(alpha = glowAlpha), ArcaneRadius.Small)
-        )
+            modifier = Modifier.size(surfaceSize),
+            contentAlignment = Alignment.Center
+        ) {
+            when (variant) {
+                SurfaceVariant.Base -> {
+                    // Flat surface with subtle neutral border only
+                    Box(
+                        modifier = Modifier
+                            .size(innerSize)
+                            .background(colors.surface, ArcaneRadius.Medium)
+                            .border(1.dp, colors.border.copy(alpha = 0.3f), ArcaneRadius.Medium)
+                    )
+                }
+                SurfaceVariant.Raised -> {
+                    // Glow outline for elevated appearance
+                    Box(
+                        modifier = Modifier
+                            .size(innerSize + 8.dp)
+                            .background(colors.primary.copy(alpha = 0.15f), ArcaneRadius.Medium)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .size(innerSize)
+                            .background(colors.surfaceRaised, ArcaneRadius.Medium)
+                            .border(1.dp, colors.primary.copy(alpha = 0.6f), ArcaneRadius.Medium)
+                    )
+                }
+                SurfaceVariant.Inset -> {
+                    // Inner shadow effect - recessed appearance
+                    Box(
+                        modifier = Modifier
+                            .size(innerSize)
+                            .clip(ArcaneRadius.Medium)
+                            .background(colors.surfaceInset)
+                            .drawBehind {
+                                // Draw inner shadow gradient - darker edges fading to center
+                                drawRect(
+                                    brush = Brush.radialGradient(
+                                        colors = listOf(
+                                            Color.Transparent,
+                                            Color.Black.copy(alpha = 0.4f)
+                                        ),
+                                        center = Offset(size.width / 2, size.height / 2),
+                                        radius = size.minDimension / 1.5f
+                                    )
+                                )
+                            }
+                            .border(1.dp, colors.border.copy(alpha = 0.2f), ArcaneRadius.Medium)
+                    )
+                }
+                SurfaceVariant.Pressed -> {
+                    // Warm/golden glow to distinguish from Raised
+                    val warmGlow = Color(0xFFD4A574)
+                    Box(
+                        modifier = Modifier
+                            .size(innerSize + 6.dp)
+                            .background(warmGlow.copy(alpha = 0.15f), ArcaneRadius.Medium)
+                    )
+                    Box(
+                        modifier = Modifier
+                            .size(innerSize)
+                            .background(colors.surfacePressed, ArcaneRadius.Medium)
+                            .border(1.dp, warmGlow.copy(alpha = 0.5f), ArcaneRadius.Medium)
+                    )
+                }
+            }
+        }
         Text(label, style = ArcaneTheme.typography.labelSmall, color = colors.textSecondary)
     }
 }
 
 @Composable
-private fun BorderBox(label: String, borderWidth: androidx.compose.ui.unit.Dp) {
+private fun ElevationStack(
+    label: String,
+    spec: String,
+    layers: Int,
+    shadowAlpha: Float
+) {
+    val colors = ArcaneTheme.colors
+    val layerSize = 45.dp
+    val layerOffset = 4.dp
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(
+            modifier = Modifier
+                .size(layerSize + (layerOffset * layers))
+                .padding(top = layerOffset * (layers - 1)),
+            contentAlignment = Alignment.TopStart
+        ) {
+            // Draw stacked layers from back to front
+            for (i in (layers - 1) downTo 0) {
+                val offset = layerOffset * i
+                Box(
+                    modifier = Modifier
+                        .offset(x = offset / 2, y = -offset)
+                        .size(layerSize)
+                        .background(
+                            if (i == 0) colors.surfaceRaised else colors.surface.copy(alpha = 0.8f - (i * 0.15f)),
+                            ArcaneRadius.Small
+                        )
+                        .border(
+                            1.dp,
+                            colors.border.copy(alpha = if (i == 0) 0.5f else 0.2f),
+                            ArcaneRadius.Small
+                        )
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(label, style = ArcaneTheme.typography.labelSmall, color = colors.textSecondary)
+        Text(spec, style = ArcaneTheme.typography.labelSmall, color = colors.textDisabled)
+    }
+}
+
+@Composable
+private fun BorderBox(label: String, borderWidth: androidx.compose.ui.unit.Dp, pixelValue: String? = null) {
     val colors = ArcaneTheme.colors
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
@@ -256,11 +360,14 @@ private fun BorderBox(label: String, borderWidth: androidx.compose.ui.unit.Dp) {
                 .border(borderWidth, colors.primary, ArcaneRadius.Small)
         )
         Text(label, style = ArcaneTheme.typography.labelSmall, color = colors.textSecondary)
+        if (pixelValue != null) {
+            Text(pixelValue, style = ArcaneTheme.typography.labelSmall, color = colors.textDisabled)
+        }
     }
 }
 
 @Composable
-private fun RadiusBox(label: String, shape: RoundedCornerShape) {
+private fun RadiusBox(label: String, shape: RoundedCornerShape, pixelValue: String? = null) {
     val colors = ArcaneTheme.colors
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
@@ -270,6 +377,23 @@ private fun RadiusBox(label: String, shape: RoundedCornerShape) {
                 .border(1.dp, colors.border, shape)
         )
         Text(label, style = ArcaneTheme.typography.labelSmall, color = colors.textSecondary)
+        if (pixelValue != null) {
+            Text(pixelValue, style = ArcaneTheme.typography.labelSmall, color = colors.textDisabled)
+        }
+    }
+}
+
+@Composable
+private fun IconRow(size: androidx.compose.ui.unit.Dp, label: String, colors: io.github.devmugi.arcane.design.foundation.theme.ArcaneColors) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(label, style = ArcaneTheme.typography.labelSmall, color = colors.textSecondary, modifier = Modifier.width(32.dp))
+        Icon(Icons.Default.Home, null, tint = colors.primary, modifier = Modifier.size(size))
+        Icon(Icons.Default.Search, null, tint = colors.primary, modifier = Modifier.size(size))
+        Icon(Icons.Default.Settings, null, tint = colors.primary, modifier = Modifier.size(size))
+        Icon(Icons.Default.Person, null, tint = colors.primary, modifier = Modifier.size(size))
     }
 }
 
@@ -287,11 +411,11 @@ private fun ControlsSection() {
             verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
         ) {
             SubsectionLabel("Buttons")
-            ArcaneTextButton("Primary", onClick = {}, style = ArcaneButtonStyle.Primary)
-            ArcaneTextButton("Secondary", onClick = {}, style = ArcaneButtonStyle.Secondary)
-            ArcaneTextButton("Outlined", onClick = {}, style = ArcaneButtonStyle.Outlined())
-            ArcaneTextButton("Loading", onClick = {}, loading = true)
-            ArcaneTextButton("Disabled", onClick = {}, enabled = false)
+            ArcaneTextButton("Primary", onClick = {}, style = ArcaneButtonStyle.Primary, modifier = Modifier.fillMaxWidth())
+            ArcaneTextButton("Secondary", onClick = {}, style = ArcaneButtonStyle.Secondary, modifier = Modifier.fillMaxWidth())
+            ArcaneTextButton("Outlined", onClick = {}, style = ArcaneButtonStyle.Outlined(), modifier = Modifier.fillMaxWidth())
+            ArcaneTextButton("Loading", onClick = {}, loading = true, modifier = Modifier.fillMaxWidth())
+            ArcaneTextButton("Disabled", onClick = {}, enabled = false, modifier = Modifier.fillMaxWidth())
         }
 
         // Text Field Column
