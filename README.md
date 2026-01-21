@@ -66,8 +66,8 @@ dependencyResolutionManagement {
 4. Add dependencies to your module's `build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("io.github.devmugi.design.arcane:arcane-foundation:0.1.2")
-    implementation("io.github.devmugi.design.arcane:arcane-components:0.1.2")
+    implementation("io.github.devmugi.design.arcane:arcane-foundation:0.1.3")
+    implementation("io.github.devmugi.design.arcane:arcane-components:0.1.3")
 }
 ```
 
