@@ -7,12 +7,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -134,6 +137,49 @@ internal fun ArcaneTabItem(
                     text = tab.label,
                     style = ArcaneTheme.typography.labelLarge,
                     color = LocalContentColor.current
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ArcaneTabs(
+    tabs: List<ArcaneTab>,
+    selectedIndex: Int,
+    onTabSelected: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    style: ArcaneTabStyle = ArcaneTabStyle.Filled,
+    scrollable: Boolean = false
+) {
+    if (scrollable) {
+        Row(
+            modifier = modifier.horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            tabs.forEachIndexed { index, tab ->
+                ArcaneTabItem(
+                    tab = tab,
+                    selected = index == selectedIndex,
+                    onClick = { if (tab.enabled) onTabSelected(index) },
+                    style = style
+                )
+            }
+        }
+    } else {
+        Row(
+            modifier = modifier,
+            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            tabs.forEachIndexed { index, tab ->
+                ArcaneTabItem(
+                    tab = tab,
+                    selected = index == selectedIndex,
+                    onClick = { if (tab.enabled) onTabSelected(index) },
+                    style = style,
+                    modifier = Modifier.weight(1f)
                 )
             }
         }
