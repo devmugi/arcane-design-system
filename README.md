@@ -1,6 +1,6 @@
 # Arcane Design System
 
-A Kotlin Compose Multiplatform design system featuring a distinctive sci-fi aesthetic with glowing teal accents, layered surfaces, and futuristic controls.
+A Kotlin Compose Multiplatform design system featuring a distinctive sci-fi aesthetic with glowing purple accents, layered navy surfaces, and futuristic controls.
 
 ## Platforms
 
@@ -11,7 +11,7 @@ A Kotlin Compose Multiplatform design system featuring a distinctive sci-fi aest
 ## Components
 
 ### Controls
-- **ArcaneButton** - Primary/Secondary styles with loading state
+- **ArcaneButton** - Primary/Secondary/Outlined/Destructive styles with loading state
 - **ArcaneTextField** - Text input with focus states, helper text, password support
 - **ArcaneCheckbox** - Animated checkbox
 - **ArcaneRadioButton** - Radio selection
@@ -66,8 +66,8 @@ dependencyResolutionManagement {
 4. Add dependencies to your module's `build.gradle.kts`:
 ```kotlin
 dependencies {
-    implementation("io.github.devmugi.design.arcane:arcane-foundation:0.1.0")
-    implementation("io.github.devmugi.design.arcane:arcane-components:0.1.0")
+    implementation("io.github.devmugi.design.arcane:arcane-foundation:0.1.1")
+    implementation("io.github.devmugi.design.arcane:arcane-components:0.1.1")
 }
 ```
 
@@ -92,9 +92,32 @@ fun App() {
 @Composable
 fun MyScreen() {
     Column {
-        ArcaneButton(
+        // Primary button (purple background)
+        ArcaneTextButton(
             text = "Primary Action",
-            onClick = { /* handle click */ }
+            onClick = { },
+            style = ArcaneButtonStyle.Primary
+        )
+
+        // Outlined button (transparent with border)
+        ArcaneTextButton(
+            text = "Outlined",
+            onClick = { },
+            style = ArcaneButtonStyle.Outlined()
+        )
+
+        // Outlined with custom color
+        ArcaneTextButton(
+            text = "Custom Color",
+            onClick = { },
+            style = ArcaneButtonStyle.Outlined(tintColor = Color(0xFFD4A574))
+        )
+
+        // Destructive button (red background for delete actions)
+        ArcaneTextButton(
+            text = "Delete",
+            onClick = { },
+            style = ArcaneButtonStyle.Destructive
         )
 
         ArcaneTextField(
