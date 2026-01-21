@@ -7,6 +7,8 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
+val libs = versionCatalogs.named("libs")
+
 kotlin {
     androidTarget {
         compilerOptions {
@@ -33,15 +35,17 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
+            implementation(libs.findLibrary("compose-runtime").get())
+            implementation(libs.findLibrary("compose-foundation").get())
+            implementation(libs.findLibrary("compose-material3").get())
+            implementation(libs.findLibrary("compose-ui").get())
+            implementation(libs.findLibrary("compose-material-icons-core").get())
+            implementation(libs.findLibrary("compose-material-icons-extended").get())
             implementation(compose.components.resources)
         }
 
         androidMain.dependencies {
-            implementation("androidx.activity:activity-compose:1.9.3")
+            implementation(libs.findLibrary("androidx-activity-compose").get())
         }
 
         val desktopMain by getting {

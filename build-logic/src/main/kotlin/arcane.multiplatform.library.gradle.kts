@@ -9,7 +9,9 @@ plugins {
 }
 
 group = "io.github.devmugi.design.arcane"
-version = "0.1.1"
+version = "0.1.2"
+
+val libs = versionCatalogs.named("libs")
 
 kotlin {
     androidTarget {
@@ -37,10 +39,12 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.ui)
-            implementation(compose.material3)
+            implementation(libs.findLibrary("compose-runtime").get())
+            implementation(libs.findLibrary("compose-foundation").get())
+            implementation(libs.findLibrary("compose-ui").get())
+            implementation(libs.findLibrary("compose-material3").get())
+            implementation(libs.findLibrary("compose-material-icons-core").get())
+            implementation(libs.findLibrary("compose-material-icons-extended").get())
         }
     }
 }
