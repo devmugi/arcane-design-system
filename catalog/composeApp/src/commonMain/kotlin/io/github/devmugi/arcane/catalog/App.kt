@@ -9,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import io.github.devmugi.arcane.catalog.screens.ChatScreen
 import io.github.devmugi.arcane.catalog.screens.ControlsScreen
 import io.github.devmugi.arcane.catalog.screens.DataDisplayScreen
 import io.github.devmugi.arcane.catalog.screens.DesignSpecScreen
@@ -22,6 +23,7 @@ sealed class Screen {
     data object Navigation : Screen()
     data object DataDisplay : Screen()
     data object Feedback : Screen()
+    data object Chat : Screen()
 }
 
 @Composable
@@ -51,6 +53,9 @@ fun App() {
                     onBack = { currentScreen = Screen.DesignSpec }
                 )
                 Screen.Feedback -> FeedbackScreen(
+                    onBack = { currentScreen = Screen.DesignSpec }
+                )
+                Screen.Chat -> ChatScreen(
                     onBack = { currentScreen = Screen.DesignSpec }
                 )
             }
