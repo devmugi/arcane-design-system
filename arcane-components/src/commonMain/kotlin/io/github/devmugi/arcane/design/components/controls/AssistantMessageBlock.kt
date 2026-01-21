@@ -44,6 +44,13 @@ import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneRadius
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
+private val AssistantMessageShape = RoundedCornerShape(
+    topStart = 4.dp,
+    topEnd = 12.dp,
+    bottomStart = 12.dp,
+    bottomEnd = 12.dp
+)
+
 @Composable
 fun ArcaneAssistantMessageBlock(
     text: String,
@@ -71,6 +78,9 @@ fun ArcaneAssistantMessageBlock(
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .clip(AssistantMessageShape)
+            .background(colors.surfaceRaised)
+            .padding(ArcaneSpacing.Small)
             .animateContentSize(animationSpec = tween(150)),
         verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
     ) {
@@ -153,7 +163,7 @@ fun ArcaneAssistantMessageBlock(
                     if (isTruncated && !isExpanded) {
                         drawRect(
                             brush = Brush.verticalGradient(
-                                colors = listOf(Color.Transparent, colors.surface),
+                                colors = listOf(Color.Transparent, colors.surfaceRaised),
                                 startY = size.height * 0.6f,
                                 endY = size.height
                             )
