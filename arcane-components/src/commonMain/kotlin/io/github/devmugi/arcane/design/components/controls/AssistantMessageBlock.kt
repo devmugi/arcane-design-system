@@ -235,8 +235,6 @@ private fun CopyIcon(
                 .width(10.dp)
                 .height(12.dp)
                 .offset(x = (-2).dp, y = 2.dp)
-                .clip(RoundedCornerShape(2.dp))
-                .background(Color.Transparent)
                 .border(
                     width = 1.5.dp,
                     color = tint,
