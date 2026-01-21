@@ -1,5 +1,6 @@
 package io.github.devmugi.arcane.catalog.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -49,7 +51,7 @@ import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
 @Composable
-fun FeedbackScreen() {
+fun FeedbackScreen(onBack: () -> Unit = {}) {
     val typography = ArcaneTheme.typography
     val colors = ArcaneTheme.colors
     val scrollState = rememberScrollState()
@@ -86,11 +88,24 @@ fun FeedbackScreen() {
                 .padding(ArcaneSpacing.Medium),
             verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
         ) {
-        Text(
-            text = "Feedback",
-            style = typography.displayMedium,
-            color = colors.text
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+        ) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back",
+                tint = colors.primary,
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable { onBack() }
+            )
+            Text(
+                text = "Feedback",
+                style = typography.displayMedium,
+                color = colors.text
+            )
+        }
 
         // Modals Section
         SectionTitle("Modals")
