@@ -4,6 +4,9 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.hoverable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
@@ -15,11 +18,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.onPointerEvent
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
@@ -49,7 +49,6 @@ fun ArcaneTooltipBox(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ArcaneTooltip(
     tooltip: @Composable () -> Unit,
@@ -58,7 +57,8 @@ fun ArcaneTooltip(
     delayMs: Long = 500L,
     content: @Composable () -> Unit
 ) {
-    var isHovered by remember { mutableStateOf(false) }
+    val interactionSource = remember { MutableInteractionSource() }
+    val isHovered by interactionSource.collectIsHoveredAsState()
     var showTooltip by remember { mutableStateOf(false) }
 
     LaunchedEffect(isHovered, enabled) {
@@ -71,9 +71,7 @@ fun ArcaneTooltip(
     }
 
     Box(
-        modifier = modifier
-            .onPointerEvent(PointerEventType.Enter) { isHovered = true }
-            .onPointerEvent(PointerEventType.Exit) { isHovered = false }
+        modifier = modifier.hoverable(interactionSource)
     ) {
         content()
 
