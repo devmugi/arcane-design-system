@@ -70,5 +70,101 @@ fun ArcaneAgentChatInput(
     activeItemsContent: (@Composable RowScope.() -> Unit)? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
-    // Implementation goes here
+    val colors = ArcaneTheme.colors
+    val typography = ArcaneTheme.typography
+    val isFocused by interactionSource.collectIsFocusedAsState()
+    val hasText = value.isNotBlank()
+
+    val borderColor by animateColorAsState(
+        targetValue = when {
+            !enabled -> colors.textDisabled.copy(alpha = 0.3f)
+            isFocused -> colors.borderFocused
+            else -> colors.border
+        },
+        animationSpec = tween(150),
+        label = "borderColor"
+    )
+
+    val contentColor = if (enabled) colors.textSecondary else colors.textDisabled
+
+    // Calculate max height for auto-expand (approximate line height * maxLines)
+    val lineHeight = with(LocalDensity.current) { typography.bodyLarge.lineHeight.toDp() }
+    val verticalPadding = ArcaneSpacing.Small * 2
+    val maxHeight = lineHeight * maxLines + verticalPadding
+
+    Column(
+        modifier = modifier
+            .clip(ArcaneRadius.Large)
+            .border(ArcaneBorder.Thin, borderColor, ArcaneRadius.Large)
+            .padding(ArcaneSpacing.XSmall),
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+    ) {
+        // Row 1: Text Input
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 40.dp, max = maxHeight)
+                .clip(ArcaneRadius.Medium)
+                .background(colors.surfaceInset)
+                .padding(horizontal = ArcaneSpacing.Medium, vertical = ArcaneSpacing.Small)
+                .onPreviewKeyEvent { keyEvent ->
+                    if (keyEvent.type == KeyEventType.KeyDown &&
+                        keyEvent.key == Key.Enter &&
+                        !keyEvent.isShiftPressed &&
+                        hasText
+                    ) {
+                        onSend()
+                        true
+                    } else {
+                        false
+                    }
+                },
+            enabled = enabled,
+            textStyle = typography.bodyLarge.copy(color = colors.text),
+            cursorBrush = SolidColor(colors.primary),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+            keyboardActions = KeyboardActions(onSend = { if (hasText) onSend() }),
+            interactionSource = interactionSource,
+            decorationBox = { innerTextField ->
+                Box {
+                    if (value.isEmpty()) {
+                        Text(
+                            text = placeholder,
+                            style = typography.bodyLarge,
+                            color = colors.textSecondary
+                        )
+                    }
+                    innerTextField()
+                }
+            }
+        )
+
+        // Row 2: Actions Bar
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = ArcaneSpacing.XSmall),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // Left side: Add button + active items
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Add button placeholder
+                // Active items slot placeholder
+            }
+
+            // Right side: Voice buttons or Send button
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Action buttons placeholder
+            }
+        }
+    }
 }
