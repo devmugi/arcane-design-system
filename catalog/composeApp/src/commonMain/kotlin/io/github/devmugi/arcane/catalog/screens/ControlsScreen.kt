@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import io.github.devmugi.arcane.design.components.controls.ArcaneAgentChatInput
 import io.github.devmugi.arcane.design.components.controls.ArcaneButtonStyle
 import io.github.devmugi.arcane.design.components.controls.ArcaneCheckbox
 import io.github.devmugi.arcane.design.components.controls.ArcaneRadioButton
@@ -223,6 +224,63 @@ fun ControlsScreen(onBack: () -> Unit = {}) {
                     value = sliderValue,
                     onValueChange = { sliderValue = it },
                     modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+
+        // AgentChatInput Section
+        SectionTitle("Agent Chat Input")
+        ArcaneSurface(
+            variant = SurfaceVariant.Raised,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.padding(ArcaneSpacing.Medium),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
+            ) {
+                // Empty state with voice buttons
+                var chatText1 by remember { mutableStateOf("") }
+                Text(
+                    text = "Empty (with voice)",
+                    style = typography.labelMedium,
+                    color = colors.textSecondary
+                )
+                ArcaneAgentChatInput(
+                    value = chatText1,
+                    onValueChange = { chatText1 = it },
+                    onSend = { chatText1 = "" },
+                    onVoiceToTextClick = {},
+                    onAudioRecordClick = {}
+                )
+
+                // With text (shows send button)
+                var chatText2 by remember { mutableStateOf("Hello, Claude!") }
+                Text(
+                    text = "With text (send button)",
+                    style = typography.labelMedium,
+                    color = colors.textSecondary
+                )
+                ArcaneAgentChatInput(
+                    value = chatText2,
+                    onValueChange = { chatText2 = it },
+                    onSend = { chatText2 = "" },
+                    onVoiceToTextClick = {},
+                    onAudioRecordClick = {}
+                )
+
+                // Disabled state
+                Text(
+                    text = "Disabled",
+                    style = typography.labelMedium,
+                    color = colors.textSecondary
+                )
+                ArcaneAgentChatInput(
+                    value = "",
+                    onValueChange = {},
+                    onSend = {},
+                    enabled = false,
+                    onVoiceToTextClick = {},
+                    onAudioRecordClick = {}
                 )
             }
         }
