@@ -55,9 +55,14 @@ enum class ArcaneToastPosition {
     BottomStart, BottomCenter, BottomEnd
 }
 
+private object ToastIdGenerator {
+    private var counter = 0L
+    fun next(): Long = counter++
+}
+
 @Immutable
 data class ArcaneToastData(
-    val id: Long = System.currentTimeMillis(),
+    val id: Long = ToastIdGenerator.next(),
     val message: String,
     val style: ArcaneToastStyle = ArcaneToastStyle.Default,
     val durationMs: Long = 4000L
