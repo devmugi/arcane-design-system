@@ -13,7 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
@@ -29,7 +32,10 @@ private val UserMessageShape = RoundedCornerShape(
 fun ArcaneUserMessageBlock(
     text: String,
     modifier: Modifier = Modifier,
-    timestamp: String? = null
+    timestamp: String? = null,
+    maxWidth: Dp = 280.dp,
+    backgroundColor: Color = ArcaneTheme.colors.primary.copy(alpha = 0.15f),
+    textStyle: TextStyle = ArcaneTheme.typography.bodyMedium
 ) {
     val colors = ArcaneTheme.colors
     val typography = ArcaneTheme.typography
@@ -40,9 +46,9 @@ fun ArcaneUserMessageBlock(
     ) {
         Column(
             modifier = Modifier
-                .widthIn(max = 280.dp)
+                .widthIn(max = maxWidth)
                 .clip(UserMessageShape)
-                .background(colors.primary.copy(alpha = 0.15f))
+                .background(backgroundColor)
                 .padding(
                     horizontal = ArcaneSpacing.Small,
                     vertical = ArcaneSpacing.XSmall
@@ -51,7 +57,7 @@ fun ArcaneUserMessageBlock(
         ) {
             Text(
                 text = text,
-                style = typography.bodyMedium,
+                style = textStyle,
                 color = colors.text
             )
             if (timestamp != null) {
