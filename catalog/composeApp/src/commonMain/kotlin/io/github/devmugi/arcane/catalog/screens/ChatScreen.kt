@@ -147,10 +147,14 @@ fun ChatScreen(onBack: () -> Unit = {}) {
                     color = colors.textSecondary
                 )
                 ArcaneAssistantMessageBlock(
-                    text = "Hello! I'd be happy to help you with that.",
-                    title = "Claude",
-                    onCopyClick = {}
-                )
+                    title = "Claude"
+                ) {
+                    Text(
+                        text = "Hello! I'd be happy to help you with that.",
+                        style = typography.bodyMedium,
+                        color = colors.text
+                    )
+                }
 
                 Text(
                     text = "With title + loading",
@@ -158,11 +162,15 @@ fun ChatScreen(onBack: () -> Unit = {}) {
                     color = colors.textSecondary
                 )
                 ArcaneAssistantMessageBlock(
-                    text = "Thinking...",
                     title = "Claude",
-                    isLoading = true,
-                    onCopyClick = {}
-                )
+                    isLoading = true
+                ) {
+                    Text(
+                        text = "Thinking...",
+                        style = typography.bodyMedium,
+                        color = colors.text
+                    )
+                }
 
                 Text(
                     text = "With title actions",
@@ -170,9 +178,7 @@ fun ChatScreen(onBack: () -> Unit = {}) {
                     color = colors.textSecondary
                 )
                 ArcaneAssistantMessageBlock(
-                    text = "Here's a helpful response with extra actions.",
                     title = "Claude",
-                    onCopyClick = {},
                     titleActions = {
                         Icon(
                             imageVector = Icons.Outlined.Share,
@@ -183,7 +189,13 @@ fun ChatScreen(onBack: () -> Unit = {}) {
                                 .clickable { }
                         )
                     }
-                )
+                ) {
+                    Text(
+                        text = "Here's a helpful response with extra actions.",
+                        style = typography.bodyMedium,
+                        color = colors.text
+                    )
+                }
             }
         }
 
@@ -221,11 +233,15 @@ fun ChatScreen(onBack: () -> Unit = {}) {
                     color = colors.textSecondary
                 )
                 ArcaneAssistantMessageBlock(
-                    text = longText,
                     title = "Claude",
-                    maxContentHeight = 160.dp,
-                    onCopyClick = {}
-                )
+                    maxContentHeight = 160.dp
+                ) {
+                    Text(
+                        text = longText,
+                        style = typography.bodyMedium,
+                        color = colors.text
+                    )
+                }
             }
         }
 
@@ -245,11 +261,9 @@ fun ChatScreen(onBack: () -> Unit = {}) {
                     color = colors.textSecondary
                 )
                 ArcaneAssistantMessageBlock(
-                    text = "Here's a response with custom bottom actions always visible.",
                     title = "Claude",
                     showBottomActions = true,
                     autoShowWhenTruncated = false,
-                    onCopyClick = {},
                     bottomActions = {
                         Icon(
                             imageVector = Icons.Outlined.Share,
@@ -260,7 +274,13 @@ fun ChatScreen(onBack: () -> Unit = {}) {
                                 .clickable { }
                         )
                     }
-                )
+                ) {
+                    Text(
+                        text = "Here's a response with custom bottom actions always visible.",
+                        style = typography.bodyMedium,
+                        color = colors.text
+                    )
+                }
 
                 val longTextWithShare = """
                     This is a longer response that will be truncated and show both the "Show more" action and a share icon in the bottom actions row.
@@ -276,10 +296,8 @@ fun ChatScreen(onBack: () -> Unit = {}) {
                     color = colors.textSecondary
                 )
                 ArcaneAssistantMessageBlock(
-                    text = longTextWithShare,
                     title = "Claude",
                     maxContentHeight = 100.dp,
-                    onCopyClick = {},
                     bottomActions = {
                         Icon(
                             imageVector = Icons.Outlined.Share,
@@ -290,7 +308,13 @@ fun ChatScreen(onBack: () -> Unit = {}) {
                                 .clickable { }
                         )
                     }
-                )
+                ) {
+                    Text(
+                        text = longTextWithShare,
+                        style = typography.bodyMedium,
+                        color = colors.text
+                    )
+                }
             }
         }
 

@@ -686,10 +686,14 @@ private fun ChatSection() {
             Column(modifier = Modifier.weight(2f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
                 SubsectionLabel("Assistant Message")
                 ArcaneAssistantMessageBlock(
-                    text = "Hello! I'd be happy to help you with that.",
-                    title = "Claude",
-                    onCopyClick = {}
-                )
+                    title = "Claude"
+                ) {
+                    Text(
+                        text = "Hello! I'd be happy to help you with that.",
+                        style = ArcaneTheme.typography.bodyMedium,
+                        color = ArcaneTheme.colors.text
+                    )
+                }
             }
         }
     }
