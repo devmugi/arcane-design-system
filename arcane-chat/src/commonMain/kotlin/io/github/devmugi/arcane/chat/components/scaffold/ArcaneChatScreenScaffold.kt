@@ -1,5 +1,4 @@
-// arcane-components/src/commonMain/kotlin/io/github/devmugi/arcane/design/components/controls/ChatScreenScaffold.kt
-package io.github.devmugi.arcane.design.components.controls
+package io.github.devmugi.arcane.chat.components.scaffold
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
