@@ -61,7 +61,7 @@ fun DataDisplayScreen() {
         // Badges Section
         SectionTitle("Badges")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(
@@ -79,7 +79,7 @@ fun DataDisplayScreen() {
         // Avatars Section
         SectionTitle("Avatars")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -110,7 +110,7 @@ fun DataDisplayScreen() {
         // List Items Section
         SectionTitle("List Items")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column {
@@ -146,7 +146,7 @@ fun DataDisplayScreen() {
                 ArcaneTextButton(
                     text = "View Project",
                     onClick = { },
-                    style = ArcaneButtonStyle.Secondary
+                    style = ArcaneButtonStyle.Tonal()
                 )
             }
         }
@@ -154,7 +154,7 @@ fun DataDisplayScreen() {
         // Tooltip Section
         SectionTitle("Tooltip")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(
@@ -165,7 +165,7 @@ fun DataDisplayScreen() {
                     ArcaneTextButton(
                         text = "Hover me",
                         onClick = { },
-                        style = ArcaneButtonStyle.Secondary
+                        style = ArcaneButtonStyle.Tonal()
                     )
                 }
             }

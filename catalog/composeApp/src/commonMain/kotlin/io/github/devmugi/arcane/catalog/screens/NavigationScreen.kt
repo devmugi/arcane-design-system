@@ -55,7 +55,7 @@ fun NavigationScreen() {
         // Tabs Section
         SectionTitle("Tabs")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -78,7 +78,7 @@ fun NavigationScreen() {
         // Breadcrumbs Section
         SectionTitle("Breadcrumbs")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -99,7 +99,7 @@ fun NavigationScreen() {
         // Pagination Section
         SectionTitle("Pagination")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -118,7 +118,7 @@ fun NavigationScreen() {
         // Stepper Section
         SectionTitle("Stepper")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(

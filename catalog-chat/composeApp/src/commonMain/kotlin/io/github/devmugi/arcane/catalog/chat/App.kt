@@ -1,5 +1,6 @@
 package io.github.devmugi.arcane.catalog.chat
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -15,7 +16,24 @@ import io.github.devmugi.arcane.catalog.chat.components.DeviceType
 import io.github.devmugi.arcane.catalog.chat.screens.ChatInputScreen
 import io.github.devmugi.arcane.catalog.chat.screens.ChatScreen
 import io.github.devmugi.arcane.catalog.chat.screens.MessageBlocksScreen
+import io.github.devmugi.arcane.design.foundation.theme.ArcaneColors
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
+
+// Theme variants
+enum class ThemeVariant {
+    ARCANE,
+    PERPLEXITY,
+    CLAUDE,
+    MTG;
+
+    val displayName: String
+        get() = when (this) {
+            ARCANE -> "Arcane"
+            PERPLEXITY -> "Perplexity"
+            CLAUDE -> "Claude"
+            MTG -> "MTG"
+        }
+}
 
 // Custom savers for enums
 private val DeviceTypeSaver = Saver<DeviceType, String>(
@@ -28,9 +46,16 @@ private val CatalogTabSaver = Saver<CatalogTab, String>(
     restore = { CatalogTab.valueOf(it) }
 )
 
+private val ThemeVariantSaver = Saver<ThemeVariant, String>(
+    save = { it.name },
+    restore = { ThemeVariant.valueOf(it) }
+)
+
 @Composable
 fun App() {
-    var isDarkTheme by rememberSaveable { mutableStateOf(false) }
+    var selectedTheme by rememberSaveable(stateSaver = ThemeVariantSaver) {
+        mutableStateOf(ThemeVariant.ARCANE)
+    }
     var deviceType by rememberSaveable(stateSaver = DeviceTypeSaver) {
         mutableStateOf(DeviceType.None)
     }
@@ -38,15 +63,26 @@ fun App() {
         mutableStateOf(CatalogTab.Chat)
     }
 
-    ArcaneTheme(isDark = isDarkTheme) {
-        Column(Modifier.fillMaxSize()) {
+    val colors = when (selectedTheme) {
+        ThemeVariant.ARCANE -> ArcaneColors.default()
+        ThemeVariant.PERPLEXITY -> ArcaneColors.perplexity()
+        ThemeVariant.CLAUDE -> ArcaneColors.claude()
+        ThemeVariant.MTG -> ArcaneColors.mtg()
+    }
+
+    ArcaneTheme(colors = colors) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(ArcaneTheme.colors.surfaceContainerLow)
+        ) {
             CatalogTopBar(
                 selectedTab = selectedTab,
                 onTabSelected = { selectedTab = it },
                 deviceType = deviceType,
                 onDeviceTypeSelected = { deviceType = it },
-                isDarkTheme = isDarkTheme,
-                onThemeToggle = { isDarkTheme = !isDarkTheme }
+                selectedTheme = selectedTheme,
+                onThemeSelected = { selectedTheme = it }
             )
 
             when (selectedTab) {

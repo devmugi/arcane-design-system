@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import io.github.devmugi.arcane.catalog.screens.ChatScreen
 import io.github.devmugi.arcane.catalog.screens.ControlsScreen
 import io.github.devmugi.arcane.catalog.screens.DataDisplayScreen
 import io.github.devmugi.arcane.catalog.screens.DesignSpecScreen
@@ -36,7 +35,6 @@ sealed class Screen {
     data object Navigation : Screen()
     data object DataDisplay : Screen()
     data object Feedback : Screen()
-    data object Chat : Screen()
 }
 
 enum class ThemeVariant {
@@ -53,7 +51,6 @@ fun Screen.toTabIndex(): Int = when(this) {
     Screen.Navigation -> 2
     Screen.DataDisplay -> 3
     Screen.Feedback -> 4
-    Screen.Chat -> 5
 }
 
 // Convert tab index back to Screen
@@ -63,7 +60,6 @@ fun Int.toScreen(): Screen = when(this) {
     2 -> Screen.Navigation
     3 -> Screen.DataDisplay
     4 -> Screen.Feedback
-    5 -> Screen.Chat
     else -> Screen.DesignSpec
 }
 
@@ -130,7 +126,7 @@ private fun CatalogTopBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(ArcaneTheme.colors.surfaceRaised)
+            .background(ArcaneTheme.colors.surfaceContainer)
             .padding(horizontal = ArcaneSpacing.Medium, vertical = ArcaneSpacing.Small),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -142,8 +138,7 @@ private fun CatalogTopBar(
                 ArcaneTab("Controls"),
                 ArcaneTab("Navigation"),
                 ArcaneTab("Data Display"),
-                ArcaneTab("Feedback"),
-                ArcaneTab("Chat")
+                ArcaneTab("Feedback")
             ),
             selectedIndex = currentScreen.toTabIndex(),
             onTabSelected = { index -> onScreenSelected(index.toScreen()) },
@@ -193,7 +188,6 @@ fun App() {
                     Screen.Navigation -> NavigationScreen()
                     Screen.DataDisplay -> DataDisplayScreen()
                     Screen.Feedback -> FeedbackScreen()
-                    Screen.Chat -> ChatScreen()
                 }
             }
         }

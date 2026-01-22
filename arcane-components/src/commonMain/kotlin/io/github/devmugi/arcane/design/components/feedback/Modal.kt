@@ -88,7 +88,7 @@ fun ArcaneModal(
                         }
                 ) {
                     ArcaneSurface(
-                        variant = SurfaceVariant.Raised,
+                        variant = SurfaceVariant.ContainerHigh,
                         shape = ArcaneRadius.Large
                     ) {
                         Box(modifier = Modifier.padding(ArcaneSpacing.Large)) {

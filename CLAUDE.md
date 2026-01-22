@@ -62,6 +62,98 @@ Key files:
 - `arcane-foundation/.../theme/ArcaneColors.kt`
 - `arcane-foundation/.../tokens/` - Spacing, Border, Radius, Elevation
 
+## Surface System (Material 3)
+
+Arcane Design System follows Material 3's tone-based surface container system for consistent elevation hierarchy.
+
+### Surface Levels
+
+Five surface container levels from darkest to lightest:
+
+- `surfaceContainerLowest` - Inset/depressed surfaces (darkest)
+- `surfaceContainerLow` - Base level surfaces
+- `surfaceContainer` - Standard cards and containers (default)
+- `surfaceContainerHigh` - Elevated modals and overlays
+- `surfaceContainerHighest` - Maximum emphasis dialogs (lightest)
+
+### Surface Variants
+
+Use the `ArcaneSurface` composable with `SurfaceVariant` enum:
+
+```kotlin
+ArcaneSurface(variant = SurfaceVariant.Container) {
+    // Your content here
+}
+```
+
+Available variants:
+- `ContainerLowest` - For recessed/inset areas
+- `ContainerLow` - For base surfaces
+- `Container` - For standard cards (default)
+- `ContainerHigh` - For modals
+- `ContainerHighest` - For dialogs
+
+### Elevation
+
+Surfaces use neutral shadows (not colored glows) following M3 guidelines:
+- `ContainerLowest` / `ContainerLow`: 0dp (no shadow)
+- `Container`: 2dp shadow
+- `ContainerHigh`: 4dp shadow
+- `ContainerHighest`: 8dp shadow
+
+### State Layers
+
+Interactive states use transparent overlays instead of changing surface colors:
+
+```kotlin
+val stateOverlay = when {
+    isPressed -> colors.primary.copy(alpha = colors.stateLayerPressed) // 12%
+    isHovered -> colors.primary.copy(alpha = colors.stateLayerHover)   // 8%
+    else -> Color.Transparent
+}
+```
+
+State layer alphas (M3 standard):
+- Hover: 8%
+- Pressed: 12%
+- Focus: 12%
+- Dragged: 16%
+
+### Migration from v0.1.x
+
+**Breaking changes in v0.2.0:**
+
+Old surface colors → New M3 names:
+| Old | New |
+|-----|-----|
+| `surface` | `surfaceContainerLow` |
+| `surfaceRaised` | `surfaceContainer` |
+| `surfaceInset` | `surfaceContainerLowest` |
+| `surfacePressed` | _Removed_ (use state overlays) |
+
+Old surface variants → New M3 variants:
+| Old | New |
+|-----|-----|
+| `SurfaceVariant.Base` | `SurfaceVariant.ContainerLow` |
+| `SurfaceVariant.Raised` | `SurfaceVariant.Container` |
+| `SurfaceVariant.Inset` | `SurfaceVariant.ContainerLowest` |
+| `SurfaceVariant.Pressed` | _Removed_ (use state overlays) |
+
+**Migration example:**
+
+```kotlin
+// OLD (v0.1.x)
+val backgroundColor = if (isPressed) colors.surfacePressed else colors.surface
+ArcaneSurface(variant = SurfaceVariant.Raised) { /* ... */ }
+
+// NEW (v0.2.0+)
+val backgroundColor = colors.surfaceContainerLow
+val stateOverlay = if (isPressed) colors.primary.copy(alpha = colors.stateLayerPressed) else Color.Transparent
+ArcaneSurface(variant = SurfaceVariant.Container) { /* ... */ }
+```
+
+**Note:** Deprecated properties remain available in v0.2.0 for gradual migration, but will be removed in v0.3.0.
+
 ## Component Patterns
 
 Components use sealed classes for style variants:

@@ -75,7 +75,7 @@ fun ArcaneCard(
             )
     ) {
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier
                 .clip(ArcaneRadius.Large)
                 .then(

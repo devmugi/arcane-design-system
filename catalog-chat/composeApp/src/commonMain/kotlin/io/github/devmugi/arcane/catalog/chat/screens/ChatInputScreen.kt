@@ -3,36 +3,109 @@ package io.github.devmugi.arcane.catalog.chat.screens
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import io.github.devmugi.arcane.design.components.display.ArcaneText
+import io.github.devmugi.arcane.design.components.display.ArcaneTextVariant
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import io.github.devmugi.arcane.catalog.chat.components.DevicePreview
+import io.github.devmugi.arcane.catalog.chat.components.ComponentPreview
 import io.github.devmugi.arcane.catalog.chat.components.DeviceType
+import io.github.devmugi.arcane.chat.components.input.ArcaneAgentChatInput
+import io.github.devmugi.arcane.design.foundation.primitives.ArcaneSurface
+import io.github.devmugi.arcane.design.foundation.primitives.SurfaceVariant
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
 @Composable
 fun ChatInputScreen(deviceType: DeviceType) {
-    DevicePreview(deviceType = deviceType) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(ArcaneSpacing.Large),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+    val typography = ArcaneTheme.typography
+    val colors = ArcaneTheme.colors
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(ArcaneSpacing.Medium),
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XLarge)
+    ) {
+        // Empty state
+        PreviewSection(
+            title = "Empty State",
+            deviceType = deviceType
         ) {
-            Text(
-                text = "Chat Input Components",
-                style = ArcaneTheme.typography.headlineLarge,
-                color = ArcaneTheme.colors.text
+            var emptyText by remember { mutableStateOf("") }
+            ArcaneAgentChatInput(
+                value = emptyText,
+                onValueChange = { emptyText = it },
+                onSend = { emptyText = "" },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(ArcaneSpacing.Medium)
             )
-            Text(
-                text = "Coming soon...",
-                style = ArcaneTheme.typography.bodyLarge,
-                color = ArcaneTheme.colors.textSecondary
+        }
+
+        // With text
+        PreviewSection(
+            title = "With Text",
+            deviceType = deviceType
+        ) {
+            var textContent by remember { mutableStateOf("Hello, Claude!") }
+            ArcaneAgentChatInput(
+                value = textContent,
+                onValueChange = { textContent = it },
+                onSend = { textContent = "" },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(ArcaneSpacing.Medium)
             )
+        }
+
+        // Disabled
+        PreviewSection(
+            title = "Disabled",
+            deviceType = deviceType
+        ) {
+            ArcaneAgentChatInput(
+                value = "",
+                onValueChange = {},
+                onSend = {},
+                enabled = false,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(ArcaneSpacing.Medium)
+            )
+        }
+    }
+}
+
+@Composable
+private fun PreviewSection(
+    title: String,
+    deviceType: DeviceType,
+    content: @Composable () -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
+    ) {
+        ArcaneText(
+            text = title,
+            variant = ArcaneTextVariant.Secondary,
+            style = ArcaneTheme.typography.headlineLarge
+        )
+        ComponentPreview(deviceType = deviceType) {
+            ArcaneSurface(
+                variant = SurfaceVariant.Container,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                content()
+            }
         }
     }
 }

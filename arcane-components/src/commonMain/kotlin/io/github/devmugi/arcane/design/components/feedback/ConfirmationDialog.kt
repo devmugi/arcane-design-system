@@ -99,10 +99,12 @@ fun ArcaneConfirmationDialog(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
             ) {
+                val colors = ArcaneTheme.colors
+
                 ArcaneButton(
                     onClick = onDismiss,
                     modifier = Modifier.weight(1f),
-                    style = ArcaneButtonStyle.Secondary
+                    style = ArcaneButtonStyle.Tonal()
                 ) {
                     Text(cancelText)
                 }
@@ -114,9 +116,9 @@ fun ArcaneConfirmationDialog(
                     },
                     modifier = Modifier.weight(1f),
                     style = if (style is ArcaneConfirmationStyle.Destructive) {
-                        ArcaneButtonStyle.Destructive
+                        ArcaneButtonStyle.Filled(containerColor = colors.error)
                     } else {
-                        ArcaneButtonStyle.Primary
+                        ArcaneButtonStyle.Filled()
                     }
                 ) {
                     Text(text = confirmText)

@@ -63,8 +63,8 @@ fun ArcaneTextField(
     )
 
     val backgroundColor = when {
-        !enabled -> colors.surfaceInset.copy(alpha = 0.5f)
-        else -> colors.surfaceInset
+        !enabled -> colors.surfaceContainerLowest.copy(alpha = 0.5f)
+        else -> colors.surfaceContainerLowest
     }
 
     Column(modifier = modifier) {

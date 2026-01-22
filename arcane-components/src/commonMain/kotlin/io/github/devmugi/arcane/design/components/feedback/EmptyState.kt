@@ -27,7 +27,7 @@ fun ArcaneEmptyState(
     val colors = ArcaneTheme.colors
 
     ArcaneSurface(
-        variant = SurfaceVariant.Inset,
+        variant = SurfaceVariant.ContainerLowest,
         modifier = modifier
             .fillMaxWidth()
             .border(

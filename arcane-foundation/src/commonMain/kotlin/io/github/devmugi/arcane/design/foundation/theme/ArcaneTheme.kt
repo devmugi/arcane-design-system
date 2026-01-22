@@ -6,7 +6,8 @@ import androidx.compose.runtime.ReadOnlyComposable
 
 @Composable
 fun ArcaneTheme(
-    colors: ArcaneColors = ArcaneColors.default(),
+    isDark: Boolean = false,
+    colors: ArcaneColors = if (isDark) ArcaneColors.dark() else ArcaneColors.default(),
     typography: ArcaneTypography = ArcaneTypography(),
     content: @Composable () -> Unit
 ) {

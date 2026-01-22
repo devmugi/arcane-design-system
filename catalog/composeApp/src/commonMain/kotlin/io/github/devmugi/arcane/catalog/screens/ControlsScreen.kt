@@ -25,7 +25,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import io.github.devmugi.arcane.design.components.controls.ArcaneAgentChatInput
+import io.github.devmugi.arcane.design.components.controls.ArcaneButtonShape
+import io.github.devmugi.arcane.design.components.controls.ArcaneButtonSize
 import io.github.devmugi.arcane.design.components.controls.ArcaneButtonStyle
 import io.github.devmugi.arcane.design.components.controls.ArcaneCheckbox
 import io.github.devmugi.arcane.design.components.controls.ArcaneRadioButton
@@ -52,10 +53,77 @@ fun ControlsScreen() {
         verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
     ) {
 
-        // Buttons Section
-        SectionTitle("Buttons")
+        // Buttons Section - M3 Types
+        SectionTitle("Buttons - Material 3 Types")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.padding(ArcaneSpacing.Medium),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+            ) {
+                Text(
+                    text = "Filled (highest emphasis)",
+                    style = typography.labelSmall,
+                    color = colors.textSecondary
+                )
+                ArcaneTextButton(
+                    text = "Filled",
+                    onClick = {},
+                    style = ArcaneButtonStyle.Filled()
+                )
+
+                Text(
+                    text = "Tonal (medium emphasis)",
+                    style = typography.labelSmall,
+                    color = colors.textSecondary
+                )
+                ArcaneTextButton(
+                    text = "Tonal",
+                    onClick = {},
+                    style = ArcaneButtonStyle.Tonal()
+                )
+
+                Text(
+                    text = "Outlined (medium emphasis)",
+                    style = typography.labelSmall,
+                    color = colors.textSecondary
+                )
+                ArcaneTextButton(
+                    text = "Outlined",
+                    onClick = {},
+                    style = ArcaneButtonStyle.Outlined()
+                )
+
+                Text(
+                    text = "Elevated (medium emphasis)",
+                    style = typography.labelSmall,
+                    color = colors.textSecondary
+                )
+                ArcaneTextButton(
+                    text = "Elevated",
+                    onClick = {},
+                    style = ArcaneButtonStyle.Elevated()
+                )
+
+                Text(
+                    text = "Text (lowest emphasis)",
+                    style = typography.labelSmall,
+                    color = colors.textSecondary
+                )
+                ArcaneTextButton(
+                    text = "Text Button",
+                    onClick = {},
+                    style = ArcaneButtonStyle.Text
+                )
+            }
+        }
+
+        // Button States
+        SectionTitle("Button States")
+        ArcaneSurface(
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -63,19 +131,22 @@ fun ControlsScreen() {
                 verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
             ) {
                 ArcaneTextButton(
-                    text = "Primary",
+                    text = "Loading (Filled)",
                     onClick = {},
-                    style = ArcaneButtonStyle.Primary
+                    loading = true,
+                    style = ArcaneButtonStyle.Filled()
                 )
                 ArcaneTextButton(
-                    text = "Secondary",
+                    text = "Loading (Tonal)",
                     onClick = {},
-                    style = ArcaneButtonStyle.Secondary
+                    loading = true,
+                    style = ArcaneButtonStyle.Tonal()
                 )
                 ArcaneTextButton(
-                    text = "Loading",
+                    text = "Loading (Outlined)",
                     onClick = {},
-                    loading = true
+                    loading = true,
+                    style = ArcaneButtonStyle.Outlined()
                 )
                 ArcaneTextButton(
                     text = "Disabled",
@@ -83,22 +154,156 @@ fun ControlsScreen() {
                     enabled = false
                 )
                 ArcaneTextButton(
-                    text = "Outlined",
+                    text = "Destructive",
                     onClick = {},
-                    style = ArcaneButtonStyle.Outlined()
+                    style = ArcaneButtonStyle.Filled(containerColor = colors.error)
+                )
+            }
+        }
+
+        // Button Sizes
+        SectionTitle("Button Sizes")
+        ArcaneSurface(
+            variant = SurfaceVariant.Container,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.padding(ArcaneSpacing.Medium),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+            ) {
+                Text(
+                    text = "Medium (40dp) - Default",
+                    style = typography.labelSmall,
+                    color = colors.textSecondary
                 )
                 ArcaneTextButton(
-                    text = "Outlined Gold",
+                    text = "Medium Button",
                     onClick = {},
-                    style = ArcaneButtonStyle.Outlined(tintColor = Color(0xFFD4A574))
+                    size = ArcaneButtonSize.Medium
                 )
+
+                Text(
+                    text = "Small (32dp)",
+                    style = typography.labelSmall,
+                    color = colors.textSecondary
+                )
+                ArcaneTextButton(
+                    text = "Small Button",
+                    onClick = {},
+                    size = ArcaneButtonSize.Small
+                )
+
+                Text(
+                    text = "Extra Small (24dp)",
+                    style = typography.labelSmall,
+                    color = colors.textSecondary
+                )
+                ArcaneTextButton(
+                    text = "Extra Small",
+                    onClick = {},
+                    size = ArcaneButtonSize.ExtraSmall
+                )
+            }
+        }
+
+        // Button Shapes
+        SectionTitle("Button Shapes")
+        ArcaneSurface(
+            variant = SurfaceVariant.Container,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.padding(ArcaneSpacing.Medium),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+            ) {
+                Text(
+                    text = "Round (full pill) - Default",
+                    style = typography.labelSmall,
+                    color = colors.textSecondary
+                )
+                ArcaneTextButton(
+                    text = "Round Button",
+                    onClick = {},
+                    shape = ArcaneButtonShape.Round
+                )
+
+                Text(
+                    text = "Rounded (20dp radius)",
+                    style = typography.labelSmall,
+                    color = colors.textSecondary
+                )
+                ArcaneTextButton(
+                    text = "Rounded Button",
+                    onClick = {},
+                    shape = ArcaneButtonShape.Rounded
+                )
+
+                Text(
+                    text = "Square (0dp radius)",
+                    style = typography.labelSmall,
+                    color = colors.textSecondary
+                )
+                ArcaneTextButton(
+                    text = "Square Button",
+                    onClick = {},
+                    shape = ArcaneButtonShape.Square
+                )
+            }
+        }
+
+        // Button Combinations
+        SectionTitle("Button Combinations")
+        ArcaneSurface(
+            variant = SurfaceVariant.Container,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Column(
+                modifier = Modifier.padding(ArcaneSpacing.Medium),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+                ) {
+                    ArcaneTextButton(
+                        text = "Small Rounded",
+                        onClick = {},
+                        size = ArcaneButtonSize.Small,
+                        shape = ArcaneButtonShape.Rounded,
+                        style = ArcaneButtonStyle.Filled()
+                    )
+                    ArcaneTextButton(
+                        text = "Small Square",
+                        onClick = {},
+                        size = ArcaneButtonSize.Small,
+                        shape = ArcaneButtonShape.Square,
+                        style = ArcaneButtonStyle.Outlined()
+                    )
+                }
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+                ) {
+                    ArcaneTextButton(
+                        text = "XS",
+                        onClick = {},
+                        size = ArcaneButtonSize.ExtraSmall,
+                        shape = ArcaneButtonShape.Rounded,
+                        style = ArcaneButtonStyle.Tonal()
+                    )
+                    ArcaneTextButton(
+                        text = "XS Elevated",
+                        onClick = {},
+                        size = ArcaneButtonSize.ExtraSmall,
+                        shape = ArcaneButtonShape.Rounded,
+                        style = ArcaneButtonStyle.Elevated()
+                    )
+                }
             }
         }
 
         // TextField Section
         SectionTitle("Text Field")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -140,7 +345,7 @@ fun ControlsScreen() {
         // Tactile Section (Checkbox & Radio)
         SectionTitle("Tactile")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -171,7 +376,7 @@ fun ControlsScreen() {
         // Switch Section
         SectionTitle("Switch")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(
@@ -195,7 +400,7 @@ fun ControlsScreen() {
         // Slider Section
         SectionTitle("Slider")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -206,63 +411,6 @@ fun ControlsScreen() {
                     value = sliderValue,
                     onValueChange = { sliderValue = it },
                     modifier = Modifier.fillMaxWidth()
-                )
-            }
-        }
-
-        // AgentChatInput Section
-        SectionTitle("Agent Chat Input")
-        ArcaneSurface(
-            variant = SurfaceVariant.Raised,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Column(
-                modifier = Modifier.padding(ArcaneSpacing.Medium),
-                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
-            ) {
-                // Empty state with voice buttons
-                var chatText1 by remember { mutableStateOf("") }
-                Text(
-                    text = "Empty (with voice)",
-                    style = typography.labelMedium,
-                    color = colors.textSecondary
-                )
-                ArcaneAgentChatInput(
-                    value = chatText1,
-                    onValueChange = { chatText1 = it },
-                    onSend = { chatText1 = "" },
-                    onVoiceToTextClick = {},
-                    onAudioRecordClick = {}
-                )
-
-                // With text (shows send button)
-                var chatText2 by remember { mutableStateOf("Hello, Claude!") }
-                Text(
-                    text = "With text (send button)",
-                    style = typography.labelMedium,
-                    color = colors.textSecondary
-                )
-                ArcaneAgentChatInput(
-                    value = chatText2,
-                    onValueChange = { chatText2 = it },
-                    onSend = { chatText2 = "" },
-                    onVoiceToTextClick = {},
-                    onAudioRecordClick = {}
-                )
-
-                // Disabled state
-                Text(
-                    text = "Disabled",
-                    style = typography.labelMedium,
-                    color = colors.textSecondary
-                )
-                ArcaneAgentChatInput(
-                    value = "",
-                    onValueChange = {},
-                    onSend = {},
-                    enabled = false,
-                    onVoiceToTextClick = {},
-                    onAudioRecordClick = {}
                 )
             }
         }

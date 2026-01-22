@@ -16,9 +16,11 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import io.github.devmugi.arcane.design.components.display.ArcaneText
+import io.github.devmugi.arcane.design.components.display.ArcaneTextVariant
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.devmugi.arcane.catalog.chat.components.DevicePreview
+import io.github.devmugi.arcane.catalog.chat.components.ComponentPreview
 import io.github.devmugi.arcane.catalog.chat.components.DeviceType
 import io.github.devmugi.arcane.chat.components.messages.ArcaneAssistantMessageBlock
 import io.github.devmugi.arcane.chat.components.messages.ArcaneUserMessageBlock
@@ -32,37 +34,35 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
     val typography = ArcaneTheme.typography
     val colors = ArcaneTheme.colors
 
-    DevicePreview(deviceType = deviceType) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(ArcaneSpacing.Medium),
-            verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
-        ) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(ArcaneSpacing.Medium),
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XLarge)
+    ) {
             // User Messages Section
-            SectionTitle("User Messages")
-            ArcaneSurface(
-                variant = SurfaceVariant.Container,
-                modifier = Modifier.fillMaxWidth()
+            PreviewSection(
+                title = "User Messages",
+                deviceType = deviceType
             ) {
                 Column(
                     modifier = Modifier.padding(ArcaneSpacing.Medium),
                     verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
                 ) {
-                    Text(
+                    ArcaneText(
                         text = "Short message",
-                        style = typography.labelMedium,
-                        color = colors.textSecondary
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
                     )
                     ArcaneUserMessageBlock(
                         text = "Hello, Claude!"
                     )
 
-                    Text(
+                    ArcaneText(
                         text = "Multi-line message",
-                        style = typography.labelMedium,
-                        color = colors.textSecondary
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
                     )
                     ArcaneUserMessageBlock(
                         text = "Can you help me understand how to implement a chat interface in Compose? I'm looking for best practices.",
@@ -72,19 +72,18 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
             }
 
             // Assistant Messages - Fits Section
-            SectionTitle("Assistant Messages - Fits")
-            ArcaneSurface(
-                variant = SurfaceVariant.Container,
-                modifier = Modifier.fillMaxWidth()
+            PreviewSection(
+                title = "Assistant Messages - Fits",
+                deviceType = deviceType
             ) {
                 Column(
                     modifier = Modifier.padding(ArcaneSpacing.Medium),
                     verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
                 ) {
-                    Text(
+                    ArcaneText(
                         text = "With title, no loading",
-                        style = typography.labelMedium,
-                        color = colors.textSecondary
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
                     )
                     ArcaneAssistantMessageBlock(
                         title = "Claude"
@@ -96,10 +95,10 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                         )
                     }
 
-                    Text(
+                    ArcaneText(
                         text = "With title + loading",
-                        style = typography.labelMedium,
-                        color = colors.textSecondary
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
                     )
                     ArcaneAssistantMessageBlock(
                         title = "Claude",
@@ -112,10 +111,10 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                         )
                     }
 
-                    Text(
+                    ArcaneText(
                         text = "With title actions",
-                        style = typography.labelMedium,
-                        color = colors.textSecondary
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
                     )
                     ArcaneAssistantMessageBlock(
                         title = "Claude",
@@ -140,10 +139,9 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
             }
 
             // Assistant Messages - Truncated Section
-            SectionTitle("Assistant Messages - Truncated")
-            ArcaneSurface(
-                variant = SurfaceVariant.Container,
-                modifier = Modifier.fillMaxWidth()
+            PreviewSection(
+                title = "Assistant Messages - Truncated",
+                deviceType = deviceType
             ) {
                 Column(
                     modifier = Modifier.padding(ArcaneSpacing.Medium),
@@ -167,10 +165,10 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                         Would you like me to elaborate on any of these points?
                     """.trimIndent()
 
-                    Text(
+                    ArcaneText(
                         text = "Long message (click Show more)",
-                        style = typography.labelMedium,
-                        color = colors.textSecondary
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
                     )
                     ArcaneAssistantMessageBlock(
                         title = "Claude",
@@ -186,19 +184,18 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
             }
 
             // Assistant Messages - Custom Actions Section
-            SectionTitle("Assistant Messages - Custom Actions")
-            ArcaneSurface(
-                variant = SurfaceVariant.Container,
-                modifier = Modifier.fillMaxWidth()
+            PreviewSection(
+                title = "Assistant Messages - Custom Actions",
+                deviceType = deviceType
             ) {
                 Column(
                     modifier = Modifier.padding(ArcaneSpacing.Medium),
                     verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
                 ) {
-                    Text(
+                    ArcaneText(
                         text = "With bottom actions (always shown)",
-                        style = typography.labelMedium,
-                        color = colors.textSecondary
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
                     )
                     ArcaneAssistantMessageBlock(
                         title = "Claude",
@@ -230,10 +227,10 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                         This flexibility allows you to customize the UX based on your needs.
                     """.trimIndent()
 
-                    Text(
+                    ArcaneText(
                         text = "Truncated with share action",
-                        style = typography.labelMedium,
-                        color = colors.textSecondary
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
                     )
                     ArcaneAssistantMessageBlock(
                         title = "Claude",
@@ -260,14 +257,34 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
 
             Spacer(modifier = Modifier.height(ArcaneSpacing.XLarge))
         }
-    }
 }
 
 @Composable
 private fun SectionTitle(title: String) {
-    Text(
+    ArcaneText(
         text = title,
-        style = ArcaneTheme.typography.headlineLarge,
-        color = ArcaneTheme.colors.textSecondary
+        variant = ArcaneTextVariant.Secondary,
+        style = ArcaneTheme.typography.headlineLarge
     )
+}
+
+@Composable
+private fun PreviewSection(
+    title: String,
+    deviceType: DeviceType,
+    content: @Composable () -> Unit
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
+    ) {
+        SectionTitle(title)
+        ComponentPreview(deviceType = deviceType) {
+            ArcaneSurface(
+                variant = SurfaceVariant.Container,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                content()
+            }
+        }
+    }
 }

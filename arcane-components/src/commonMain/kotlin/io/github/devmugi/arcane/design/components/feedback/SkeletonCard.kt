@@ -23,7 +23,7 @@ fun ArcaneSkeletonCard(
     showActions: Boolean = true
 ) {
     ArcaneSurface(
-        variant = SurfaceVariant.Raised,
+        variant = SurfaceVariant.Container,
         modifier = modifier,
         shape = ArcaneRadius.Large
     ) {

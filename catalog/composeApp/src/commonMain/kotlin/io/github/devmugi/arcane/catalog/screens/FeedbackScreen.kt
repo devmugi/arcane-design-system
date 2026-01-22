@@ -91,7 +91,7 @@ fun FeedbackScreen() {
             // Modals Section
         SectionTitle("Modals")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(
@@ -101,12 +101,12 @@ fun FeedbackScreen() {
                 ArcaneTextButton(
                     text = "Confirmation",
                     onClick = { showDefaultDialog = true },
-                    style = ArcaneButtonStyle.Secondary
+                    style = ArcaneButtonStyle.Tonal()
                 )
                 ArcaneTextButton(
                     text = "Destructive",
                     onClick = { showDestructiveDialog = true },
-                    style = ArcaneButtonStyle.Secondary
+                    style = ArcaneButtonStyle.Tonal()
                 )
             }
         }
@@ -114,7 +114,7 @@ fun FeedbackScreen() {
         // Toasts Section
         SectionTitle("Toasts")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(
@@ -124,22 +124,22 @@ fun FeedbackScreen() {
                 ArcaneTextButton(
                     text = "Default",
                     onClick = { toastState.show("This is a default toast") },
-                    style = ArcaneButtonStyle.Secondary
+                    style = ArcaneButtonStyle.Tonal()
                 )
                 ArcaneTextButton(
                     text = "Success",
                     onClick = { toastState.show("Operation successful!", ArcaneToastStyle.Success) },
-                    style = ArcaneButtonStyle.Secondary
+                    style = ArcaneButtonStyle.Tonal()
                 )
                 ArcaneTextButton(
                     text = "Warning",
                     onClick = { toastState.show("Please review your input", ArcaneToastStyle.Warning) },
-                    style = ArcaneButtonStyle.Secondary
+                    style = ArcaneButtonStyle.Tonal()
                 )
                 ArcaneTextButton(
                     text = "Error",
                     onClick = { toastState.show("Something went wrong", ArcaneToastStyle.Error) },
-                    style = ArcaneButtonStyle.Secondary
+                    style = ArcaneButtonStyle.Tonal()
                 )
             }
         }
@@ -172,7 +172,7 @@ fun FeedbackScreen() {
         // Progress Section
         SectionTitle("Progress")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -201,7 +201,7 @@ fun FeedbackScreen() {
         // Spinner Section
         SectionTitle("Spinner")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(
@@ -230,7 +230,7 @@ fun FeedbackScreen() {
         // Skeletons Section
         SectionTitle("Skeletons")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
