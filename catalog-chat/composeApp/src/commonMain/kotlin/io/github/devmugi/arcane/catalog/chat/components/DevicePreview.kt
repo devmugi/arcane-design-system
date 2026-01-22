@@ -3,6 +3,7 @@ package io.github.devmugi.arcane.catalog.chat.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -140,11 +141,4 @@ private fun DeviceFrame(
             }
         }
     }
-}
-
-// Extension function for offset (needed for notch positioning)
-private fun Modifier.offset(x: Dp = 0.dp, y: Dp = 0.dp): Modifier {
-    return this.then(
-        androidx.compose.foundation.layout.offset(x = x, y = y)
-    )
 }

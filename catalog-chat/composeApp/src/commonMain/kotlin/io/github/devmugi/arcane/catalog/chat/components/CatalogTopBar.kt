@@ -63,14 +63,15 @@ fun CatalogTopBar(
         Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)) {
             CatalogTab.entries.forEach { tab ->
                 ArcaneButton(
-                    text = tab.displayName,
+                    onClick = { onTabSelected(tab) },
                     style = if (selectedTab == tab) {
-                        ArcaneButtonStyle.Primary
+                        ArcaneButtonStyle.Filled()
                     } else {
                         ArcaneButtonStyle.Outlined()
-                    },
-                    onClick = { onTabSelected(tab) }
-                )
+                    }
+                ) {
+                    Text(tab.displayName)
+                }
             }
         }
 
@@ -98,10 +99,11 @@ private fun DeviceSelector(
 
     Box(modifier = modifier) {
         ArcaneButton(
-            text = deviceType.displayName,
-            style = ArcaneButtonStyle.Outlined(),
-            onClick = { expanded = true }
-        )
+            onClick = { expanded = true },
+            style = ArcaneButtonStyle.Outlined()
+        ) {
+            Text(deviceType.displayName)
+        }
 
         DropdownMenu(
             expanded = expanded,
