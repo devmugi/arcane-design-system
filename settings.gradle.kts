@@ -30,4 +30,5 @@ rootProject.name = "ArcaneDesignSystem"
 
 include(":arcane-foundation")
 include(":arcane-components")
+include(":arcane-chat")
 include(":catalog:composeApp")
