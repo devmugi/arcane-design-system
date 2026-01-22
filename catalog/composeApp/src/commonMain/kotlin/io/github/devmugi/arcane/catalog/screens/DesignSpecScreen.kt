@@ -35,6 +35,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -56,8 +57,8 @@ import io.github.devmugi.arcane.design.components.display.ArcaneCard
 import io.github.devmugi.arcane.design.components.display.ArcaneCardContent
 import io.github.devmugi.arcane.design.components.display.ArcaneListItem
 import io.github.devmugi.arcane.design.components.display.ArcaneTooltip
-import io.github.devmugi.arcane.design.components.controls.ArcaneAssistantMessageBlock
-import io.github.devmugi.arcane.design.components.controls.ArcaneUserMessageBlock
+import io.github.devmugi.arcane.chat.components.messages.ArcaneAssistantMessageBlock
+import io.github.devmugi.arcane.chat.components.messages.ArcaneUserMessageBlock
 import io.github.devmugi.arcane.design.components.feedback.ArcaneAlertBanner
 import io.github.devmugi.arcane.design.components.feedback.ArcaneAlertStyle
 import io.github.devmugi.arcane.design.components.feedback.ArcaneCircularProgress
@@ -147,14 +148,17 @@ private fun FoundationSection() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
         ) {
-            // Surfaces
+            // Surfaces (Material 3 levels)
             Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
                 SubsectionLabel("Surfaces")
                 Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                    SurfaceBox("Base", SurfaceVariant.Base)
-                    SurfaceBox("Raised", SurfaceVariant.Raised)
-                    SurfaceBox("Inset", SurfaceVariant.Inset)
-                    SurfaceBox("Pressed", SurfaceVariant.Pressed)
+                    SurfaceBox("Lowest", SurfaceVariant.ContainerLowest)
+                    SurfaceBox("Low", SurfaceVariant.ContainerLow)
+                    SurfaceBox("Container", SurfaceVariant.Container)
+                }
+                Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+                    SurfaceBox("High", SurfaceVariant.ContainerHigh)
+                    SurfaceBox("Highest", SurfaceVariant.ContainerHighest)
                 }
             }
 
@@ -235,37 +239,15 @@ private fun SurfaceBox(label: String, variant: SurfaceVariant) {
             modifier = Modifier.size(surfaceSize),
             contentAlignment = Alignment.Center
         ) {
+            @Suppress("DEPRECATION")
             when (variant) {
-                SurfaceVariant.Base -> {
-                    // Flat surface with subtle neutral border only
-                    Box(
-                        modifier = Modifier
-                            .size(innerSize)
-                            .background(colors.surface, ArcaneRadius.Medium)
-                            .border(1.dp, colors.border.copy(alpha = 0.3f), ArcaneRadius.Medium)
-                    )
-                }
-                SurfaceVariant.Raised -> {
-                    // Glow outline for elevated appearance
-                    Box(
-                        modifier = Modifier
-                            .size(innerSize + 8.dp)
-                            .background(colors.primary.copy(alpha = 0.15f), ArcaneRadius.Medium)
-                    )
-                    Box(
-                        modifier = Modifier
-                            .size(innerSize)
-                            .background(colors.surfaceRaised, ArcaneRadius.Medium)
-                            .border(1.dp, colors.primary.copy(alpha = 0.6f), ArcaneRadius.Medium)
-                    )
-                }
-                SurfaceVariant.Inset -> {
-                    // Inner shadow effect - recessed appearance
+                SurfaceVariant.ContainerLowest, SurfaceVariant.Inset -> {
+                    // Inner shadow effect - recessed/depressed appearance (darkest)
                     Box(
                         modifier = Modifier
                             .size(innerSize)
                             .clip(ArcaneRadius.Medium)
-                            .background(colors.surfaceInset)
+                            .background(colors.surfaceContainerLowest)
                             .drawBehind {
                                 // Draw inner shadow gradient - darker edges fading to center
                                 drawRect(
@@ -279,22 +261,46 @@ private fun SurfaceBox(label: String, variant: SurfaceVariant) {
                                     )
                                 )
                             }
-                            .border(1.dp, colors.border.copy(alpha = 0.2f), ArcaneRadius.Medium)
+                            .border(1.dp, colors.border.copy(alpha = 0.3f), ArcaneRadius.Medium)
                     )
                 }
-                SurfaceVariant.Pressed -> {
-                    // Warm/golden glow to distinguish from Raised
-                    val warmGlow = Color(0xFFD4A574)
-                    Box(
-                        modifier = Modifier
-                            .size(innerSize + 6.dp)
-                            .background(warmGlow.copy(alpha = 0.15f), ArcaneRadius.Medium)
-                    )
+                SurfaceVariant.ContainerLow, SurfaceVariant.Base -> {
+                    // Base level - flat surface with subtle neutral border only
                     Box(
                         modifier = Modifier
                             .size(innerSize)
-                            .background(colors.surfacePressed, ArcaneRadius.Medium)
-                            .border(1.dp, warmGlow.copy(alpha = 0.5f), ArcaneRadius.Medium)
+                            .background(colors.surfaceContainerLow, ArcaneRadius.Medium)
+                            .border(1.dp, colors.border.copy(alpha = 0.3f), ArcaneRadius.Medium)
+                    )
+                }
+                SurfaceVariant.Container, SurfaceVariant.Raised -> {
+                    // Standard elevation - neutral shadow (2dp)
+                    Box(
+                        modifier = Modifier
+                            .size(innerSize)
+                            .shadow(2.dp, ArcaneRadius.Medium, ambientColor = Color.Black.copy(alpha = 0.15f))
+                            .background(colors.surfaceContainer, ArcaneRadius.Medium)
+                            .border(1.dp, colors.border.copy(alpha = 0.3f), ArcaneRadius.Medium)
+                    )
+                }
+                SurfaceVariant.ContainerHigh -> {
+                    // High elevation - neutral shadow (4dp)
+                    Box(
+                        modifier = Modifier
+                            .size(innerSize)
+                            .shadow(4.dp, ArcaneRadius.Medium, ambientColor = Color.Black.copy(alpha = 0.15f))
+                            .background(colors.surfaceContainerHigh, ArcaneRadius.Medium)
+                            .border(1.dp, colors.border.copy(alpha = 0.3f), ArcaneRadius.Medium)
+                    )
+                }
+                SurfaceVariant.ContainerHighest -> {
+                    // Maximum elevation - neutral shadow (8dp)
+                    Box(
+                        modifier = Modifier
+                            .size(innerSize)
+                            .shadow(8.dp, ArcaneRadius.Medium, ambientColor = Color.Black.copy(alpha = 0.15f))
+                            .background(colors.surfaceContainerHighest, ArcaneRadius.Medium)
+                            .border(1.dp, colors.border.copy(alpha = 0.3f), ArcaneRadius.Medium)
                     )
                 }
             }
@@ -329,7 +335,7 @@ private fun ElevationStack(
                         .offset(x = offset / 2, y = -offset)
                         .size(layerSize)
                         .background(
-                            if (i == 0) colors.surfaceRaised else colors.surface.copy(alpha = 0.8f - (i * 0.15f)),
+                            if (i == 0) colors.surfaceContainer else colors.surfaceContainerLow.copy(alpha = 0.8f - (i * 0.15f)),
                             ArcaneRadius.Small
                         )
                         .border(
@@ -369,7 +375,7 @@ private fun RadiusBox(label: String, shape: RoundedCornerShape, pixelValue: Stri
         Box(
             modifier = Modifier
                 .size(40.dp)
-                .background(colors.surfaceRaised, shape)
+                .background(colors.surfaceContainer, shape)
                 .border(1.dp, colors.border, shape)
         )
         Text(label, style = ArcaneTheme.typography.labelSmall, color = colors.textSecondary)
@@ -407,8 +413,8 @@ private fun ControlsSection() {
             verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
         ) {
             SubsectionLabel("Buttons")
-            ArcaneTextButton("Primary", onClick = {}, style = ArcaneButtonStyle.Primary, modifier = Modifier.fillMaxWidth())
-            ArcaneTextButton("Secondary", onClick = {}, style = ArcaneButtonStyle.Secondary, modifier = Modifier.fillMaxWidth())
+            ArcaneTextButton("Filled", onClick = {}, style = ArcaneButtonStyle.Filled(), modifier = Modifier.fillMaxWidth())
+            ArcaneTextButton("Tonal", onClick = {}, style = ArcaneButtonStyle.Tonal(), modifier = Modifier.fillMaxWidth())
             ArcaneTextButton("Outlined", onClick = {}, style = ArcaneButtonStyle.Outlined(), modifier = Modifier.fillMaxWidth())
             ArcaneTextButton("Loading", onClick = {}, loading = true, modifier = Modifier.fillMaxWidth())
             ArcaneTextButton("Disabled", onClick = {}, enabled = false, modifier = Modifier.fillMaxWidth())
