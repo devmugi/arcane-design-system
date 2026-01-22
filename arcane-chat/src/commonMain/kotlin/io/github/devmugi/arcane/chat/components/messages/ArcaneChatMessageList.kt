@@ -1,5 +1,4 @@
-// arcane-components/src/commonMain/kotlin/io/github/devmugi/arcane/design/components/controls/ChatMessageList.kt
-package io.github.devmugi.arcane.design.components.controls
+package io.github.devmugi.arcane.chat.components.messages
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -110,7 +109,7 @@ fun <T> ArcaneChatMessageList(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(ArcaneRadius.Full)
-                    .background(colors.surfaceRaised)
+                    .background(colors.surfaceContainer)
                     .clickable {
                         coroutineScope.launch {
                             listState.animateScrollToItem(messages.size - 1)
