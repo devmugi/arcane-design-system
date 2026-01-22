@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "io.github.devmugi.design.arcane"
-version = "0.1.4"
+version = "0.2.0"
 
 val libs = versionCatalogs.named("libs")
 
@@ -26,14 +26,18 @@ kotlin {
         }
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = project.name
-            isStatic = true
+    // iOS targets - only configure if explicitly enabled
+    val buildIos = project.findProperty("buildIos")?.toString()?.toBoolean() ?: false
+    if (buildIos) {
+        listOf(
+            iosX64(),
+            iosArm64(),
+            iosSimulatorArm64()
+        ).forEach { iosTarget ->
+            iosTarget.binaries.framework {
+                baseName = project.name
+                isStatic = true
+            }
         }
     }
 
