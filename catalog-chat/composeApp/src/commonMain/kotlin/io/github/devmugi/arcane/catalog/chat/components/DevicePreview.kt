@@ -46,7 +46,7 @@ sealed class NotchType {
 }
 
 @Composable
-fun DevicePreview(
+internal fun DevicePreview(
     deviceType: DeviceType,
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
