@@ -31,6 +31,8 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.github.devmugi.arcane.chat.components.blocks.MessageBlockRenderer
+import io.github.devmugi.arcane.chat.models.MessageBlock
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneRadius
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
@@ -42,8 +44,25 @@ private val AssistantMessageShape = RoundedCornerShape(
     bottomEnd = 12.dp
 )
 
+/**
+ * Renders an assistant message block with left alignment.
+ * Now accepts a list of blocks instead of composable content.
+ *
+ * @param blocks List of content blocks to render
+ * @param modifier Optional modifier
+ * @param title Optional title to display (e.g., "Claude")
+ * @param isLoading Whether to show loading indicator
+ * @param maxContentHeight Maximum height before truncation
+ * @param enableTruncation Whether to enable content truncation
+ * @param showBottomActions Whether to show bottom actions row
+ * @param autoShowWhenTruncated Auto-show bottom actions when truncated
+ * @param onShowMoreClick Custom handler for show more/less
+ * @param titleActions Custom actions for the title row
+ * @param bottomActions Custom actions for the bottom row
+ */
 @Composable
 fun ArcaneAssistantMessageBlock(
+    blocks: List<MessageBlock>,
     modifier: Modifier = Modifier,
     title: String? = null,
     isLoading: Boolean = false,
@@ -53,8 +72,7 @@ fun ArcaneAssistantMessageBlock(
     autoShowWhenTruncated: Boolean = true,
     onShowMoreClick: (() -> Unit)? = null,
     titleActions: @Composable (RowScope.() -> Unit)? = null,
-    bottomActions: @Composable (RowScope.() -> Unit)? = null,
-    content: @Composable () -> Unit
+    bottomActions: @Composable (RowScope.() -> Unit)? = null
 ) {
     val colors = ArcaneTheme.colors
     val typography = ArcaneTheme.typography
@@ -144,7 +162,14 @@ fun ArcaneAssistantMessageBlock(
                     }
                 }
         ) {
-            content()
+            // Render all blocks
+            Column(
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+            ) {
+                blocks.forEach { block ->
+                    MessageBlockRenderer(block)
+                }
+            }
         }
 
         // Bottom Actions Row
