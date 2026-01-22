@@ -7,6 +7,7 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":arcane-foundation"))
             implementation(project(":arcane-components"))
+            implementation(project(":arcane-chat"))
         }
     }
 }

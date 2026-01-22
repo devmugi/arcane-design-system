@@ -23,9 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.devmugi.arcane.design.components.controls.ArcaneAssistantMessageBlock
-import io.github.devmugi.arcane.design.components.controls.ArcaneChatScreenScaffold
-import io.github.devmugi.arcane.design.components.controls.ArcaneUserMessageBlock
+import io.github.devmugi.arcane.chat.components.messages.ArcaneAssistantMessageBlock
+import io.github.devmugi.arcane.chat.components.messages.ArcaneUserMessageBlock
+import io.github.devmugi.arcane.chat.components.scaffold.ArcaneChatScreenScaffold
 import io.github.devmugi.arcane.design.foundation.primitives.ArcaneSurface
 import io.github.devmugi.arcane.design.foundation.primitives.SurfaceVariant
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
@@ -48,7 +48,7 @@ fun ChatScreen() {
         // Empty State Section
         SectionTitle("Empty State")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Box(
@@ -84,7 +84,7 @@ fun ChatScreen() {
         // User Messages Section
         SectionTitle("User Messages")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -115,7 +115,7 @@ fun ChatScreen() {
         // Assistant Messages - Fits Section
         SectionTitle("Assistant Messages - Fits")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -183,7 +183,7 @@ fun ChatScreen() {
         // Assistant Messages - Truncated Section
         SectionTitle("Assistant Messages - Truncated")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
@@ -229,7 +229,7 @@ fun ChatScreen() {
         // Assistant Messages - Custom Actions Section
         SectionTitle("Assistant Messages - Custom Actions")
         ArcaneSurface(
-            variant = SurfaceVariant.Raised,
+            variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
             Column(
