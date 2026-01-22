@@ -32,7 +32,7 @@ import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
 @Composable
-fun ChatScreen(onBack: () -> Unit = {}) {
+fun ChatScreen() {
     val typography = ArcaneTheme.typography
     val colors = ArcaneTheme.colors
     val scrollState = rememberScrollState()
@@ -44,25 +44,6 @@ fun ChatScreen(onBack: () -> Unit = {}) {
             .padding(ArcaneSpacing.Medium),
         verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
     ) {
-        // Header
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back",
-                tint = colors.primary,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable { onBack() }
-            )
-            Text(
-                text = "Chat",
-                style = typography.displayMedium,
-                color = colors.text
-            )
-        }
 
         // Empty State Section
         SectionTitle("Empty State")

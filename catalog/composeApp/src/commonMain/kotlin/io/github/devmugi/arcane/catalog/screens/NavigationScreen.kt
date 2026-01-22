@@ -39,7 +39,7 @@ import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
 @Composable
-fun NavigationScreen(onBack: () -> Unit = {}) {
+fun NavigationScreen() {
     val typography = ArcaneTheme.typography
     val colors = ArcaneTheme.colors
     val scrollState = rememberScrollState()
@@ -51,24 +51,6 @@ fun NavigationScreen(onBack: () -> Unit = {}) {
             .padding(ArcaneSpacing.Medium),
         verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back",
-                tint = colors.primary,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable { onBack() }
-            )
-            Text(
-                text = "Navigation",
-                style = typography.displayMedium,
-                color = colors.text
-            )
-        }
 
         // Tabs Section
         SectionTitle("Tabs")

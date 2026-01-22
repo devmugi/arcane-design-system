@@ -82,13 +82,7 @@ import io.github.devmugi.arcane.design.foundation.tokens.ArcaneRadius
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
 @Composable
-fun DesignSpecScreen(
-    onNavigateToControls: () -> Unit,
-    onNavigateToNavigation: () -> Unit,
-    onNavigateToDataDisplay: () -> Unit,
-    onNavigateToFeedback: () -> Unit,
-    onNavigateToChat: () -> Unit
-) {
+fun DesignSpecScreen() {
     val colors = ArcaneTheme.colors
     val typography = ArcaneTheme.typography
     val scrollState = rememberScrollState()
@@ -104,36 +98,31 @@ fun DesignSpecScreen(
         FoundationSection()
 
         // ========== CONTROLS SECTION ==========
-        SectionHeader(title = "CONTROLS", onClick = onNavigateToControls)
+        SectionHeader(title = "CONTROLS")
         ControlsSection()
 
         // ========== NAVIGATION SECTION ==========
-        SectionHeader(title = "NAVIGATION", onClick = onNavigateToNavigation)
+        SectionHeader(title = "NAVIGATION")
         NavigationSection()
 
         // ========== DATA DISPLAY SECTION ==========
-        SectionHeader(title = "DATA DISPLAY", onClick = onNavigateToDataDisplay)
+        SectionHeader(title = "DATA DISPLAY")
         DataDisplaySection()
 
         // ========== FEEDBACK SECTION ==========
-        SectionHeader(title = "FEEDBACK", onClick = onNavigateToFeedback)
+        SectionHeader(title = "FEEDBACK")
         FeedbackSection()
-
-        // ========== CHAT SECTION ==========
-        SectionHeader(title = "CHAT", onClick = onNavigateToChat)
-        ChatSection()
 
         Spacer(modifier = Modifier.height(ArcaneSpacing.XLarge))
     }
 }
 
 @Composable
-private fun SectionHeader(title: String, onClick: () -> Unit) {
+private fun SectionHeader(title: String) {
     Text(
         text = title,
         style = ArcaneTheme.typography.displaySmall,
-        color = ArcaneTheme.colors.primary,
-        modifier = Modifier.clickable { onClick() }
+        color = ArcaneTheme.colors.primary
     )
 }
 

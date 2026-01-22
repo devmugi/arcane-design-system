@@ -46,7 +46,7 @@ import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
 @Composable
-fun DataDisplayScreen(onBack: () -> Unit = {}) {
+fun DataDisplayScreen() {
     val typography = ArcaneTheme.typography
     val colors = ArcaneTheme.colors
     val scrollState = rememberScrollState()
@@ -58,25 +58,6 @@ fun DataDisplayScreen(onBack: () -> Unit = {}) {
             .padding(ArcaneSpacing.Medium),
         verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
     ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back",
-                tint = colors.primary,
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable { onBack() }
-            )
-            Text(
-                text = "Data Display",
-                style = typography.displayMedium,
-                color = colors.text
-            )
-        }
-
         // Badges Section
         SectionTitle("Badges")
         ArcaneSurface(
