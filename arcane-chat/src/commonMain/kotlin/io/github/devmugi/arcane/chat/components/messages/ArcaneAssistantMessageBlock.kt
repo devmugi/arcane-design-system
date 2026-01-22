@@ -1,5 +1,4 @@
-// arcane-components/src/commonMain/kotlin/io/github/devmugi/arcane/design/components/controls/AssistantMessageBlock.kt
-package io.github.devmugi.arcane.design.components.controls
+package io.github.devmugi.arcane.chat.components.messages
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.tween
@@ -72,7 +71,7 @@ fun ArcaneAssistantMessageBlock(
         modifier = modifier
             .fillMaxWidth()
             .clip(AssistantMessageShape)
-            .background(colors.surfaceRaised)
+            .background(colors.surfaceContainer)
             .padding(ArcaneSpacing.Small)
             .animateContentSize(animationSpec = tween(150)),
         verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
@@ -137,7 +136,7 @@ fun ArcaneAssistantMessageBlock(
                     if (enableTruncation && isTruncated && !isExpanded) {
                         drawRect(
                             brush = Brush.verticalGradient(
-                                colors = listOf(Color.Transparent, colors.surfaceRaised),
+                                colors = listOf(Color.Transparent, colors.surfaceContainer),
                                 startY = size.height * 0.6f,
                                 endY = size.height
                             )
