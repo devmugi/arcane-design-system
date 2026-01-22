@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import io.github.devmugi.arcane.catalog.chat.components.DevicePreview
+import io.github.devmugi.arcane.catalog.chat.components.ComponentPreview
 import io.github.devmugi.arcane.catalog.chat.components.DeviceType
 import io.github.devmugi.arcane.catalog.chat.data.MockChatData
 import io.github.devmugi.arcane.chat.components.messages.ArcaneAssistantMessageBlock
@@ -22,7 +22,7 @@ import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 fun ChatScreen(deviceType: DeviceType) {
     val messages = remember { MockChatData.sampleConversation }
 
-    DevicePreview(deviceType = deviceType) {
+    ComponentPreview(deviceType = deviceType) {
         ArcaneChatScreenScaffold(
             isEmpty = messages.isEmpty(),
             emptyState = {
