@@ -23,6 +23,8 @@ import io.github.devmugi.arcane.chat.components.messages.ArcaneChatMessageList
 import io.github.devmugi.arcane.chat.components.messages.ArcaneUserMessageBlock
 import io.github.devmugi.arcane.chat.components.scaffold.ArcaneChatScreenScaffold
 import io.github.devmugi.arcane.chat.models.ChatMessage
+import io.github.devmugi.arcane.chat.models.MessageBlock
+import io.github.devmugi.arcane.chat.models.TextStyle
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
@@ -38,7 +40,13 @@ fun ChatScreen(deviceType: DeviceType) {
         // Add user message
         val userMessage = ChatMessage.User(
             id = generateId(),
-            text = inputText,
+            blocks = listOf(
+                MessageBlock.Text(
+                    id = generateId(),
+                    content = inputText,
+                    style = TextStyle.Body
+                )
+            ),
             timestamp = getCurrentTimestamp()
         )
         messages = messages + userMessage
@@ -50,7 +58,13 @@ fun ChatScreen(deviceType: DeviceType) {
         val loadingMessage = ChatMessage.Assistant(
             id = loadingId,
             title = "Assistant",
-            content = "",
+            blocks = listOf(
+                MessageBlock.Text(
+                    id = generateId(),
+                    content = "",
+                    style = TextStyle.Body
+                )
+            ),
             isLoading = true,
             timestamp = null
         )
@@ -63,7 +77,13 @@ fun ChatScreen(deviceType: DeviceType) {
             val response = ChatMessage.Assistant(
                 id = generateId(),
                 title = "Assistant",
-                content = "Response to \"$userInput\"",
+                blocks = listOf(
+                    MessageBlock.Text(
+                        id = generateId(),
+                        content = "Response to \"$userInput\"",
+                        style = TextStyle.Body
+                    )
+                ),
                 isLoading = false,
                 timestamp = getCurrentTimestamp()
             )
@@ -107,19 +127,14 @@ fun ChatScreen(deviceType: DeviceType) {
             ) { message ->
                 when (message) {
                     is ChatMessage.User -> ArcaneUserMessageBlock(
-                        text = message.text,
+                        blocks = message.blocks,
                         timestamp = message.timestamp
                     )
                     is ChatMessage.Assistant -> ArcaneAssistantMessageBlock(
+                        blocks = message.blocks,
                         title = message.title,
                         isLoading = message.isLoading
-                    ) {
-                        Text(
-                            text = message.content,
-                            style = ArcaneTheme.typography.bodyMedium,
-                            color = ArcaneTheme.colors.text
-                        )
-                    }
+                    )
                 }
             }
         }
