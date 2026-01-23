@@ -1,8 +1,17 @@
 package io.github.devmugi.arcane.catalog.chat.data
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material.icons.outlined.Psychology
+import androidx.compose.material.icons.outlined.Storage
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.Color
 import io.github.devmugi.arcane.chat.models.ChatMessage
 import io.github.devmugi.arcane.chat.models.MessageBlock
+import io.github.devmugi.arcane.chat.models.Suggestion
 import io.github.devmugi.arcane.chat.models.TextStyle
+import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 
 object MockChatData {
     val sampleConversation = listOf(
@@ -84,6 +93,81 @@ object MockChatData {
     )
 
     val emptyConversation = emptyList<ChatMessage>()
+
+    val conversationWithSuggestions = sampleConversation + ChatMessage.Assistant(
+        id = "5",
+        blocks = listOf(
+            MessageBlock.Text(
+                id = "5-text",
+                content = "Here are some topics you might be interested in exploring:",
+                style = TextStyle.Body
+            ),
+            MessageBlock.AgentSuggestions(
+                id = "5-suggestions",
+                suggestions = listOf(
+                    Suggestion(
+                        id = "sugg-1",
+                        text = "State Management",
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Storage,
+                                contentDescription = null,
+                                tint = Color(0xFF9C27B0)
+                            )
+                        },
+                        color = Color(0xFF9C27B0),
+                        detailsContent = {
+                            Text(
+                                text = "Learn about managing state in Compose using ViewModel, remember, and MutableState. I can explain state hoisting, composition locals, and best practices.",
+                                style = ArcaneTheme.typography.bodySmall,
+                                color = ArcaneTheme.colors.text
+                            )
+                        }
+                    ),
+                    Suggestion(
+                        id = "sugg-2",
+                        text = "LazyColumn",
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Code,
+                                contentDescription = null,
+                                tint = Color(0xFF2196F3)
+                            )
+                        },
+                        color = Color(0xFF2196F3),
+                        detailsContent = {
+                            Text(
+                                text = "Deep dive into LazyColumn for efficient list rendering. Topics include keys, item animations, sticky headers, and performance optimization.",
+                                style = ArcaneTheme.typography.bodySmall,
+                                color = ArcaneTheme.colors.text
+                            )
+                        }
+                    ),
+                    Suggestion(
+                        id = "sugg-3",
+                        text = "Side Effects",
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.Psychology,
+                                contentDescription = null,
+                                tint = Color(0xFFFF9800)
+                            )
+                        },
+                        color = Color(0xFFFF9800),
+                        detailsContent = {
+                            Text(
+                                text = "Understand LaunchedEffect, DisposableEffect, SideEffect, and when to use each. I'll explain the composition lifecycle and how to handle side effects correctly.",
+                                style = ArcaneTheme.typography.bodySmall,
+                                color = ArcaneTheme.colors.text
+                            )
+                        }
+                    )
+                ),
+                onSuggestionSelected = { /* No-op for demo */ }
+            )
+        ),
+        timestamp = "2:35 PM"
+    )
 
     val loadingConversation = sampleConversation + ChatMessage.Assistant(
         id = "loading",

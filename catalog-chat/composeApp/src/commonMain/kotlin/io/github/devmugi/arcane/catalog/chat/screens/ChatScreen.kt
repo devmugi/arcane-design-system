@@ -24,15 +24,55 @@ import io.github.devmugi.arcane.chat.components.messages.ArcaneUserMessageBlock
 import io.github.devmugi.arcane.chat.components.scaffold.ArcaneChatScreenScaffold
 import io.github.devmugi.arcane.chat.models.ChatMessage
 import io.github.devmugi.arcane.chat.models.MessageBlock
+import io.github.devmugi.arcane.chat.models.Suggestion
 import io.github.devmugi.arcane.chat.models.TextStyle
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
 @Composable
 fun ChatScreen(deviceType: DeviceType) {
-    var messages by remember { mutableStateOf<List<ChatMessage>>(MockChatData.sampleConversation) }
+    var messages by remember { mutableStateOf<List<ChatMessage>>(MockChatData.conversationWithSuggestions) }
     var inputText by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
+
+    fun handleSuggestionClick(suggestionText: String) {
+        // Add loading message
+        val loadingId = generateId()
+        val loadingMessage = ChatMessage.Assistant(
+            id = loadingId,
+            title = "Assistant",
+            blocks = listOf(
+                MessageBlock.Text(
+                    id = generateId(),
+                    content = "",
+                    style = TextStyle.Body
+                )
+            ),
+            isLoading = true,
+            timestamp = null
+        )
+        messages = messages + loadingMessage
+
+        // Simulate response delay
+        scope.launch {
+            delay(700)
+            messages = messages.filterNot { it.id == loadingId }
+            val response = ChatMessage.Assistant(
+                id = generateId(),
+                title = "Assistant",
+                blocks = listOf(
+                    MessageBlock.Text(
+                        id = generateId(),
+                        content = "Great choice! Let me tell you more about $suggestionText...\n\nThis is a simulated response showing how suggestion interactions work in the chat interface.",
+                        style = TextStyle.Body
+                    )
+                ),
+                isLoading = false,
+                timestamp = getCurrentTimestamp()
+            )
+            messages = messages + response
+        }
+    }
 
     fun handleSendMessage() {
         if (inputText.isBlank()) return
@@ -125,13 +165,28 @@ fun ChatScreen(deviceType: DeviceType) {
                 messages = messages,
                 messageKey = { it.id }
             ) { message ->
+                // Map blocks to inject suggestion callback
+                val blocksWithCallback = message.blocks.map { block ->
+                    if (block is MessageBlock.AgentSuggestions) {
+                        MessageBlock.AgentSuggestions(
+                            id = block.id,
+                            suggestions = block.suggestions,
+                            onSuggestionSelected = { suggestion ->
+                                handleSuggestionClick(suggestion.text)
+                            }
+                        )
+                    } else {
+                        block
+                    }
+                }
+
                 when (message) {
                     is ChatMessage.User -> ArcaneUserMessageBlock(
-                        blocks = message.blocks,
+                        blocks = blocksWithCallback,
                         timestamp = message.timestamp
                     )
                     is ChatMessage.Assistant -> ArcaneAssistantMessageBlock(
-                        blocks = message.blocks,
+                        blocks = blocksWithCallback,
                         title = message.title,
                         isLoading = message.isLoading
                     )
