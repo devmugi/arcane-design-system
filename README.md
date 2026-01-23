@@ -189,6 +189,31 @@ Interactive demos showcasing all components:
 
 Output: `docs/catalog/` and `docs/catalog-chat/`
 
+## Claude Code Integration
+
+This project includes a Claude Code skill for AI-assisted development.
+
+### Install Skill Globally
+
+```bash
+./scripts/install-skill.sh
+```
+
+### Trigger Phrases
+
+- "create new module for \<feature\>"
+- "start app with Arcane"
+- "add new screen using ArcaneDesignSystem"
+
+### What It Does
+
+1. Auto-detects context (internal module vs external app)
+2. Generates correct Gradle configuration
+3. Guides component selection (Arcane over raw Material 3)
+4. Provides screen templates
+
+See [CLAUDE.md](CLAUDE.md) for full details.
+
 ## License
 
 Apache License 2.0
