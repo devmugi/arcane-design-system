@@ -1,0 +1,48 @@
+// Template for internal module build.gradle.kts
+// Replace {MODULE_NAME} with actual module name
+
+// ============================================================================
+// INTERNAL MODULE (inside ArcaneDesignSystem repo)
+// ============================================================================
+
+plugins {
+    id("arcane.multiplatform.library")
+}
+
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation(project(":arcane-foundation"))
+            implementation(project(":arcane-components"))
+            // Uncomment if chat components needed:
+            // implementation(project(":arcane-chat"))
+        }
+    }
+}
+
+// ============================================================================
+// EXTERNAL APP (using Arcane as Maven dependency)
+// ============================================================================
+//
+// First, add to libs.versions.toml:
+//
+// [versions]
+// arcane = "0.2.1"
+//
+// [libraries]
+// arcane-foundation = { module = "io.github.devmugi.design.arcane:arcane-foundation", version.ref = "arcane" }
+// arcane-components = { module = "io.github.devmugi.design.arcane:arcane-components", version.ref = "arcane" }
+// arcane-chat = { module = "io.github.devmugi.design.arcane:arcane-chat", version.ref = "arcane" }
+//
+// Then in build.gradle.kts:
+//
+// kotlin {
+//     sourceSets {
+//         commonMain.dependencies {
+//             implementation(libs.arcane.foundation)
+//             implementation(libs.arcane.components)
+//             // Uncomment if chat components needed:
+//             // implementation(libs.arcane.chat)
+//         }
+//     }
+// }

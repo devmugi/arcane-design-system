@@ -1,0 +1,82 @@
+// Template for a basic Arcane screen
+// Replace {PACKAGE} and {ScreenName} with actual values
+
+package {PACKAGE}
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import io.github.devmugi.arcane.design.foundation.primitives.ArcaneSurface
+import io.github.devmugi.arcane.design.foundation.primitives.SurfaceVariant
+import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
+import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
+
+@Composable
+fun {ScreenName}Screen() {
+    val colors = ArcaneTheme.colors
+    val typography = ArcaneTheme.typography
+
+    ArcaneSurface(
+        variant = SurfaceVariant.ContainerLow,
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(ArcaneSpacing.md)
+        ) {
+            Text(
+                text = "{ScreenName}",
+                style = typography.headlineMedium,
+                color = colors.text
+            )
+
+            // Your content here using Arcane components
+        }
+    }
+}
+
+// ============================================================================
+// CHAT SCREEN TEMPLATE (if using arcane-chat)
+// ============================================================================
+//
+// import io.github.devmugi.arcane.chat.models.ChatMessage
+// import io.github.devmugi.arcane.chat.models.MessageBlock
+// import io.github.devmugi.arcane.chat.components.messages.ArcaneUserMessageBlock
+// import io.github.devmugi.arcane.chat.components.messages.ArcaneAssistantMessageBlock
+// import io.github.devmugi.arcane.chat.components.messages.ArcaneChatMessageList
+// import io.github.devmugi.arcane.chat.components.input.ArcaneAgentChatInput
+// import io.github.devmugi.arcane.chat.components.scaffold.ArcaneChatScreenScaffold
+//
+// @Composable
+// fun {ScreenName}ChatScreen(
+//     messages: List<ChatMessage>,
+//     onSendMessage: (String) -> Unit
+// ) {
+//     var inputText by remember { mutableStateOf("") }
+//
+//     ArcaneChatScreenScaffold(
+//         bottomBar = {
+//             ArcaneAgentChatInput(
+//                 value = inputText,
+//                 onValueChange = { inputText = it },
+//                 onSend = {
+//                     if (inputText.isNotBlank()) {
+//                         onSendMessage(inputText)
+//                         inputText = ""
+//                     }
+//                 }
+//             )
+//         }
+//     ) {
+//         ArcaneChatMessageList(messages = messages) { message ->
+//             when (message) {
+//                 is ChatMessage.User -> ArcaneUserMessageBlock(message = message)
+//                 is ChatMessage.Assistant -> ArcaneAssistantMessageBlock(message = message)
+//             }
+//         }
+//     }
+// }

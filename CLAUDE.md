@@ -178,3 +178,43 @@ Tests use `kotlin("test")` and are located in `arcane-components/src/commonTest/
 ```bash
 ./gradlew :arcane-components:allTests
 ```
+
+## Claude Skill for New Modules
+
+A skill is available at `.claude/skills/new-module/` to help create new modules and apps using ArcaneDesignSystem.
+
+### Install Globally
+
+```bash
+./scripts/install-skill.sh
+```
+
+This installs the skill to `~/.claude/skills/arcane/` for use in any project.
+
+### Trigger Phrases
+
+The skill activates when you say:
+- "create new module for <feature>"
+- "start app with Arcane"
+- "add new screen using ArcaneDesignSystem"
+
+### What It Provides
+
+1. **Context detection** - Automatically uses convention plugins (internal) or Maven deps (external)
+2. **Component mapping** - Maps Material 3 → Arcane components
+3. **Templates** - Build files and screen scaffolds
+4. **Verification checklist** - Ensures correct setup
+
+### Component Rule
+
+**Always use Arcane components instead of raw Material 3.**
+
+| Instead of (M3) | Use (Arcane) |
+|-----------------|--------------|
+| `Button` | `ArcaneButton` |
+| `TextField` | `ArcaneTextField` |
+| `Card` | `ArcaneCard` |
+| `Surface` | `ArcaneSurface` |
+| `CircularProgressIndicator` | `ArcaneSpinner` |
+
+See `.claude/skills/new-module/component-map.md` for the full mapping.
