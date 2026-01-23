@@ -7,6 +7,7 @@ A Kotlin Compose Multiplatform design system featuring a distinctive sci-fi aest
 - Android (API 26+)
 - iOS (15+)
 - Desktop (JVM 21+)
+- Web (WasmJS) - Chrome 119+, Firefox 120+, Edge 119+
 
 ## Components
 
@@ -161,6 +162,32 @@ ArcaneToastHost(state = toastState) {
     )
 }
 ```
+
+## Catalog Apps
+
+Interactive demos showcasing all components:
+
+- **catalog** - Full component showcase with theme switcher
+- **catalog-chat** - Chat UI components demo
+
+### Run Locally
+
+```bash
+# Desktop
+./gradlew :catalog:composeApp:run
+
+# Web (WasmJS)
+./gradlew :catalog:composeApp:wasmJsBrowserDevelopmentRun
+```
+
+### Publish to GitHub Pages
+
+```bash
+# Publish both catalogs to docs folder
+./gradlew publishAllWasmJsToDocs
+```
+
+Output: `docs/catalog/` and `docs/catalog-chat/`
 
 ## License
 

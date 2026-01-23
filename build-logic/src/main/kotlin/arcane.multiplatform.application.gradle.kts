@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -37,6 +38,20 @@ kotlin {
         }
     }
 
+    // WebAssembly target - only configure if explicitly enabled
+    val buildWasm = project.findProperty("buildWasm")?.toString()?.toBoolean() ?: false
+    if (buildWasm) {
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs {
+            browser {
+                commonWebpackConfig {
+                    outputFileName = "composeApp.js"
+                }
+            }
+            binaries.executable()
+        }
+    }
+
     sourceSets {
         commonMain.dependencies {
             implementation(libs.findLibrary("compose-runtime").get())
@@ -57,6 +72,29 @@ kotlin {
                 implementation(compose.desktop.currentOs)
             }
         }
+    }
+}
+
+// Task to copy production wasmJs build to docs/ for GitHub Pages
+val buildWasmForTask = project.findProperty("buildWasm")?.toString()?.toBoolean() ?: false
+if (buildWasmForTask) {
+    tasks.register<Copy>("publishWasmJsToDocs") {
+        group = "distribution"
+        description = "Copies production wasmJs build to docs folder for GitHub Pages"
+
+        dependsOn("wasmJsBrowserProductionWebpack")
+
+        // Determine target folder based on project path (catalog or catalog-chat)
+        val targetFolder = when {
+            project.path.contains("catalog-chat") -> "catalog-chat"
+            else -> "catalog"
+        }
+
+        // Copy webpack output (JS, WASM files)
+        from(layout.buildDirectory.dir("kotlin-webpack/wasmJs/productionExecutable"))
+        // Copy index.html from resources
+        from("src/wasmJsMain/resources")
+        into(rootProject.layout.projectDirectory.dir("docs/$targetFolder"))
     }
 }
 

@@ -106,6 +106,21 @@ if (buildWasm) {
 ./gradlew :catalog-chat:composeApp:wasmJsBrowserProductionWebpack
 ```
 
+### Publish to GitHub Pages
+
+```bash
+# Publish single app to docs folder
+./gradlew :catalog:composeApp:publishWasmJsToDocs
+./gradlew :catalog-chat:composeApp:publishWasmJsToDocs
+
+# Publish both apps at once
+./gradlew publishAllWasmJsToDocs
+```
+
+Output locations:
+- `docs/catalog/` - Catalog app for GitHub Pages
+- `docs/catalog-chat/` - Chat catalog app for GitHub Pages
+
 ### Build Without WasmJS
 
 ```bash
@@ -121,8 +136,15 @@ if (buildWasm) {
 
 | App | Development | Production |
 |-----|-------------|------------|
-| catalog | `catalog/composeApp/build/dist/wasmJs/developmentExecutable/` | `catalog/composeApp/build/dist/wasmJs/productionExecutable/` |
-| catalog-chat | `catalog-chat/composeApp/build/dist/wasmJs/developmentExecutable/` | `catalog-chat/composeApp/build/dist/wasmJs/productionExecutable/` |
+| catalog | `catalog/composeApp/build/dist/wasmJs/developmentExecutable/` | `catalog/composeApp/build/kotlin-webpack/wasmJs/productionExecutable/` |
+| catalog-chat | `catalog-chat/composeApp/build/dist/wasmJs/developmentExecutable/` | `catalog-chat/composeApp/build/kotlin-webpack/wasmJs/productionExecutable/` |
+
+### GitHub Pages Output
+
+| App | Location |
+|-----|----------|
+| catalog | `docs/catalog/` |
+| catalog-chat | `docs/catalog-chat/` |
 
 ### Generated Files
 
@@ -215,10 +237,10 @@ Kotlin/Wasm requires browsers with WebAssembly GC support:
 
 ## Recent Activity
 
-No WASM-specific commits in recent history. WasmJS support appears stable as infrastructure rather than active development focus.
-
 **Latest relevant commits:**
-- `fix(chat): remove onPreviewKeyEvent to fix binary incompatibility crash` - May indicate platform-specific input handling considerations
+- `feat(wasmJs): add index.html entry points and fix multiplatform timestamp` - Added index.html for both catalog apps, replaced JVM-specific APIs with kotlinx-datetime
+- `feat(wasmJs): add publishWasmJsToDocs Gradle task` - Automated publishing to docs folder for GitHub Pages
+- `fix(chat): remove onPreviewKeyEvent to fix binary incompatibility crash` - Platform-specific input handling fix
 
 ---
 
