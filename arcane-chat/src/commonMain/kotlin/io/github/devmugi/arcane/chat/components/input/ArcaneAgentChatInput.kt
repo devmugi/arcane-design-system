@@ -2,12 +2,10 @@
 package io.github.devmugi.arcane.chat.components.input
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -41,12 +39,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.KeyEventType
-import androidx.compose.ui.input.key.isShiftPressed
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onPreviewKeyEvent
-import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -110,19 +102,7 @@ fun ArcaneAgentChatInput(
                 .heightIn(min = 40.dp, max = maxHeight)
                 .clip(ArcaneRadius.Medium)
                 .background(colors.surfaceContainerLowest)
-                .padding(horizontal = ArcaneSpacing.Medium, vertical = ArcaneSpacing.Small)
-                .onPreviewKeyEvent { keyEvent ->
-                    if (keyEvent.type == KeyEventType.KeyDown &&
-                        keyEvent.key == Key.Enter &&
-                        !keyEvent.isShiftPressed &&
-                        hasText
-                    ) {
-                        onSend()
-                        true
-                    } else {
-                        false
-                    }
-                },
+                .padding(horizontal = ArcaneSpacing.Medium, vertical = ArcaneSpacing.Small),
             enabled = enabled,
             textStyle = typography.bodyLarge.copy(color = colors.text),
             cursorBrush = SolidColor(colors.primary),
@@ -189,8 +169,8 @@ fun ArcaneAgentChatInput(
                 // Voice buttons (shown when no text)
                 AnimatedVisibility(
                     visible = !hasText,
-                    enter = fadeIn(tween(150)) + scaleIn(tween(150)),
-                    exit = fadeOut(tween(150)) + scaleOut(tween(150))
+                    enter = fadeIn(tween(150)),
+                    exit = fadeOut(tween(150))
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall),
@@ -226,8 +206,8 @@ fun ArcaneAgentChatInput(
                 // Send button (shown when has text)
                 AnimatedVisibility(
                     visible = hasText,
-                    enter = fadeIn(tween(150)) + scaleIn(tween(150)),
-                    exit = fadeOut(tween(150)) + scaleOut(tween(150))
+                    enter = fadeIn(tween(150)),
+                    exit = fadeOut(tween(150))
                 ) {
                     SendButton(
                         onClick = onSend,
