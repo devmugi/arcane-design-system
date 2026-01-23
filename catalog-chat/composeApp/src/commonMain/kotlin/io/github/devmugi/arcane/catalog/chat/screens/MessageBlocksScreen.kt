@@ -24,6 +24,8 @@ import io.github.devmugi.arcane.catalog.chat.components.ComponentPreview
 import io.github.devmugi.arcane.catalog.chat.components.DeviceType
 import io.github.devmugi.arcane.chat.components.messages.ArcaneAssistantMessageBlock
 import io.github.devmugi.arcane.chat.components.messages.ArcaneUserMessageBlock
+import io.github.devmugi.arcane.chat.models.MessageBlock
+import io.github.devmugi.arcane.chat.models.TextStyle
 import io.github.devmugi.arcane.design.foundation.primitives.ArcaneSurface
 import io.github.devmugi.arcane.design.foundation.primitives.SurfaceVariant
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
@@ -56,7 +58,13 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                         style = typography.labelMedium
                     )
                     ArcaneUserMessageBlock(
-                        text = "Hello, Claude!"
+                        blocks = listOf(
+                            MessageBlock.Text(
+                                id = "user-1",
+                                content = "Hello, Claude!",
+                                style = TextStyle.Body
+                            )
+                        )
                     )
 
                     ArcaneText(
@@ -65,7 +73,13 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                         style = typography.labelMedium
                     )
                     ArcaneUserMessageBlock(
-                        text = "Can you help me understand how to implement a chat interface in Compose? I'm looking for best practices.",
+                        blocks = listOf(
+                            MessageBlock.Text(
+                                id = "user-2",
+                                content = "Can you help me understand how to implement a chat interface in Compose? I'm looking for best practices.",
+                                style = TextStyle.Body
+                            )
+                        ),
                         timestamp = "2:34 PM"
                     )
                 }
@@ -86,14 +100,15 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                         style = typography.labelMedium
                     )
                     ArcaneAssistantMessageBlock(
+                        blocks = listOf(
+                            MessageBlock.Text(
+                                id = "asst-1",
+                                content = "Hello! I'd be happy to help you with that.",
+                                style = TextStyle.Body
+                            )
+                        ),
                         title = "Claude"
-                    ) {
-                        Text(
-                            text = "Hello! I'd be happy to help you with that.",
-                            style = typography.bodyMedium,
-                            color = colors.text
-                        )
-                    }
+                    )
 
                     ArcaneText(
                         text = "With title + loading",
@@ -101,15 +116,16 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                         style = typography.labelMedium
                     )
                     ArcaneAssistantMessageBlock(
+                        blocks = listOf(
+                            MessageBlock.Text(
+                                id = "asst-2",
+                                content = "Thinking...",
+                                style = TextStyle.Body
+                            )
+                        ),
                         title = "Claude",
                         isLoading = true
-                    ) {
-                        Text(
-                            text = "Thinking...",
-                            style = typography.bodyMedium,
-                            color = colors.text
-                        )
-                    }
+                    )
 
                     ArcaneText(
                         text = "With title actions",
@@ -117,6 +133,13 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                         style = typography.labelMedium
                     )
                     ArcaneAssistantMessageBlock(
+                        blocks = listOf(
+                            MessageBlock.Text(
+                                id = "asst-3",
+                                content = "Here's a helpful response with extra actions.",
+                                style = TextStyle.Body
+                            )
+                        ),
                         title = "Claude",
                         titleActions = {
                             Icon(
@@ -128,13 +151,7 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                                     .clickable { }
                             )
                         }
-                    ) {
-                        Text(
-                            text = "Here's a helpful response with extra actions.",
-                            style = typography.bodyMedium,
-                            color = colors.text
-                        )
-                    }
+                    )
                 }
             }
 
@@ -171,15 +188,16 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                         style = typography.labelMedium
                     )
                     ArcaneAssistantMessageBlock(
+                        blocks = listOf(
+                            MessageBlock.Text(
+                                id = "asst-long",
+                                content = longText,
+                                style = TextStyle.Body
+                            )
+                        ),
                         title = "Claude",
                         maxContentHeight = 160.dp
-                    ) {
-                        Text(
-                            text = longText,
-                            style = typography.bodyMedium,
-                            color = colors.text
-                        )
-                    }
+                    )
                 }
             }
 
@@ -198,6 +216,13 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                         style = typography.labelMedium
                     )
                     ArcaneAssistantMessageBlock(
+                        blocks = listOf(
+                            MessageBlock.Text(
+                                id = "asst-actions",
+                                content = "Here's a response with custom bottom actions always visible.",
+                                style = TextStyle.Body
+                            )
+                        ),
                         title = "Claude",
                         showBottomActions = true,
                         autoShowWhenTruncated = false,
@@ -211,13 +236,7 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                                     .clickable { }
                             )
                         }
-                    ) {
-                        Text(
-                            text = "Here's a response with custom bottom actions always visible.",
-                            style = typography.bodyMedium,
-                            color = colors.text
-                        )
-                    }
+                    )
 
                     val longTextWithShare = """
                         This is a longer response that will be truncated and show both the "Show more" action and a share icon in the bottom actions row.
@@ -233,6 +252,13 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                         style = typography.labelMedium
                     )
                     ArcaneAssistantMessageBlock(
+                        blocks = listOf(
+                            MessageBlock.Text(
+                                id = "asst-share",
+                                content = longTextWithShare,
+                                style = TextStyle.Body
+                            )
+                        ),
                         title = "Claude",
                         maxContentHeight = 100.dp,
                         bottomActions = {
@@ -245,13 +271,7 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                                     .clickable { }
                             )
                         }
-                    ) {
-                        Text(
-                            text = longTextWithShare,
-                            style = typography.bodyMedium,
-                            color = colors.text
-                        )
-                    }
+                    )
                 }
             }
 
