@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcane Design System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
+            background-color: #0d1117;
+            color: #e6edf3;
+        }
+
+        /* Topbar */
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 48px;
+            background-color: #161b22;
+            border-bottom: 1px solid #30363d;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 700;
+            color: #a855f7;
+            margin-right: 32px;
+            text-decoration: none;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 4px;
+        }
+
+        .nav-tab {
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #8b949e;
+            font-size: 14px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            transition: all 0.15s ease;
+        }
+
+        .nav-tab:hover {
+            background-color: #21262d;
+            color: #e6edf3;
+        }
+
+        .nav-tab.active {
+            background-color: #a855f7;
+            color: #ffffff;
+        }
+
+        /* Main content */
+        .main {
+            padding-top: 48px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Terminal */
+        .terminal {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            padding-bottom: 80px;
+        }
+
+        .message {
+            margin-bottom: 24px;
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .message-role {
+            font-size: 13px;
+            font-weight: 600;
+            color: #8b949e;
+        }
+
+        .message-role.user {
+            color: #58a6ff;
+        }
+
+        .message-role.assistant {
+            color: #a855f7;
+        }
+
+        .message-content {
+            color: #e6edf3;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            font-size: 14px;
+        }
+
+        .message-content h1 {
+            font-size: 20px;
+            color: #a855f7;
+            margin: 16px 0 8px 0;
+        }
+
+        .message-content h2 {
+            font-size: 16px;
+            color: #58a6ff;
+            margin: 12px 0 6px 0;
+        }
+
+        .code-block {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin: 12px 0;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+
+        .code-inline {
+            background-color: #161b22;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #79c0ff;
+        }
+
+        .bullet-list {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+
+        .bullet-list li {
+            margin: 4px 0;
+            color: #8b949e;
+        }
+
+        .success-text {
+            color: #3fb950;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: #a855f7;
+            animation: blink 1s infinite;
+            vertical-align: text-bottom;
+            margin-left: 2px;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* Input area */
+        .input-area {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 24px;
+            background-color: #0d1117;
+            border-top: 1px solid #30363d;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 12px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .input-field {
+            flex: 1;
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #e6edf3;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+
+        .input-field:focus {
+            border-color: #a855f7;
+        }
+
+        .input-field::placeholder {
+            color: #484f58;
+        }
+
+        .send-btn {
+            background-color: #a855f7;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.15s ease;
+        }
+
+        .send-btn:hover {
+            background-color: #9333ea;
+        }
+
+        .send-btn:disabled {
+            background-color: #30363d;
+            cursor: not-allowed;
+        }
+
+        /* Status bar */
+        .status-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            font-size: 12px;
+            color: #8b949e;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #3fb950;
+        }
+
+        @media (max-width: 600px) {
+            .nav-tabs {
+                gap: 2px;
+            }
+            .nav-tab {
+                padding: 6px 10px;
+                font-size: 13px;
+            }
+            .logo {
+                margin-right: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="topbar">
+        <a href="./" class="logo">Arcane</a>
+        <div class="nav-tabs">
+            <a href="./" class="nav-tab active">Initial Prompt</a>
+            <a href="./catalog/" class="nav-tab">Catalog</a>
+            <a href="./catalog-chat/" class="nav-tab">Chat</a>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="terminal" id="terminal">
+            <!-- Messages will be added here -->
+        </div>
+
+        <div class="input-area">
+            <div class="status-bar">
+                <span class="status-dot"></span>
+                <span>ArcaneDesignSystem (main)</span>
+            </div>
+            <div class="input-container">
+                <input type="text" class="input-field" id="userInput" placeholder="Type a message..." />
+                <button class="send-btn" id="sendBtn">Send</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        const initialPromptContent = `# Initial Prompt
+/superpowers:brainstorm analyze idea
+
+ArcaneDesignSystem is repository for Claude Code (for LLMs)
+I use ArcaneDesignSystem for fast prototyping.
+
+ArcaneDesignSystem provides basic elements and additional modules for apps.
+ArcaneDesignSystem contains much smaller set of Material 3.
+
+# Goals
+## limit LLM context
+## have consistent UI in all apps, components work well together
+## Generated Compose code
+- looks very bad?
+- UI makes you cry?
+- Claude used wrong library version, again? - forget, ArcaneDesignSystem is mandatory for claude to use, Material 3 imports must be justified.
+
+My use case: I need chat screens for new app "CV Agent".
+My solution:
+1. Create new module in ArcaneDesignSystem, for chat app.
+Light fast prototype new designs, elements, screens.
+Interactive, with animations, previews, etc. on desktop app.
+Why Desktop, because build fast!
+- Desktop - 10 sec on my mac
+- Android - 2min
+- iOS - 99% infinity build. *xCode tooling sucks*!
+
+2. When module ready (chat as an example)
+Change in application is easy. Claude limited to library. Much less read file, and complications. Smaller context.
+Much faster development!
+
+# Documentation
+- I need skill? or what? Claude ultrathink suggest.`;
+
+        const skillResponse = `I'll help you get started with ArcaneDesignSystem!
+
+<span class="success-text">To install the Arcane Claude skill, run:</span>
+
+<div class="code-block">./scripts/install-skill.sh</div>
+
+This copies the skill to <span class="code-inline">~/.claude/skills/arcane/</span> making it available globally in any project.
+
+<span class="success-text">After install, in any Claude Code conversation say:</span>
+
+<ul class="bullet-list">
+<li>"create new module for &lt;feature&gt;"</li>
+<li>"start app with Arcane"</li>
+<li>"add new screen using ArcaneDesignSystem"</li>
+</ul>
+
+The skill will automatically:
+- Detect if you're inside ArcaneDesignSystem (uses convention plugins) or an external project (uses Maven deps)
+- Map Material 3 components to Arcane equivalents
+- Generate correct Gradle configuration
+- Provide screen templates with proper theme setup
+
+<span class="success-text">Want to see the components?</span> Check out the <a href="./catalog/" style="color: #a855f7;">Catalog</a> or <a href="./catalog-chat/" style="color: #a855f7;">Chat</a> demos above!`;
+
+        function addMessage(role, content, isHtml = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'message-header';
+
+            const roleSpan = document.createElement('span');
+            roleSpan.className = `message-role ${role}`;
+            roleSpan.textContent = role === 'user' ? 'You' : 'Claude';
+
+            headerDiv.appendChild(roleSpan);
+            messageDiv.appendChild(headerDiv);
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            if (isHtml) {
+                contentDiv.innerHTML = content;
+            } else {
+                contentDiv.textContent = content;
+            }
+            messageDiv.appendChild(contentDiv);
+
+            terminal.appendChild(messageDiv);
+            terminal.scrollTop = terminal.scrollHeight;
+
+            return contentDiv;
+        }
+
+        async function typeMessage(role, content, isHtml = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'message-header';
+
+            const roleSpan = document.createElement('span');
+            roleSpan.className = `message-role ${role}`;
+            roleSpan.textContent = role === 'user' ? 'You' : 'Claude';
+
+            headerDiv.appendChild(roleSpan);
+            messageDiv.appendChild(headerDiv);
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            messageDiv.appendChild(contentDiv);
+
+            terminal.appendChild(messageDiv);
+
+            if (isHtml) {
+                // For HTML content, just show it with a small delay
+                await new Promise(r => setTimeout(r, 500));
+                contentDiv.innerHTML = content;
+            } else {
+                // Type out plain text
+                const cursor = document.createElement('span');
+                cursor.className = 'typing-cursor';
+                contentDiv.appendChild(cursor);
+
+                for (let i = 0; i < content.length; i++) {
+                    contentDiv.insertBefore(document.createTextNode(content[i]), cursor);
+                    terminal.scrollTop = terminal.scrollHeight;
+                    await new Promise(r => setTimeout(r, 5));
+                }
+                cursor.remove();
+            }
+
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        let isProcessing = false;
+
+        async function handleSend() {
+            if (isProcessing) return;
+
+            const text = userInput.value.trim();
+            if (!text) return;
+
+            isProcessing = true;
+            sendBtn.disabled = true;
+            userInput.value = '';
+
+            addMessage('user', text);
+
+            // Simulate thinking
+            await new Promise(r => setTimeout(r, 800));
+
+            // Show skill response
+            await typeMessage('assistant', skillResponse, true);
+
+            isProcessing = false;
+            sendBtn.disabled = false;
+        }
+
+        sendBtn.addEventListener('click', handleSend);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
+
+        // Show initial prompt on load
+        window.addEventListener('load', async () => {
+            await typeMessage('user', initialPromptContent);
+        });
+    </script>
+</body>
+</html>
