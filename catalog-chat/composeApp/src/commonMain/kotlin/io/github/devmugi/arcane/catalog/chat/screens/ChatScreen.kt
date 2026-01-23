@@ -14,6 +14,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import io.github.devmugi.arcane.catalog.chat.components.ComponentPreview
 import io.github.devmugi.arcane.catalog.chat.components.DeviceType
 import io.github.devmugi.arcane.catalog.chat.data.MockChatData
@@ -200,10 +203,11 @@ private var messageIdCounter = 0
 private fun generateId(): String = "msg_${messageIdCounter++}"
 
 private fun getCurrentTimestamp(): String {
-    // Simple timestamp for demo purposes
-    val hour = (System.currentTimeMillis() / 3600000 % 24).toInt()
-    val minute = (System.currentTimeMillis() / 60000 % 60).toInt()
+    val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
+    val hour = now.hour
+    val minute = now.minute
     val formattedHour = if (hour == 0) 12 else if (hour > 12) hour - 12 else hour
     val amPm = if (hour < 12) "AM" else "PM"
-    return String.format("%d:%02d %s", formattedHour, minute, amPm)
+    val minuteStr = if (minute < 10) "0$minute" else "$minute"
+    return "$formattedHour:$minuteStr $amPm"
 }
