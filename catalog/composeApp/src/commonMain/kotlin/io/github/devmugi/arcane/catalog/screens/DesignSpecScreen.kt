@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,6 +17,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -87,6 +90,14 @@ fun DesignSpecScreen(windowSizeClass: WindowSizeClass? = null) {
     val typography = ArcaneTheme.typography
     val scrollState = rememberScrollState()
 
+    // Determine layout columns based on window size
+    val isExpanded = windowSizeClass?.isWidthAtLeastBreakpoint(
+        WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
+    ) == true
+    val isMedium = windowSizeClass?.isWidthAtLeastBreakpoint(
+        WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
+    ) == true
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -95,23 +106,23 @@ fun DesignSpecScreen(windowSizeClass: WindowSizeClass? = null) {
         verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
     ) {
         // ========== FOUNDATION SECTION ==========
-        FoundationSection()
+        FoundationSection(isExpanded = isExpanded, isMedium = isMedium)
 
         // ========== CONTROLS SECTION ==========
         SectionHeader(title = "CONTROLS")
-        ControlsSection()
+        ControlsSection(isExpanded = isExpanded, isMedium = isMedium)
 
         // ========== NAVIGATION SECTION ==========
         SectionHeader(title = "NAVIGATION")
-        NavigationSection()
+        NavigationSection(isExpanded = isExpanded, isMedium = isMedium)
 
         // ========== DATA DISPLAY SECTION ==========
         SectionHeader(title = "DATA DISPLAY")
-        DataDisplaySection()
+        DataDisplaySection(isExpanded = isExpanded, isMedium = isMedium)
 
         // ========== FEEDBACK SECTION ==========
         SectionHeader(title = "FEEDBACK")
-        FeedbackSection()
+        FeedbackSection(isExpanded = isExpanded, isMedium = isMedium)
 
         Spacer(modifier = Modifier.height(ArcaneSpacing.XLarge))
     }
@@ -137,48 +148,58 @@ private fun SubsectionLabel(text: String) {
 
 // ==================== FOUNDATION SECTION ====================
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun FoundationSection() {
+private fun FoundationSection(isExpanded: Boolean, isMedium: Boolean) {
     val colors = ArcaneTheme.colors
 
-    Column(verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)) {
-        // Row 1: Surfaces | Elevation | Iconography
-        Row(
+    Column(verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)) {
+        // Responsive grid of foundation items using FlowRow
+        FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
+            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large),
+            verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
         ) {
             // Surfaces (Material 3 levels)
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                SubsectionLabel("Surfaces")
-                Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+            FoundationCard(
+                title = "Surfaces",
+                minWidth = if (isExpanded) 200 else 280
+            ) {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small),
+                    verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+                ) {
                     SurfaceBox("Lowest", SurfaceVariant.ContainerLowest)
                     SurfaceBox("Low", SurfaceVariant.ContainerLow)
                     SurfaceBox("Container", SurfaceVariant.Container)
-                }
-                Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
                     SurfaceBox("High", SurfaceVariant.ContainerHigh)
                     SurfaceBox("Highest", SurfaceVariant.ContainerHighest)
                 }
             }
 
             // Elevation - 3D stacked visualization
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                SubsectionLabel("Elevation Levels")
-                Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)) {
+            FoundationCard(
+                title = "Elevation Levels",
+                minWidth = if (isExpanded) 240 else 300
+            ) {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium),
+                    verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+                ) {
                     ElevationStack(
-                        label = "Level 1: Low",
+                        label = "Low",
                         spec = "(3px, 0, 4px)",
                         layers = 2,
                         shadowAlpha = 0.2f
                     )
                     ElevationStack(
-                        label = "Level 2: Mid",
+                        label = "Mid",
                         spec = "(4px, 0, 8px)",
                         layers = 3,
                         shadowAlpha = 0.25f
                     )
                     ElevationStack(
-                        label = "Level 3: High",
+                        label = "High",
                         spec = "(8px, 0, 16px)",
                         shadowAlpha = 0.3f,
                         layers = 4
@@ -187,25 +208,26 @@ private fun FoundationSection() {
             }
 
             // Iconography
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                SubsectionLabel("Iconography Rules")
+            FoundationCard(
+                title = "Iconography",
+                minWidth = 180
+            ) {
                 Column(verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
                     IconRow(size = 18.dp, label = "18px", colors = colors)
                     IconRow(size = 22.dp, label = "22px", colors = colors)
                     IconRow(size = 26.dp, label = "26px", colors = colors)
                 }
             }
-        }
 
-        // Row 2: Border Thickness | Radius Scale
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
-        ) {
             // Border Thickness
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                SubsectionLabel("Border Thickness Tokens")
-                Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+            FoundationCard(
+                title = "Border Thickness",
+                minWidth = 200
+            ) {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small),
+                    verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+                ) {
                     BorderBox("Thin", ArcaneBorder.Thin, "(1px)")
                     BorderBox("Medium", ArcaneBorder.Medium, "(2px)")
                     BorderBox("Thick", ArcaneBorder.Thick, "(3px)")
@@ -213,17 +235,37 @@ private fun FoundationSection() {
             }
 
             // Radius Scale
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                SubsectionLabel("Radius Scale")
-                Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+            FoundationCard(
+                title = "Radius Scale",
+                minWidth = if (isExpanded) 280 else 320
+            ) {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small),
+                    verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+                ) {
                     RadiusBox("R0", RoundedCornerShape(0.dp))
                     RadiusBox("R4", RoundedCornerShape(4.dp), "(4px)")
                     RadiusBox("R8", RoundedCornerShape(8.dp), "(8px)")
                     RadiusBox("R12", RoundedCornerShape(12.dp), "(12px)")
-                    RadiusBox("R15", RoundedCornerShape(16.dp), "(16px)")
+                    RadiusBox("R16", RoundedCornerShape(16.dp), "(16px)")
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun FoundationCard(
+    title: String,
+    minWidth: Int,
+    content: @Composable () -> Unit
+) {
+    Column(
+        modifier = Modifier.widthIn(min = minWidth.dp),
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+    ) {
+        SubsectionLabel(title)
+        content()
     }
 }
 
@@ -400,15 +442,17 @@ private fun IconRow(size: androidx.compose.ui.unit.Dp, label: String, colors: io
 
 // ==================== CONTROLS SECTION ====================
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ControlsSection() {
-    Row(
+private fun ControlsSection(isExpanded: Boolean, isMedium: Boolean) {
+    FlowRow(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
+        horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large),
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
     ) {
         // Buttons Column
         Column(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.widthIn(min = 160.dp, max = 220.dp),
             verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
         ) {
             SubsectionLabel("Buttons")
@@ -421,7 +465,7 @@ private fun ControlsSection() {
 
         // Text Field Column
         Column(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.widthIn(min = 200.dp, max = 300.dp),
             verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
         ) {
             SubsectionLabel("Text Field")
@@ -429,17 +473,17 @@ private fun ControlsSection() {
             ArcaneTextField(value = text1, onValueChange = { text1 = it }, placeholder = "Placeholder")
 
             var text2 by remember { mutableStateOf("") }
-            ArcaneTextField(value = text2, onValueChange = { text2 = it }, label = "Helper Text", helperText = "Password must be 8+ characters")
+            ArcaneTextField(value = text2, onValueChange = { text2 = it }, label = "With Helper", helperText = "8+ characters")
 
             var text3 by remember { mutableStateOf("password123") }
             ArcaneTextField(value = text3, onValueChange = { text3 = it }, label = "Password", isPassword = true)
 
-            ArcaneTextField(value = "Invalid email", onValueChange = {}, label = "Error", errorText = "Invalid email format")
+            ArcaneTextField(value = "Invalid", onValueChange = {}, label = "Error", errorText = "Invalid format")
         }
 
         // Tactile + Switch + Slider Column
         Column(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.widthIn(min = 180.dp),
             verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
         ) {
             // Tactile
@@ -470,15 +514,20 @@ private fun ControlsSection() {
 
 // ==================== NAVIGATION SECTION ====================
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun NavigationSection() {
+private fun NavigationSection(isExpanded: Boolean, isMedium: Boolean) {
     Column(verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)) {
-        // Row 1: Tabs | Breadcrumbs | Stepper
-        Row(
+        FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
+            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large),
+            verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
         ) {
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+            // Tabs
+            Column(
+                modifier = Modifier.widthIn(min = 200.dp),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+            ) {
                 SubsectionLabel("Tabs")
                 var selectedTab by remember { mutableStateOf(0) }
                 ArcaneTabs(
@@ -488,7 +537,11 @@ private fun NavigationSection() {
                 )
             }
 
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+            // Breadcrumbs
+            Column(
+                modifier = Modifier.widthIn(min = 220.dp),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+            ) {
                 SubsectionLabel("Breadcrumbs")
                 ArcaneBreadcrumbs(
                     items = listOf(
@@ -500,7 +553,11 @@ private fun NavigationSection() {
                 )
             }
 
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+            // Stepper
+            Column(
+                modifier = Modifier.widthIn(min = 200.dp),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+            ) {
                 SubsectionLabel("5-Step Process")
                 ArcaneStepper(
                     steps = listOf(
@@ -512,85 +569,102 @@ private fun NavigationSection() {
                     )
                 )
             }
-        }
 
-        // Row 2: Pagination
-        Column(verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-            SubsectionLabel("Pagination")
-            var currentPage by remember { mutableStateOf(1) }
-            ArcanePagination(
-                currentPage = currentPage,
-                totalPages = 10,
-                onPageSelected = { currentPage = it }
-            )
+            // Pagination
+            Column(
+                modifier = Modifier.widthIn(min = 200.dp),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+            ) {
+                SubsectionLabel("Pagination")
+                var currentPage by remember { mutableStateOf(1) }
+                ArcanePagination(
+                    currentPage = currentPage,
+                    totalPages = 10,
+                    onPageSelected = { currentPage = it }
+                )
+            }
         }
     }
 }
 
 // ==================== DATA DISPLAY SECTION ====================
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun DataDisplaySection() {
-    Column(verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)) {
-        // Row 1: Cards | List Items | Badges | Avatars | Tooltip
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
+private fun DataDisplaySection(isExpanded: Boolean, isMedium: Boolean) {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large),
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
+    ) {
+        // Cards
+        Column(
+            modifier = Modifier.widthIn(min = 200.dp, max = 300.dp),
+            verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
         ) {
-            // Cards
-            Column(modifier = Modifier.weight(1.5f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                SubsectionLabel("Cards")
-                ArcaneCard {
-                    ArcaneCardContent(
-                        title = "Project Phoenix",
-                        description = "Lorem ipsum dolor sit amet."
-                    )
-                }
-            }
-
-            // List Items
-            Column(modifier = Modifier.weight(1.5f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                SubsectionLabel("List Items")
-                ArcaneListItem(
-                    headlineText = "Meeting Tomorrow",
-                    supportingText = "10:00 AM - Room A"
-                )
-                ArcaneListItem(
-                    headlineText = "Project Review",
-                    supportingText = "2:00 PM - Virtual"
+            SubsectionLabel("Cards")
+            ArcaneCard {
+                ArcaneCardContent(
+                    title = "Project Phoenix",
+                    description = "Lorem ipsum dolor sit amet."
                 )
             }
+        }
 
-            // Badges
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                SubsectionLabel("Badges")
-                Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                    ArcaneBadge("New", style = ArcaneBadgeStyle.Success)
-                    ArcaneBadge("Featured", style = ArcaneBadgeStyle.Default)
-                    ArcaneBadge("Sale", style = ArcaneBadgeStyle.Warning)
-                }
+        // List Items
+        Column(
+            modifier = Modifier.widthIn(min = 200.dp, max = 300.dp),
+            verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+        ) {
+            SubsectionLabel("List Items")
+            ArcaneListItem(
+                headlineText = "Meeting Tomorrow",
+                supportingText = "10:00 AM - Room A"
+            )
+            ArcaneListItem(
+                headlineText = "Project Review",
+                supportingText = "2:00 PM - Virtual"
+            )
+        }
+
+        // Badges
+        Column(
+            modifier = Modifier.widthIn(min = 160.dp),
+            verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+        ) {
+            SubsectionLabel("Badges")
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+                ArcaneBadge("New", style = ArcaneBadgeStyle.Success)
+                ArcaneBadge("Featured", style = ArcaneBadgeStyle.Default)
+                ArcaneBadge("Sale", style = ArcaneBadgeStyle.Warning)
             }
+        }
 
-            // Avatars
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                SubsectionLabel("Avatars")
-                ArcaneAvatarGroup(
-                    avatars = listOf(
-                        ArcaneAvatarData(name = "Alice"),
-                        ArcaneAvatarData(name = "Bob"),
-                        ArcaneAvatarData(name = "Charlie"),
-                        ArcaneAvatarData(name = "Diana")
-                    ),
-                    maxVisible = 3
-                )
-            }
+        // Avatars
+        Column(
+            modifier = Modifier.widthIn(min = 140.dp),
+            verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+        ) {
+            SubsectionLabel("Avatars")
+            ArcaneAvatarGroup(
+                avatars = listOf(
+                    ArcaneAvatarData(name = "Alice"),
+                    ArcaneAvatarData(name = "Bob"),
+                    ArcaneAvatarData(name = "Charlie"),
+                    ArcaneAvatarData(name = "Diana")
+                ),
+                maxVisible = 3
+            )
+        }
 
-            // Tooltip
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-                SubsectionLabel("Tooltip")
-                ArcaneTooltip(text = "Helpful information") {
-                    Text("Hover me", color = ArcaneTheme.colors.text)
-                }
+        // Tooltip
+        Column(
+            modifier = Modifier.widthIn(min = 120.dp),
+            verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+        ) {
+            SubsectionLabel("Tooltip")
+            ArcaneTooltip(text = "Helpful information") {
+                Text("Hover me", color = ArcaneTheme.colors.text)
             }
         }
     }
@@ -598,16 +672,21 @@ private fun DataDisplaySection() {
 
 // ==================== FEEDBACK SECTION ====================
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun FeedbackSection() {
+private fun FeedbackSection(isExpanded: Boolean, isMedium: Boolean) {
     Column(verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)) {
         // Row 1: Progress | Spinner | Skeletons
-        Row(
+        FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
+            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large),
+            verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
         ) {
             // Progress
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+            Column(
+                modifier = Modifier.widthIn(min = 180.dp, max = 280.dp),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+            ) {
                 SubsectionLabel("Progress")
                 Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)) {
                     ArcaneCircularProgress(progress = 0.25f, size = 40.dp)
@@ -618,7 +697,10 @@ private fun FeedbackSection() {
             }
 
             // Spinner
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+            Column(
+                modifier = Modifier.widthIn(min = 140.dp),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+            ) {
                 SubsectionLabel("Spinner")
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium),
@@ -631,31 +713,33 @@ private fun FeedbackSection() {
             }
 
             // Skeletons
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
+            Column(
+                modifier = Modifier.widthIn(min = 200.dp, max = 300.dp),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)
+            ) {
                 SubsectionLabel("Skeletons")
                 ArcaneSkeletonListItem()
             }
         }
 
-        // Row 2: Alert Banners
-        Column(verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XSmall)) {
-            SubsectionLabel("Alert Banners")
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    ArcaneAlertBanner(message = "Info message", style = ArcaneAlertStyle.Info)
-                }
-                Column(modifier = Modifier.weight(1f)) {
-                    ArcaneAlertBanner(message = "Success!", style = ArcaneAlertStyle.Success)
-                }
-                Column(modifier = Modifier.weight(1f)) {
-                    ArcaneAlertBanner(message = "Warning", style = ArcaneAlertStyle.Warning)
-                }
-                Column(modifier = Modifier.weight(1f)) {
-                    ArcaneAlertBanner(message = "Error", style = ArcaneAlertStyle.Error)
-                }
+        // Alert Banners - use FlowRow for responsive wrapping
+        SubsectionLabel("Alert Banners")
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small),
+            verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+        ) {
+            Box(modifier = Modifier.widthIn(min = 140.dp, max = 200.dp)) {
+                ArcaneAlertBanner(message = "Info message", style = ArcaneAlertStyle.Info)
+            }
+            Box(modifier = Modifier.widthIn(min = 120.dp, max = 180.dp)) {
+                ArcaneAlertBanner(message = "Success!", style = ArcaneAlertStyle.Success)
+            }
+            Box(modifier = Modifier.widthIn(min = 120.dp, max = 180.dp)) {
+                ArcaneAlertBanner(message = "Warning", style = ArcaneAlertStyle.Warning)
+            }
+            Box(modifier = Modifier.widthIn(min = 100.dp, max = 160.dp)) {
+                ArcaneAlertBanner(message = "Error", style = ArcaneAlertStyle.Error)
             }
         }
     }

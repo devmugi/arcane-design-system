@@ -4,6 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -118,9 +120,11 @@ fun FeedbackScreen(windowSizeClass: WindowSizeClass? = null) {
             variant = SurfaceVariant.Container,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Row(
+            @OptIn(ExperimentalLayoutApi::class)
+            FlowRow(
                 modifier = Modifier.padding(ArcaneSpacing.Medium),
-                horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+                horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small),
+                verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
             ) {
                 ArcaneTextButton(
                     text = "Default",

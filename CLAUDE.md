@@ -25,6 +25,24 @@ Arcane Design System is a Kotlin Compose Multiplatform UI component library targ
 ./gradlew :catalog:composeApp:installDebug     # Android (device/emulator)
 ```
 
+## Viewing Web (WASM) Catalog
+
+When asked to "show web", "preview WASM", or "run catalog in browser":
+
+1. Build WASM docs:
+   ```bash
+   ./gradlew publishAllWasmJsToDocs
+   ```
+
+2. Start local server:
+   ```bash
+   cd docs && python3 -m http.server 8000
+   ```
+
+3. Open in browser:
+   - If Chrome MCP tool available: Use `mcp__claude-in-chrome__navigate` to open http://localhost:8000/catalog/
+   - If not available: Show URL and suggest user configure Chrome tool for browser automation
+
 ## Module Architecture
 
 ```

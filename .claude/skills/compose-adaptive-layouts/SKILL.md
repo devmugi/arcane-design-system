@@ -70,6 +70,9 @@ Search source files for these patterns:
 | `ArcaneTabs`, `TabRow` | Tab-based navigation |
 | `Column(.*fillMaxSize` | Vertical-only layout |
 | `@Composable fun.*Screen` | Screen composables |
+| `Row.*weight\(1f\)` | **RISK**: May cause vertical text bug on narrow screens |
+| `FlowRow` | Already using responsive wrapping |
+| `widthIn\(min` | Already using minimum width constraints |
 
 ### Step 5: Generate Report
 
@@ -354,6 +357,54 @@ fun ComponentScreen(windowSizeClass: WindowSizeClass? = null) {
 }
 ```
 
+### Step 6.5: Fix Content Section Layouts
+
+**Problem:** `Row` with `weight(1f)` columns causes content squeezing on narrow screens (vertical text bug).
+
+**Solution:** Replace with `FlowRow` and `widthIn(min=X.dp)`.
+
+**Required imports:**
+
+```kotlin
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.widthIn
+```
+
+**Pattern:**
+
+```kotlin
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun SectionContent() {
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large),
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
+    ) {
+        // Each item has minimum width - wraps if too narrow
+        Column(modifier = Modifier.widthIn(min = 200.dp)) {
+            SubsectionLabel("Item 1")
+            // Content...
+        }
+        Column(modifier = Modifier.widthIn(min = 180.dp)) {
+            SubsectionLabel("Item 2")
+            // Content...
+        }
+    }
+}
+```
+
+**Recommended minimum widths:**
+
+| Content Type | Min Width | Max Width |
+|--------------|-----------|-----------|
+| Buttons | 160.dp | 220.dp |
+| Text Fields | 200.dp | 300.dp |
+| Cards | 200.dp | 300.dp |
+| Small items (badges, icons) | 120.dp | - |
+| Navigation items | 200.dp | - |
+
 ### Step 7: Run Verification
 
 After implementation, run:
@@ -392,6 +443,9 @@ After implementing, verify:
 ## Layout
 - [ ] Compact: Single column/pane layout
 - [ ] Expanded: Multi-column or multi-pane layout
+- [ ] **No vertical text bug** - Text readable at all widths
+- [ ] FlowRow used for content sections (not Row with weight)
+- [ ] widthIn(min=X.dp) on FlowRow children
 
 ## Theme Integration
 - [ ] ArcaneTheme still wraps all content
@@ -448,4 +502,30 @@ val useNavigationRail = windowSizeClass.isWidthAtLeastBreakpoint(
 val useNavigationRail = windowSizeClass.isWidthAtLeastBreakpoint(
     WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND  // 840dp
 )
+```
+
+### FlowRow vs Row vs LazyVerticalGrid
+
+| Layout | Use When |
+|--------|----------|
+| `FlowRow` | Content sections with mixed-size items that should wrap |
+| `Row` | Fixed items that fit on one line at all widths |
+| `LazyVerticalGrid` | Large lists of uniform items |
+
+### Detecting Vertical Text Bug
+
+Search for this anti-pattern:
+
+```kotlin
+Row(Modifier.fillMaxWidth()) {
+    Column(Modifier.weight(1f)) { ... }  // RISK!
+}
+```
+
+Replace with:
+
+```kotlin
+FlowRow(Modifier.fillMaxWidth(), ...) {
+    Column(Modifier.widthIn(min = 200.dp)) { ... }  // SAFE
+}
 ```
