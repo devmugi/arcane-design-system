@@ -250,6 +250,43 @@ private fun FoundationSection(isExpanded: Boolean, isMedium: Boolean) {
                     RadiusBox("R16", RoundedCornerShape(16.dp), "(16px)")
                 }
             }
+
+            // Container Colors (M3)
+            FoundationCard(
+                title = "Container Colors",
+                minWidth = if (isExpanded) 320 else 360
+            ) {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small),
+                    verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+                ) {
+                    ContainerColorBox("Primary", colors.primaryContainer, colors.onPrimaryContainer)
+                    ContainerColorBox("Secondary", colors.secondaryContainer, colors.onSecondaryContainer)
+                    ContainerColorBox("Tertiary", colors.tertiaryContainer, colors.onTertiaryContainer)
+                }
+            }
+
+            // Outline Colors (M3)
+            FoundationCard(
+                title = "Outline Colors",
+                minWidth = 200
+            ) {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small),
+                    verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
+                ) {
+                    OutlineBox("Outline", colors.outline)
+                    OutlineBox("Variant", colors.outlineVariant)
+                }
+            }
+
+            // Typography Scale (M3)
+            FoundationCard(
+                title = "Typography Scale",
+                minWidth = if (isExpanded) 400 else 320
+            ) {
+                TypographyShowcase()
+            }
         }
     }
 }
@@ -302,7 +339,7 @@ private fun SurfaceBox(label: String, variant: SurfaceVariant) {
                                     )
                                 )
                             }
-                            .border(1.dp, colors.border.copy(alpha = 0.3f), ArcaneRadius.Medium)
+                            .border(1.dp, colors.outline.copy(alpha = 0.3f), ArcaneRadius.Medium)
                     )
                 }
                 SurfaceVariant.ContainerLow, SurfaceVariant.Base -> {
@@ -311,7 +348,7 @@ private fun SurfaceBox(label: String, variant: SurfaceVariant) {
                         modifier = Modifier
                             .size(innerSize)
                             .background(colors.surfaceContainerLow, ArcaneRadius.Medium)
-                            .border(1.dp, colors.border.copy(alpha = 0.3f), ArcaneRadius.Medium)
+                            .border(1.dp, colors.outline.copy(alpha = 0.3f), ArcaneRadius.Medium)
                     )
                 }
                 SurfaceVariant.Container, SurfaceVariant.Raised -> {
@@ -321,7 +358,7 @@ private fun SurfaceBox(label: String, variant: SurfaceVariant) {
                             .size(innerSize)
                             .shadow(2.dp, ArcaneRadius.Medium, ambientColor = Color.Black.copy(alpha = 0.15f))
                             .background(colors.surfaceContainer, ArcaneRadius.Medium)
-                            .border(1.dp, colors.border.copy(alpha = 0.3f), ArcaneRadius.Medium)
+                            .border(1.dp, colors.outline.copy(alpha = 0.3f), ArcaneRadius.Medium)
                     )
                 }
                 SurfaceVariant.ContainerHigh -> {
@@ -331,7 +368,7 @@ private fun SurfaceBox(label: String, variant: SurfaceVariant) {
                             .size(innerSize)
                             .shadow(4.dp, ArcaneRadius.Medium, ambientColor = Color.Black.copy(alpha = 0.15f))
                             .background(colors.surfaceContainerHigh, ArcaneRadius.Medium)
-                            .border(1.dp, colors.border.copy(alpha = 0.3f), ArcaneRadius.Medium)
+                            .border(1.dp, colors.outline.copy(alpha = 0.3f), ArcaneRadius.Medium)
                     )
                 }
                 SurfaceVariant.ContainerHighest -> {
@@ -341,7 +378,7 @@ private fun SurfaceBox(label: String, variant: SurfaceVariant) {
                             .size(innerSize)
                             .shadow(8.dp, ArcaneRadius.Medium, ambientColor = Color.Black.copy(alpha = 0.15f))
                             .background(colors.surfaceContainerHighest, ArcaneRadius.Medium)
-                            .border(1.dp, colors.border.copy(alpha = 0.3f), ArcaneRadius.Medium)
+                            .border(1.dp, colors.outline.copy(alpha = 0.3f), ArcaneRadius.Medium)
                     )
                 }
             }
@@ -381,7 +418,7 @@ private fun ElevationStack(
                         )
                         .border(
                             1.dp,
-                            colors.border.copy(alpha = if (i == 0) 0.5f else 0.2f),
+                            colors.outline.copy(alpha = if (i == 0) 0.5f else 0.2f),
                             ArcaneRadius.Small
                         )
                 )
@@ -417,7 +454,7 @@ private fun RadiusBox(label: String, shape: RoundedCornerShape, pixelValue: Stri
             modifier = Modifier
                 .size(40.dp)
                 .background(colors.surfaceContainer, shape)
-                .border(1.dp, colors.border, shape)
+                .border(1.dp, colors.outline, shape)
         )
         Text(label, style = ArcaneTheme.typography.labelSmall, color = colors.textSecondary)
         if (pixelValue != null) {
@@ -437,6 +474,79 @@ private fun IconRow(size: androidx.compose.ui.unit.Dp, label: String, colors: io
         Icon(Icons.Default.Search, null, tint = colors.primary, modifier = Modifier.size(size))
         Icon(Icons.Default.Settings, null, tint = colors.primary, modifier = Modifier.size(size))
         Icon(Icons.Default.Person, null, tint = colors.primary, modifier = Modifier.size(size))
+    }
+}
+
+@Composable
+private fun ContainerColorBox(label: String, containerColor: Color, onContainerColor: Color) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(
+            modifier = Modifier
+                .size(70.dp)
+                .background(containerColor, ArcaneRadius.Medium)
+                .border(1.dp, ArcaneTheme.colors.outline.copy(alpha = 0.3f), ArcaneRadius.Medium),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "Aa",
+                style = ArcaneTheme.typography.titleMedium,
+                color = onContainerColor
+            )
+        }
+        Text(label, style = ArcaneTheme.typography.labelSmall, color = ArcaneTheme.colors.textSecondary)
+    }
+}
+
+@Composable
+private fun OutlineBox(label: String, outlineColor: Color) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Box(
+            modifier = Modifier
+                .size(50.dp)
+                .border(2.dp, outlineColor, ArcaneRadius.Small)
+        )
+        Text(label, style = ArcaneTheme.typography.labelSmall, color = ArcaneTheme.colors.textSecondary)
+    }
+}
+
+@Composable
+private fun TypographyShowcase() {
+    val typography = ArcaneTheme.typography
+    val colors = ArcaneTheme.colors
+
+    Column(verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XXSmall)) {
+        // Display
+        Text("Display Large", style = typography.displayLarge, color = colors.text)
+        Text("Display Medium", style = typography.displayMedium, color = colors.text)
+        Text("Display Small", style = typography.displaySmall, color = colors.text)
+
+        Spacer(modifier = Modifier.height(ArcaneSpacing.XSmall))
+
+        // Headline
+        Text("Headline Large", style = typography.headlineLarge, color = colors.text)
+        Text("Headline Medium", style = typography.headlineMedium, color = colors.text)
+        Text("Headline Small", style = typography.headlineSmall, color = colors.text)
+
+        Spacer(modifier = Modifier.height(ArcaneSpacing.XSmall))
+
+        // Title
+        Text("Title Large (22sp)", style = typography.titleLarge, color = colors.text)
+        Text("Title Medium (16sp)", style = typography.titleMedium, color = colors.text)
+        Text("Title Small (14sp)", style = typography.titleSmall, color = colors.text)
+
+        Spacer(modifier = Modifier.height(ArcaneSpacing.XSmall))
+
+        // Body
+        Text("Body Large", style = typography.bodyLarge, color = colors.textSecondary)
+        Text("Body Medium", style = typography.bodyMedium, color = colors.textSecondary)
+        Text("Body Small", style = typography.bodySmall, color = colors.textSecondary)
+
+        Spacer(modifier = Modifier.height(ArcaneSpacing.XSmall))
+
+        // Label
+        Text("Label Large", style = typography.labelLarge, color = colors.textSecondary)
+        Text("Label Medium", style = typography.labelMedium, color = colors.textSecondary)
+        Text("Label Small", style = typography.labelSmall, color = colors.textSecondary)
     }
 }
 

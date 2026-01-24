@@ -218,7 +218,7 @@ private fun CatalogTopBar(
         if (title != null) {
             Text(
                 text = title,
-                style = ArcaneTheme.typography.headlineMedium,
+                style = ArcaneTheme.typography.titleLarge,
                 color = ArcaneTheme.colors.text
             )
         } else {
