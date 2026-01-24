@@ -3,13 +3,17 @@ package io.github.devmugi.arcane.catalog.chat
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.window.core.layout.WindowSizeClass
+import io.github.devmugi.arcane.catalog.chat.components.CatalogNavigationBar
 import io.github.devmugi.arcane.catalog.chat.components.CatalogTab
 import io.github.devmugi.arcane.catalog.chat.components.CatalogTopBar
 import io.github.devmugi.arcane.catalog.chat.components.DeviceType
@@ -23,14 +27,20 @@ import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 enum class ThemeVariant {
     ARCANE,
     PERPLEXITY,
-    CLAUDE,
+    P2D,
+    P2L,
+    CLAUDE_D,
+    CLAUDE_L,
     MTG;
 
     val displayName: String
         get() = when (this) {
             ARCANE -> "Arcane"
             PERPLEXITY -> "Perplexity"
-            CLAUDE -> "Claude"
+            P2D -> "P2D"
+            P2L -> "P2L"
+            CLAUDE_D -> "ClaudeD"
+            CLAUDE_L -> "ClaudeL"
             MTG -> "MTG"
         }
 }
@@ -53,20 +63,35 @@ private val ThemeVariantSaver = Saver<ThemeVariant, String>(
 
 @Composable
 fun App() {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+
+    // Auto-select device based on window width
+    val isWideScreen = windowSizeClass.isWidthAtLeastBreakpoint(
+        WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND  // 600dp
+    )
+
     var selectedTheme by rememberSaveable(stateSaver = ThemeVariantSaver) {
         mutableStateOf(ThemeVariant.ARCANE)
     }
     var deviceType by rememberSaveable(stateSaver = DeviceTypeSaver) {
-        mutableStateOf(DeviceType.Pixel8)
+        mutableStateOf(if (isWideScreen) DeviceType.Pixel8 else DeviceType.None)
     }
     var selectedTab by rememberSaveable(stateSaver = CatalogTabSaver) {
         mutableStateOf(CatalogTab.Chat)
     }
 
+    // Auto-update device type when crossing width threshold
+    LaunchedEffect(isWideScreen) {
+        deviceType = if (isWideScreen) DeviceType.Pixel8 else DeviceType.None
+    }
+
     val colors = when (selectedTheme) {
         ThemeVariant.ARCANE -> ArcaneColors.default()
         ThemeVariant.PERPLEXITY -> ArcaneColors.perplexity()
-        ThemeVariant.CLAUDE -> ArcaneColors.claudeD()
+        ThemeVariant.P2D -> ArcaneColors.p2d()
+        ThemeVariant.P2L -> ArcaneColors.p2l()
+        ThemeVariant.CLAUDE_D -> ArcaneColors.claudeD()
+        ThemeVariant.CLAUDE_L -> ArcaneColors.claudeL()
         ThemeVariant.MTG -> ArcaneColors.mtg()
     }
 
@@ -76,19 +101,33 @@ fun App() {
                 .fillMaxSize()
                 .background(ArcaneTheme.colors.surfaceContainerLow)
         ) {
+            // Top bar: show tabs only on wide screens
             CatalogTopBar(
                 selectedTab = selectedTab,
                 onTabSelected = { selectedTab = it },
                 deviceType = deviceType,
                 onDeviceTypeSelected = { deviceType = it },
                 selectedTheme = selectedTheme,
-                onThemeSelected = { selectedTheme = it }
+                onThemeSelected = { selectedTheme = it },
+                windowSizeClass = windowSizeClass,
+                showTabs = isWideScreen
             )
 
-            when (selectedTab) {
-                CatalogTab.Chat -> ChatScreen(deviceType)
-                CatalogTab.MessageBlocks -> MessageBlocksScreen(deviceType)
-                CatalogTab.ChatInput -> ChatInputScreen(deviceType)
+            // Screen content
+            Column(modifier = Modifier.weight(1f)) {
+                when (selectedTab) {
+                    CatalogTab.Chat -> ChatScreen(deviceType)
+                    CatalogTab.MessageBlocks -> MessageBlocksScreen(deviceType)
+                    CatalogTab.ChatInput -> ChatInputScreen(deviceType)
+                }
+            }
+
+            // Bottom navigation bar: only on narrow screens
+            if (!isWideScreen) {
+                CatalogNavigationBar(
+                    selectedTab = selectedTab,
+                    onTabSelected = { selectedTab = it }
+                )
             }
         }
     }

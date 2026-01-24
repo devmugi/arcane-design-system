@@ -3,10 +3,22 @@ package io.github.devmugi.arcane.catalog.chat.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.window.core.layout.WindowSizeClass
 import io.github.devmugi.arcane.design.components.feedback.ArcaneDropdownMenu
 import io.github.devmugi.arcane.design.components.feedback.ArcaneDropdownMenuItem
 import androidx.compose.runtime.Composable
@@ -25,19 +37,13 @@ import io.github.devmugi.arcane.design.components.navigation.ArcaneTabs
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
-enum class CatalogTab {
-    Chat,
-    MessageBlocks,
-    ChatInput;
-
-    val displayName: String
-        get() = when (this) {
-            Chat -> "Chat"
-            MessageBlocks -> "Message Blocks"
-            ChatInput -> "Chat Input"
-        }
+enum class CatalogTab(val displayName: String, val icon: ImageVector) {
+    Chat("Chat", Icons.Default.Email),
+    MessageBlocks("Blocks", Icons.Default.List),
+    ChatInput("Input", Icons.Default.Send)
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CatalogTopBar(
     selectedTab: CatalogTab,
@@ -46,24 +52,28 @@ fun CatalogTopBar(
     onDeviceTypeSelected: (DeviceType) -> Unit,
     selectedTheme: io.github.devmugi.arcane.catalog.chat.ThemeVariant,
     onThemeSelected: (io.github.devmugi.arcane.catalog.chat.ThemeVariant) -> Unit,
+    windowSizeClass: WindowSizeClass,
+    showTabs: Boolean = true,
     modifier: Modifier = Modifier
 ) {
-    Row(
+    FlowRow(
         modifier = modifier
             .fillMaxWidth()
             .background(ArcaneTheme.colors.surfaceContainerLow)
             .padding(ArcaneSpacing.Medium),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
     ) {
-        // Left side: Tab navigation
-        ArcaneTabs(
-            tabs = CatalogTab.entries.map { ArcaneTab(it.displayName) },
-            selectedIndex = selectedTab.ordinal,
-            onTabSelected = { index -> onTabSelected(CatalogTab.entries[index]) },
-            style = ArcaneTabStyle.Filled,
-            scrollable = true
-        )
+        // Left side: Tab navigation (only on wide screens)
+        if (showTabs) {
+            ArcaneTabs(
+                tabs = CatalogTab.entries.map { ArcaneTab(it.displayName) },
+                selectedIndex = selectedTab.ordinal,
+                onTabSelected = { index -> onTabSelected(CatalogTab.entries[index]) },
+                style = ArcaneTabStyle.Filled,
+                scrollable = true
+            )
+        }
 
         // Right side: Device selector + Theme selector
         Row(horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)) {
@@ -141,6 +151,34 @@ private fun ThemeSelector(
                     }
                 )
             }
+        }
+    }
+}
+
+@Composable
+fun CatalogNavigationBar(
+    selectedTab: CatalogTab,
+    onTabSelected: (CatalogTab) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    NavigationBar(
+        modifier = modifier,
+        containerColor = ArcaneTheme.colors.surfaceContainerLow
+    ) {
+        CatalogTab.entries.forEach { tab ->
+            NavigationBarItem(
+                selected = selectedTab == tab,
+                onClick = { onTabSelected(tab) },
+                icon = { Icon(tab.icon, contentDescription = tab.displayName) },
+                label = { Text(tab.displayName, style = ArcaneTheme.typography.labelSmall) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = ArcaneTheme.colors.primary,
+                    selectedTextColor = ArcaneTheme.colors.primary,
+                    indicatorColor = ArcaneTheme.colors.secondaryContainer,
+                    unselectedIconColor = ArcaneTheme.colors.textSecondary,
+                    unselectedTextColor = ArcaneTheme.colors.textSecondary
+                )
+            )
         }
     }
 }
