@@ -5,6 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -108,64 +110,35 @@ private fun ThemeOption(
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun ThemeSelector(
     currentTheme: ThemeVariant,
     onThemeChange: (ThemeVariant) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Row(
+    val themes = listOf(
+        "Arcane" to ThemeVariant.ARCANE,
+        "Perplexity" to ThemeVariant.PERPLEXITY,
+        "P2D" to ThemeVariant.P2D,
+        "P2L" to ThemeVariant.P2L,
+        "ClaudeD" to ThemeVariant.CLAUDE_D,
+        "ClaudeL" to ThemeVariant.CLAUDE_L,
+        "MTG" to ThemeVariant.MTG
+    )
+
+    FlowRow(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small),
-        verticalAlignment = Alignment.CenterVertically
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.XXSmall)
     ) {
-        ThemeOption(
-            label = "Arcane",
-            isSelected = currentTheme == ThemeVariant.ARCANE,
-            onClick = { onThemeChange(ThemeVariant.ARCANE) }
-        )
-        Text("|", style = ArcaneTheme.typography.labelMedium, color = ArcaneTheme.colors.textDisabled)
-
-        ThemeOption(
-            label = "Perplexity",
-            isSelected = currentTheme == ThemeVariant.PERPLEXITY,
-            onClick = { onThemeChange(ThemeVariant.PERPLEXITY) }
-        )
-        Text("|", style = ArcaneTheme.typography.labelMedium, color = ArcaneTheme.colors.textDisabled)
-
-        ThemeOption(
-            label = "P2D",
-            isSelected = currentTheme == ThemeVariant.P2D,
-            onClick = { onThemeChange(ThemeVariant.P2D) }
-        )
-        Text("|", style = ArcaneTheme.typography.labelMedium, color = ArcaneTheme.colors.textDisabled)
-
-        ThemeOption(
-            label = "P2L",
-            isSelected = currentTheme == ThemeVariant.P2L,
-            onClick = { onThemeChange(ThemeVariant.P2L) }
-        )
-        Text("|", style = ArcaneTheme.typography.labelMedium, color = ArcaneTheme.colors.textDisabled)
-
-        ThemeOption(
-            label = "ClaudeD",
-            isSelected = currentTheme == ThemeVariant.CLAUDE_D,
-            onClick = { onThemeChange(ThemeVariant.CLAUDE_D) }
-        )
-        Text("|", style = ArcaneTheme.typography.labelMedium, color = ArcaneTheme.colors.textDisabled)
-
-        ThemeOption(
-            label = "ClaudeL",
-            isSelected = currentTheme == ThemeVariant.CLAUDE_L,
-            onClick = { onThemeChange(ThemeVariant.CLAUDE_L) }
-        )
-        Text("|", style = ArcaneTheme.typography.labelMedium, color = ArcaneTheme.colors.textDisabled)
-
-        ThemeOption(
-            label = "MTG",
-            isSelected = currentTheme == ThemeVariant.MTG,
-            onClick = { onThemeChange(ThemeVariant.MTG) }
-        )
+        themes.forEach { (label, variant) ->
+            ThemeOption(
+                label = label,
+                isSelected = currentTheme == variant,
+                onClick = { onThemeChange(variant) }
+            )
+        }
     }
 }
 
@@ -228,6 +201,7 @@ private fun CatalogNavigationBar(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun CatalogTopBar(
     currentTheme: ThemeVariant,
@@ -235,13 +209,13 @@ private fun CatalogTopBar(
     title: String? = null,
     modifier: Modifier = Modifier
 ) {
-    Row(
+    FlowRow(
         modifier = modifier
             .fillMaxWidth()
             .background(ArcaneTheme.colors.surfaceContainer)
             .padding(horizontal = ArcaneSpacing.Medium, vertical = ArcaneSpacing.Small),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small)
     ) {
         // Left side: Title (optional)
         if (title != null) {
@@ -250,8 +224,6 @@ private fun CatalogTopBar(
                 style = ArcaneTheme.typography.titleLarge,
                 color = ArcaneTheme.colors.text
             )
-        } else {
-            Spacer(Modifier)
         }
 
         // Right side: Theme selector
