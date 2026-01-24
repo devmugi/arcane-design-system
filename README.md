@@ -2,6 +2,9 @@
 
 A Compose Multiplatform design system optimized for **Claude Code** and LLM-assisted development. Fast prototyping with consistent UI, minimal context, and predictable results.
 
+[![Try Chat Demo](https://img.shields.io/badge/Try%20Live-Chat%20Demo-7C3AED?style=for-the-badge)](https://devmugi.github.io/arcane-design-system/catalog-chat/)
+[![Component Catalog](https://img.shields.io/badge/Component-Catalog-6366F1?style=for-the-badge)](https://devmugi.github.io/arcane-design-system/catalog/)
+
 ## Why ArcaneDesignSystem?
 
 ### The Problem
@@ -22,6 +25,12 @@ ArcaneDesignSystem is **mandatory for Claude to use**. Material 3 imports must b
 | **Consistent UI** | All components share tokens, spacing, colors |
 | **Predictable output** | Claude knows exactly what's available |
 | **Faster development** | Less back-and-forth, fewer corrections |
+
+## Preview
+
+![Theme Switching Demo](assets/theme-switching-demo.gif)
+
+*Multiple theme support: Arcane, Perplexity, Claude, and MTG - switch themes instantly while preserving UI state*
 
 ## Workflow: Module-First Prototyping
 
