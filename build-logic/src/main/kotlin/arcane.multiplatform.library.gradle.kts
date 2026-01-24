@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -38,6 +39,15 @@ kotlin {
                 baseName = project.name
                 isStatic = true
             }
+        }
+    }
+
+    // WebAssembly target - only configure if explicitly enabled
+    val buildWasm = project.findProperty("buildWasm")?.toString()?.toBoolean() ?: false
+    if (buildWasm) {
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs {
+            browser()
         }
     }
 

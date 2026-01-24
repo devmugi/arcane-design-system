@@ -45,6 +45,8 @@ import io.github.devmugi.arcane.design.foundation.primitives.SurfaceVariant
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
+private data class TableItem(val name: String, val status: String, val date: String)
+
 @Composable
 fun DataDisplayScreen() {
     val typography = ArcaneTheme.typography
@@ -175,7 +177,6 @@ fun DataDisplayScreen() {
         SectionTitle("Table")
         var sortState by remember { mutableStateOf<ArcaneTableSortState?>(null) }
 
-        data class TableItem(val name: String, val status: String, val date: String)
         val items = listOf(
             TableItem("Project Alpha", "Active", "Jan 15"),
             TableItem("Project Beta", "Pending", "Jan 18"),

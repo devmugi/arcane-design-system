@@ -12,6 +12,8 @@ local.properties
 
 # Kotlin
 *.class
+.kotlin/
+kotlin-js-store/
 
 # iOS
 iosApp/Pods/
