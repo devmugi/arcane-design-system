@@ -57,7 +57,7 @@ fun App() {
         mutableStateOf(ThemeVariant.ARCANE)
     }
     var deviceType by rememberSaveable(stateSaver = DeviceTypeSaver) {
-        mutableStateOf(DeviceType.None)
+        mutableStateOf(DeviceType.Pixel8)
     }
     var selectedTab by rememberSaveable(stateSaver = CatalogTabSaver) {
         mutableStateOf(CatalogTab.Chat)
