@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Notifications
@@ -44,6 +45,7 @@ import io.github.devmugi.arcane.catalog.screens.DataDisplayScreen
 import io.github.devmugi.arcane.catalog.screens.DesignSpecScreen
 import io.github.devmugi.arcane.catalog.screens.FeedbackScreen
 import io.github.devmugi.arcane.catalog.screens.NavigationScreen
+import io.github.devmugi.arcane.catalog.screens.ThemeScreen
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneColors
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
@@ -53,6 +55,7 @@ sealed class Screen(
     val catalogName: String,
     val icon: ImageVector
 ) {
+    data object Theme : Screen("Theme", "Theme", Icons.Default.Edit)
     data object DesignSpec : Screen("Overview", "Design Spec", Icons.Default.Info)
     data object Controls : Screen("Controls", "Controls", Icons.Default.Build)
     data object Navigation : Screen("Navigation", "Navigation", Icons.Default.Place)
@@ -61,6 +64,7 @@ sealed class Screen(
 
     companion object {
         fun all(): List<Screen> = listOf(
+            Theme,
             DesignSpec,
             Controls,
             Navigation,
@@ -69,6 +73,7 @@ sealed class Screen(
         )
 
         fun fromCatalogName(name: String): Screen? = when (name) {
+            "Theme" -> Theme
             "Design Spec" -> DesignSpec
             "Controls" -> Controls
             "Navigation" -> Navigation
@@ -241,6 +246,7 @@ private fun ScreenContent(
 ) {
     Box(modifier = modifier) {
         when (currentScreen) {
+            Screen.Theme -> ThemeScreen(windowSizeClass)
             Screen.DesignSpec -> DesignSpecScreen(windowSizeClass)
             Screen.Controls -> ControlsScreen(windowSizeClass)
             Screen.Navigation -> NavigationScreen(windowSizeClass)
