@@ -218,3 +218,31 @@ The skill activates when you say:
 | `CircularProgressIndicator` | `ArcaneSpinner` |
 
 See `.claude/skills/new-module/component-map.md` for the full mapping.
+
+## Claude Skill for Adaptive Layouts
+
+A skill is available at `.claude/skills/compose-adaptive-layouts/` to help add responsive/adaptive layouts to modules.
+
+### Trigger Phrases
+
+The skill activates when you say:
+- "add adaptive layout to catalog"
+- "make module responsive"
+- "support different screen sizes"
+- "add window size classes"
+- "adaptive navigation"
+
+### What It Provides
+
+1. **Analyze workflow** - Assess module readiness for adaptive layouts
+2. **Implement workflow** - Step-by-step guide to add adaptive support
+3. **Navigation patterns** - Convert tabs to NavigationSuiteScaffold
+4. **Verification checklist** - Ensure proper implementation
+
+### Documentation
+
+See `kmp-docs/compose-adaptive-layouts.md` for complete reference on:
+- Window size class breakpoints
+- Canonical layouts (list-detail, feed, supporting pane)
+- Adaptive navigation patterns
+- Code templates
