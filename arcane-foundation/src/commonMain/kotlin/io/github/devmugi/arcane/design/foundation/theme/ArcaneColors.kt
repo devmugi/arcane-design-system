@@ -7,12 +7,21 @@ import androidx.compose.ui.graphics.Color
 @Immutable
 data class ArcaneColors(
     val primary: Color = Color(0xFF8B5CF6),
-    val primaryVariant: Color = Color(0xFFA78BFA),
     val onPrimary: Color = Color(0xFFFFFFFF),           // Text on primary background
+
+    // Material 3 Primary Container (tonal variant of primary)
+    val primaryContainer: Color = Color(0xFF2D2647),    // Muted purple container
+    val onPrimaryContainer: Color = Color(0xFFA78BFA),  // Light purple text on container
 
     // Material 3 Secondary (tonal variants)
     val secondaryContainer: Color = Color(0xFF2D2647),  // Muted purple for tonal buttons
     val onSecondaryContainer: Color = Color(0xFFA78BFA), // Text on secondary container
+
+    // Material 3 Tertiary (optional accent color)
+    val tertiary: Color = Color(0xFF4DD4AC),            // Cyan accent
+    val onTertiary: Color = Color(0xFF000000),
+    val tertiaryContainer: Color = Color(0xFF1A3D38),
+    val onTertiaryContainer: Color = Color(0xFF6DE0BC),
 
     // Material 3 Surface Containers (tonal elevation system)
     val surfaceContainerLowest: Color = Color(0xFF0F1219),  // Darkest (inset/depressed)
@@ -36,9 +45,9 @@ data class ArcaneColors(
     val textSecondary: Color = Color(0xFF9CA3AF),
     val textDisabled: Color = Color(0xFF4B5563),
 
-    // Border colors
-    val border: Color = Color(0xFF8B5CF6).copy(alpha = 0.4f),
-    val borderFocused: Color = Color(0xFF8B5CF6),
+    // Material 3 Outline colors
+    val outline: Color = Color(0xFF8B5CF6).copy(alpha = 0.4f),        // Standard outline (borders)
+    val outlineVariant: Color = Color(0xFF8B5CF6).copy(alpha = 0.2f), // Subtle dividers
 
     // Semantic colors
     val error: Color = Color(0xFFFF6B6B),
@@ -63,19 +72,34 @@ data class ArcaneColors(
 
     @Deprecated("Removed. Use neutral shadows instead")
     val glowPressed: Color get() = glow
+
+    @Deprecated("Use primaryContainer for M3 compliance", ReplaceWith("primaryContainer"))
+    val primaryVariant: Color get() = onPrimaryContainer
+
+    @Deprecated("Use outline for M3 compliance", ReplaceWith("outline"))
+    val border: Color get() = outline
+
+    @Deprecated("Use outline for M3 compliance", ReplaceWith("outline"))
+    val borderFocused: Color get() = primary
+
     companion object {
         fun default(): ArcaneColors = ArcaneColors()
 
         fun withPrimary(primary: Color): ArcaneColors = ArcaneColors(
             primary = primary,
-            primaryVariant = primary.copy(alpha = 0.8f),
             onPrimary = Color(0xFFFFFFFF),
+            primaryContainer = primary.copy(alpha = 0.2f),
+            onPrimaryContainer = primary.copy(alpha = 0.8f),
             secondaryContainer = primary.copy(alpha = 0.2f),
             onSecondaryContainer = primary,
+            tertiary = Color(0xFF4DD4AC),
+            onTertiary = Color(0xFF000000),
+            tertiaryContainer = Color(0xFF1A3D38),
+            onTertiaryContainer = Color(0xFF6DE0BC),
             glow = primary.copy(alpha = 0.3f),
             glowStrong = primary.copy(alpha = 0.6f),
-            border = primary.copy(alpha = 0.4f),
-            borderFocused = primary,
+            outline = primary.copy(alpha = 0.4f),
+            outlineVariant = primary.copy(alpha = 0.2f),
             success = primary,
         )
 
@@ -86,10 +110,15 @@ data class ArcaneColors(
          */
         fun perplexity(): ArcaneColors = ArcaneColors(
             primary = Color(0xFF4DD4AC),                        // Cyan/Turquoise
-            primaryVariant = Color(0xFF6DE0BC),                 // Lighter cyan
             onPrimary = Color(0xFF000000),                      // Black text on cyan
+            primaryContainer = Color(0xFF1A3D38),               // Muted cyan container
+            onPrimaryContainer = Color(0xFF6DE0BC),             // Light cyan text
             secondaryContainer = Color(0xFF1A3D38),             // Muted cyan container
             onSecondaryContainer = Color(0xFF6DE0BC),           // Light cyan text
+            tertiary = Color(0xFF8B5CF6),                       // Purple accent
+            onTertiary = Color(0xFFFFFFFF),
+            tertiaryContainer = Color(0xFF2D2647),
+            onTertiaryContainer = Color(0xFFA78BFA),
             surfaceContainerLowest = Color(0xFF16161A),         // Darkest
             surfaceContainerLow = Color(0xFF1C1C1E),            // Base level
             surfaceContainer = Color(0xFF2C2C2E),               // Standard
@@ -100,8 +129,8 @@ data class ArcaneColors(
             text = Color(0xFFFFFFFF),                           // White
             textSecondary = Color(0xFF9CA3AF),                  // Medium gray
             textDisabled = Color(0xFF6B6B6D),                   // Darker gray
-            border = Color(0xFF3A3A3C),                         // Subtle gray border
-            borderFocused = Color(0xFF4DD4AC),                  // Cyan when focused
+            outline = Color(0xFF3A3A3C),                        // Subtle gray outline
+            outlineVariant = Color(0xFF2C2C2E),                 // Subtle dividers
             error = Color(0xFFFF6B6B),                          // Red
             success = Color(0xFF4DD4AC),                        // Cyan for success
             warning = Color(0xFFFFB347),                        // Orange
@@ -114,10 +143,15 @@ data class ArcaneColors(
          */
         fun claude(): ArcaneColors = ArcaneColors(
             primary = Color(0xFFE07856),                        // Orange/Coral
-            primaryVariant = Color(0xFFE89A78),                 // Lighter coral
             onPrimary = Color(0xFF000000),                      // Black text on coral
+            primaryContainer = Color(0xFF3D2A22),               // Muted orange container
+            onPrimaryContainer = Color(0xFFE89A78),             // Light coral text
             secondaryContainer = Color(0xFF3D2A22),             // Muted orange container
             onSecondaryContainer = Color(0xFFE89A78),           // Light coral text
+            tertiary = Color(0xFF4DD4AC),                       // Cyan accent
+            onTertiary = Color(0xFF000000),
+            tertiaryContainer = Color(0xFF1A3D38),
+            onTertiaryContainer = Color(0xFF6DE0BC),
             surfaceContainerLowest = Color(0xFF141414),         // Darkest
             surfaceContainerLow = Color(0xFF1A1A1A),            // Base level
             surfaceContainer = Color(0xFF202020),               // Standard
@@ -128,8 +162,8 @@ data class ArcaneColors(
             text = Color(0xFFFFFFFF),                           // White
             textSecondary = Color(0xFF9CA3AF),                  // Medium gray
             textDisabled = Color(0xFF6B6B6D),                   // Darker gray
-            border = Color(0xFF2E2E2E),                         // Subtle gray border
-            borderFocused = Color(0xFFE07856),                  // Orange when focused
+            outline = Color(0xFF2E2E2E),                        // Subtle gray outline
+            outlineVariant = Color(0xFF242424),                 // Subtle dividers
             error = Color(0xFFFF6B6B),                          // Red
             success = Color(0xFFE07856),                        // Orange for success
             warning = Color(0xFFFFB347),                        // Orange/yellow
@@ -142,10 +176,15 @@ data class ArcaneColors(
          */
         fun mtg(): ArcaneColors = ArcaneColors(
             primary = Color(0xFFD4AF37),                        // Gold/Amber (legendary border color)
-            primaryVariant = Color(0xFFE5C158),                 // Lighter gold
             onPrimary = Color(0xFF000000),                      // Black text on gold
+            primaryContainer = Color(0xFF2D2517),               // Muted gold container
+            onPrimaryContainer = Color(0xFFE5C158),             // Light gold text
             secondaryContainer = Color(0xFF2D2517),             // Muted gold container
             onSecondaryContainer = Color(0xFFE5C158),           // Light gold text
+            tertiary = Color(0xFF8B5CF6),                       // Purple accent
+            onTertiary = Color(0xFFFFFFFF),
+            tertiaryContainer = Color(0xFF2D2647),
+            onTertiaryContainer = Color(0xFFA78BFA),
             surfaceContainerLowest = Color(0xFF080808),         // Darkest (nearly black)
             surfaceContainerLow = Color(0xFF0E0E0E),            // Base level
             surfaceContainer = Color(0xFF1A1A1A),               // Standard
@@ -156,8 +195,8 @@ data class ArcaneColors(
             text = Color(0xFFFFFFFF),                           // White
             textSecondary = Color(0xFF9CA3AF),                  // Medium gray
             textDisabled = Color(0xFF6B6B6D),                   // Darker gray
-            border = Color(0xFF2A2A2A),                         // Subtle dark gray border
-            borderFocused = Color(0xFFD4AF37),                  // Gold when focused
+            outline = Color(0xFF2A2A2A),                        // Subtle dark gray outline
+            outlineVariant = Color(0xFF1E1E1E),                 // Subtle dividers
             error = Color(0xFFFF6B6B),                          // Red
             success = Color(0xFFD4AF37),                        // Gold for success
             warning = Color(0xFFFFB347),                        // Orange/yellow
@@ -169,11 +208,17 @@ data class ArcaneColors(
          */
         fun dark(): ArcaneColors = ArcaneColors(
             primary = Color(0xFFB19EFF),                        // Lighter purple for dark bg
-            primaryVariant = Color(0xFF8B72FF),                 // Medium purple
             onPrimary = Color(0xFF1A1A2E),                      // Dark text on purple
+            primaryContainer = Color(0xFF3D2F5C),               // Muted purple container
+            onPrimaryContainer = Color(0xFF8B72FF),             // Medium purple text
 
             secondaryContainer = Color(0xFF3D2F5C),             // Muted purple container
             onSecondaryContainer = Color(0xFFB19EFF),           // Light purple text
+
+            tertiary = Color(0xFF6DE0BC),                       // Light cyan accent
+            onTertiary = Color(0xFF000000),
+            tertiaryContainer = Color(0xFF1A3D38),
+            onTertiaryContainer = Color(0xFF4DD4AC),
 
             // Material 3 Surface Containers (dark mode tonal elevation)
             surfaceContainerLowest = Color(0xFF0F0F1A),         // Darkest
@@ -189,8 +234,8 @@ data class ArcaneColors(
             textSecondary = Color(0xFFB3B3CC),                  // Medium purple-gray
             textDisabled = Color(0xFF666680),                   // Darker purple-gray
 
-            border = Color(0xFFB19EFF).copy(alpha = 0.4f),      // Purple border
-            borderFocused = Color(0xFFB19EFF),                  // Bright purple when focused
+            outline = Color(0xFFB19EFF).copy(alpha = 0.4f),     // Purple outline
+            outlineVariant = Color(0xFFB19EFF).copy(alpha = 0.2f), // Subtle dividers
 
             error = Color(0xFFFF8A80),                          // Light red for dark bg
             success = Color(0xFFB19EFF),                        // Purple for success
