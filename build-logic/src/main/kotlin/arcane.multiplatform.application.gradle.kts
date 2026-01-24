@@ -96,6 +96,25 @@ if (buildWasmForTask) {
         from("src/wasmJsMain/resources")
         into(rootProject.layout.projectDirectory.dir("docs/$targetFolder"))
     }
+
+    // Task to copy production wasmJs build to docs/pr-changes for PR previews
+    tasks.register<Copy>("publishPrChangesWasmJsToDocs") {
+        group = "distribution"
+        description = "Copies production wasmJs build to docs/pr-changes folder for PR previews"
+
+        dependsOn("wasmJsBrowserProductionWebpack")
+
+        // Only run for catalog project (not catalog-chat)
+        onlyIf { project.path.contains("catalog") && !project.path.contains("catalog-chat") }
+
+        // Copy webpack output (JS, WASM files)
+        from(layout.buildDirectory.dir("kotlin-webpack/wasmJs/productionExecutable"))
+        // Copy PR preview template
+        from("src/wasmJsMain/resources/index-pr-preview.html") {
+            rename { "index.html" }
+        }
+        into(rootProject.layout.projectDirectory.dir("docs/pr-changes"))
+    }
 }
 
 android {
