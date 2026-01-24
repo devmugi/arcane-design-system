@@ -2,11 +2,6 @@
 
 A Compose Multiplatform design system optimized for **Claude Code** and LLM-assisted development. Fast prototyping with consistent UI, minimal context, and predictable results.
 
-## Live Demos
-
-- [Component Catalog](https://devmugi.github.io/arcane-design-system/catalog/) - Full component showcase
-- [Chat Components](https://devmugi.github.io/arcane-design-system/catalog-chat/) - Chat UI demo
-
 ## Why ArcaneDesignSystem?
 
 ### The Problem
@@ -138,6 +133,33 @@ fun App() {
 # Publish to GitHub Pages
 ./gradlew publishAllWasmJsToDocs
 ```
+
+## Live Demos
+
+Hosted at [devmugi.github.io/arcane-design-system](https://devmugi.github.io/arcane-design-system/)
+
+| Demo | Description |
+|------|-------------|
+| [Component Catalog](https://devmugi.github.io/arcane-design-system/catalog/) | Full component showcase |
+| [Chat Components](https://devmugi.github.io/arcane-design-system/catalog-chat/) | Chat UI demo |
+
+Auto-deploys on push to `main` via GitHub Actions.
+
+## PR Live Preview
+
+Every pull request gets its own live preview deployment:
+
+```
+https://devmugi.github.io/arcane-design-system/pr-preview/pr-{number}/
+```
+
+Example: [PR #1 Preview](https://devmugi.github.io/arcane-design-system/pr-preview/pr-1/)
+
+**Features:**
+- Auto-builds and deploys on PR open/update
+- Auto-cleans when PR is closed/merged
+- Review UI changes in browser before merging
+- No local build required for reviewers
 
 ## Claude Code Integration
 
