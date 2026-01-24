@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "io.github.devmugi.design.arcane"
-version = "0.3.0"
+version = "0.3.1"
 
 val libs = versionCatalogs.named("libs")
 
