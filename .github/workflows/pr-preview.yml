@@ -1,0 +1,35 @@
+name: PR Preview
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+concurrency: preview-${{ github.ref }}
+
+jobs:
+  build-and-preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Java
+        if: github.event.action != 'closed'
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        if: github.event.action != 'closed'
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build WasmJS Docs
+        if: github.event.action != 'closed'
+        run: ./gradlew publishAllWasmJsToDocs -PbuildWasm=true
+
+      - name: Deploy PR Preview
+        uses: rossjrw/pr-preview-action@v1
+        with:
+          source-dir: ./docs/
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview
