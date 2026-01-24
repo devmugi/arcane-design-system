@@ -11,12 +11,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import io.github.devmugi.arcane.catalog.components.PrChangesEmptyState
+import io.github.devmugi.arcane.catalog.prchanges.PrChangesConfig
+import io.github.devmugi.arcane.catalog.prchanges.loadPrChangesManifest
 import io.github.devmugi.arcane.catalog.screens.ControlsScreen
 import io.github.devmugi.arcane.catalog.screens.DataDisplayScreen
 import io.github.devmugi.arcane.catalog.screens.DesignSpecScreen
@@ -35,7 +39,44 @@ sealed class Screen {
     data object Navigation : Screen()
     data object DataDisplay : Screen()
     data object Feedback : Screen()
+
+    companion object {
+        fun all(): List<Screen> = listOf(
+            DesignSpec,
+            Controls,
+            Navigation,
+            DataDisplay,
+            Feedback
+        )
+
+        fun fromCatalogName(name: String): Screen? = when (name) {
+            "Design Spec" -> DesignSpec
+            "Controls" -> Controls
+            "Navigation" -> Navigation
+            "Data Display" -> DataDisplay
+            "Feedback" -> Feedback
+            else -> null
+        }
+    }
 }
+
+val Screen.displayName: String
+    get() = when (this) {
+        Screen.DesignSpec -> "Overview"
+        Screen.Controls -> "Controls"
+        Screen.Navigation -> "Navigation"
+        Screen.DataDisplay -> "Data Display"
+        Screen.Feedback -> "Feedback"
+    }
+
+val Screen.catalogName: String
+    get() = when (this) {
+        Screen.DesignSpec -> "Design Spec"
+        Screen.Controls -> "Controls"
+        Screen.Navigation -> "Navigation"
+        Screen.DataDisplay -> "Data Display"
+        Screen.Feedback -> "Feedback"
+    }
 
 enum class ThemeVariant {
     ARCANE,
@@ -121,6 +162,7 @@ private fun CatalogTopBar(
     onScreenSelected: (Screen) -> Unit,
     currentTheme: ThemeVariant,
     onThemeChange: (ThemeVariant) -> Unit,
+    availableScreens: List<Screen> = Screen.all(),
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -131,17 +173,13 @@ private fun CatalogTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Left side: Navigation tabs
+        // Left side: Navigation tabs (filtered if in PR changes mode)
         ArcaneTabs(
-            tabs = listOf(
-                ArcaneTab("Overview"),
-                ArcaneTab("Controls"),
-                ArcaneTab("Navigation"),
-                ArcaneTab("Data Display"),
-                ArcaneTab("Feedback")
-            ),
-            selectedIndex = currentScreen.toTabIndex(),
-            onTabSelected = { index -> onScreenSelected(index.toScreen()) },
+            tabs = availableScreens.map { ArcaneTab(it.displayName) },
+            selectedIndex = availableScreens.indexOf(currentScreen).coerceAtLeast(0),
+            onTabSelected = { index ->
+                availableScreens.getOrNull(index)?.let { onScreenSelected(it) }
+            },
             style = ArcaneTabStyle.Filled,
             scrollable = true
         )
@@ -155,7 +193,7 @@ private fun CatalogTopBar(
 }
 
 @Composable
-fun App() {
+fun App(isFilteredMode: Boolean = false) {
     var currentTheme by remember { mutableStateOf(ThemeVariant.ARCANE) }
     val colors = when (currentTheme) {
         ThemeVariant.ARCANE -> ArcaneColors.default()
@@ -164,32 +202,61 @@ fun App() {
         ThemeVariant.MTG -> ArcaneColors.mtg()
     }
 
+    // Load PR changes manifest on startup
+    LaunchedEffect(Unit) {
+        if (isFilteredMode) {
+            val manifest = loadPrChangesManifest()
+            manifest?.let { PrChangesConfig.loadManifest(it) }
+        }
+    }
+
+    // Determine available screens based on mode
+    val availableScreens = if (isFilteredMode && PrChangesConfig.isFilteredMode) {
+        PrChangesConfig.affectedScreens.mapNotNull { Screen.fromCatalogName(it) }
+    } else {
+        Screen.all()
+    }
+
     ArcaneTheme(colors = colors) {
-        var currentScreen by remember { mutableStateOf<Screen>(Screen.DesignSpec) }
+        var currentScreen by remember(availableScreens) {
+            mutableStateOf(availableScreens.firstOrNull() ?: Screen.DesignSpec)
+        }
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(ArcaneTheme.colors.surface)
+                .background(ArcaneTheme.colors.surfaceContainerLow)
         ) {
-            // Top navigation bar (persistent)
-            CatalogTopBar(
-                currentScreen = currentScreen,
-                onScreenSelected = { currentScreen = it },
-                currentTheme = currentTheme,
-                onThemeChange = { currentTheme = it }
-            )
+            // Show empty state if filtered mode but no affected screens
+            if (isFilteredMode && !PrChangesConfig.isFilteredMode) {
+                PrChangesEmptyState(
+                    onViewFullCatalog = {
+                        navigateToFullCatalog()
+                    }
+                )
+            } else {
+                // Top navigation bar (persistent)
+                CatalogTopBar(
+                    currentScreen = currentScreen,
+                    onScreenSelected = { currentScreen = it },
+                    currentTheme = currentTheme,
+                    onThemeChange = { currentTheme = it },
+                    availableScreens = availableScreens
+                )
 
-            // Screen content area
-            Box(modifier = Modifier.weight(1f)) {
-                when (currentScreen) {
-                    Screen.DesignSpec -> DesignSpecScreen()
-                    Screen.Controls -> ControlsScreen()
-                    Screen.Navigation -> NavigationScreen()
-                    Screen.DataDisplay -> DataDisplayScreen()
-                    Screen.Feedback -> FeedbackScreen()
+                // Screen content area
+                Box(modifier = Modifier.weight(1f)) {
+                    when (currentScreen) {
+                        Screen.DesignSpec -> DesignSpecScreen()
+                        Screen.Controls -> ControlsScreen()
+                        Screen.Navigation -> NavigationScreen()
+                        Screen.DataDisplay -> DataDisplayScreen()
+                        Screen.Feedback -> FeedbackScreen()
+                    }
                 }
             }
         }
     }
 }
+
+expect fun navigateToFullCatalog()

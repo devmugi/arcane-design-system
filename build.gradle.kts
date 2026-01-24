@@ -17,3 +17,14 @@ tasks.register("publishAllWasmJsToDocs") {
         ":catalog-chat:composeApp:publishWasmJsToDocs"
     )
 }
+
+// Convenience task to publish all wasmJs apps including PR changes to docs folder
+tasks.register("publishAllWasmJsToDocsWithPrChanges") {
+    group = "distribution"
+    description = "Publishes all wasmJs catalog apps including PR changes to docs folder"
+    dependsOn(
+        ":catalog:composeApp:publishWasmJsToDocs",
+        ":catalog:composeApp:publishPrChangesWasmJsToDocs",
+        ":catalog-chat:composeApp:publishWasmJsToDocs"
+    )
+}

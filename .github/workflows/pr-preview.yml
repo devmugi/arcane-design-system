@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history for git diff
 
       - name: Setup Java
         if: github.event.action != 'closed'
@@ -23,9 +25,28 @@ jobs:
         if: github.event.action != 'closed'
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Detect changed components
+        if: github.event.action != 'closed'
+        run: |
+          mkdir -p docs/pr-changes
+          git diff --name-only origin/${{ github.base_ref }}...HEAD > /tmp/changed-files.txt
+          ./scripts/detect-pr-changes.sh /tmp/changed-files.txt ${{ github.event.pull_request.number }} ${{ github.base_ref }} > docs/pr-changes/pr-changes.json
+          cat docs/pr-changes/pr-changes.json
+
       - name: Build WasmJS Docs
         if: github.event.action != 'closed'
-        run: ./gradlew publishAllWasmJsToDocs -PbuildWasm=true
+        run: ./gradlew publishAllWasmJsToDocsWithPrChanges -PbuildWasm=true
+
+      - name: Copy PR preview templates
+        if: github.event.action != 'closed'
+        run: |
+          # Replace standard templates with PR preview templates (4 tabs)
+          cp catalog/composeApp/src/wasmJsMain/resources/index-pr-preview.html docs/catalog/index.html
+          cp catalog-chat/composeApp/src/wasmJsMain/resources/index-pr-preview.html docs/catalog-chat/index.html 2>/dev/null || true
+          # Update landing page nav (if exists)
+          if [ -f docs/index.html ]; then
+            sed -i 's|</div>\s*</nav>|<a href="./pr-changes/" class="nav-tab">PR Changes</a></div></nav>|' docs/index.html
+          fi
 
       - name: Deploy PR Preview
         uses: rossjrw/pr-preview-action@v1

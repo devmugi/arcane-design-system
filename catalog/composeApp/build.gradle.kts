@@ -1,5 +1,6 @@
 plugins {
     id("arcane.multiplatform.application")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 kotlin {
@@ -7,6 +8,8 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":arcane-foundation"))
             implementation(project(":arcane-components"))
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.coroutines.core)
         }
     }
 }
