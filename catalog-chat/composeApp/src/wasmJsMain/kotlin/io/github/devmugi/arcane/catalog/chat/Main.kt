@@ -6,6 +6,9 @@ import kotlinx.browser.document
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
+    // Setup JavaScript bridge for browser automation
+    setupChatBridge()
+
     val targetElement = document.getElementById("ComposeTarget") ?: document.body!!
     ComposeViewport(targetElement) {
         App()
