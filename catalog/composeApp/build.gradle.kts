@@ -9,6 +9,7 @@ kotlin {
             implementation(project(":arcane-foundation"))
             implementation(project(":arcane-components"))
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.coroutines.core)
         }
     }
 }
