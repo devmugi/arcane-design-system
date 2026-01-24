@@ -1,218 +1,158 @@
 # Arcane Design System
 
-A Kotlin Compose Multiplatform design system featuring a distinctive sci-fi aesthetic with glowing purple accents, layered navy surfaces, and futuristic controls.
+A Compose Multiplatform design system optimized for **Claude Code** and LLM-assisted development. Fast prototyping with consistent UI, minimal context, and predictable results.
+
+## Live Demos
+
+- [Component Catalog](https://devmugi.github.io/arcane-design-system/catalog/) - Full component showcase
+- [Chat Components](https://devmugi.github.io/arcane-design-system/catalog-chat/) - Chat UI demo
+
+## Why ArcaneDesignSystem?
+
+### The Problem
+
+LLM-generated Compose code often:
+- Looks inconsistent or ugly
+- Uses wrong library versions
+- Requires extensive file reading to understand existing patterns
+- Produces components that don't work well together
+
+### The Solution
+
+ArcaneDesignSystem is **mandatory for Claude to use**. Material 3 imports must be justified.
+
+| Benefit | How |
+|---------|-----|
+| **Smaller context** | Curated subset of M3 - Claude reads less, understands more |
+| **Consistent UI** | All components share tokens, spacing, colors |
+| **Predictable output** | Claude knows exactly what's available |
+| **Faster development** | Less back-and-forth, fewer corrections |
+
+## Workflow: Module-First Prototyping
+
+**Use case:** Need chat screens for new app "CV Agent"
+
+**Solution:**
+
+1. Create new module in ArcaneDesignSystem (`arcane-chat`)
+2. Prototype designs, elements, screens with Desktop app
+3. Interactive testing with animations and previews
+4. When ready, integrate into target app
+
+### Why Desktop First?
+
+| Platform | Build Time |
+|----------|------------|
+| Desktop | ~10 sec |
+| Android | ~2 min |
+| iOS | Infinity (Xcode tooling) |
+
+### Integration Benefits
+
+When module is ready:
+- Claude is limited to library components
+- Much less file reading needed
+- Smaller context window usage
+- Significantly faster development
+
+## Modules
+
+```
+arcane-foundation    <- Design tokens, theme, colors, typography
+       ^
+arcane-components    <- UI components (controls, navigation, feedback)
+       ^
+arcane-chat          <- Chat-specific components (messages, blocks, input)
+       ^
+catalog-chat         <- Interactive demo app for chat module
+```
 
 ## Platforms
 
 - Android (API 26+)
 - iOS (15+)
 - Desktop (JVM 21+)
-- Web (WasmJS) - Chrome 119+, Firefox 120+, Edge 119+
-
-## Components
-
-### Controls
-- **ArcaneButton** - Primary/Secondary/Outlined/Destructive styles with loading state
-- **ArcaneTextField** - Text input with focus states, helper text, password support
-- **ArcaneCheckbox** - Animated checkbox
-- **ArcaneRadioButton** - Radio selection
-- **ArcaneSwitch** - Toggle switch with animation
-- **ArcaneSlider** - Value slider with tooltip
-
-### Navigation
-- **ArcaneTabs** - Tab selection with indicator animation
-- **ArcaneBreadcrumbs** - Breadcrumb navigation
-- **ArcanePagination** - Page navigation with ellipsis
-- **ArcaneStepper** - Multi-step process indicator
-
-### Data Display
-- **ArcaneCard** - Content card with image, title, actions
-- **ArcaneListItem** - List item with icon, title, subtitle
-- **ArcaneBadge** - Status badges (New, Featured, Sale)
-- **ArcaneAvatar** - Single and grouped avatars
-- **ArcaneTooltip** - Information popover
-- **ArcaneTable** - Compact table with sorting and filtering
-
-### Feedback
-- **ArcaneSpinner** - Loading spinner
-- **ArcaneCircularProgress** - Determinate circular progress
-- **ArcaneLinearProgress** - Determinate linear progress
-- **ArcaneSkeleton** - Loading placeholder with shimmer
-- **ArcaneEmptyState** - Empty content placeholder
-- **ArcaneAlertBanner** - Inline alerts (Info/Success/Warning/Error)
-- **ArcaneModal** - Modal dialog with backdrop
-- **ArcaneConfirmationDialog** - Confirm/delete dialogs
-- **ArcaneToast** - Toast notifications with queue management
+- Web (WasmJS)
 
 ## Installation
 
 ### Maven Local
 
-1. Clone the repository
-2. Publish to Maven Local:
 ```bash
 ./gradlew publishToMavenLocal
 ```
 
-3. Add to your project's `settings.gradle.kts`:
+Add to your project:
+
 ```kotlin
+// settings.gradle.kts
 dependencyResolutionManagement {
     repositories {
         mavenLocal()
-        // ... other repositories
     }
 }
-```
 
-4. Add dependencies to your module's `build.gradle.kts`:
-```kotlin
+// build.gradle.kts
 dependencies {
-    implementation("io.github.devmugi.design.arcane:arcane-foundation:0.1.3")
-    implementation("io.github.devmugi.design.arcane:arcane-components:0.1.3")
+    implementation("io.github.devmugi.design.arcane:arcane-foundation:0.2.1")
+    implementation("io.github.devmugi.design.arcane:arcane-components:0.2.1")
+    implementation("io.github.devmugi.design.arcane:arcane-chat:0.2.1")  // optional
 }
 ```
 
-## Usage
-
-### Setup Theme
-
-Wrap your app content with `ArcaneTheme`:
+## Quick Start
 
 ```kotlin
 @Composable
 fun App() {
     ArcaneTheme {
-        // Your content
+        // Your content - Claude knows exactly what components to use
     }
 }
 ```
 
-### Using Components
+## Components
 
-```kotlin
-@Composable
-fun MyScreen() {
-    Column {
-        // Primary button (purple background)
-        ArcaneTextButton(
-            text = "Primary Action",
-            onClick = { },
-            style = ArcaneButtonStyle.Primary
-        )
+### Controls
+`ArcaneButton` `ArcaneTextField` `ArcaneCheckbox` `ArcaneRadioButton` `ArcaneSwitch` `ArcaneSlider`
 
-        // Outlined button (transparent with border)
-        ArcaneTextButton(
-            text = "Outlined",
-            onClick = { },
-            style = ArcaneButtonStyle.Outlined()
-        )
+### Navigation
+`ArcaneTabs` `ArcaneBreadcrumbs` `ArcanePagination` `ArcaneStepper`
 
-        // Outlined with custom color
-        ArcaneTextButton(
-            text = "Custom Color",
-            onClick = { },
-            style = ArcaneButtonStyle.Outlined(tintColor = Color(0xFFD4A574))
-        )
+### Data Display
+`ArcaneCard` `ArcaneListItem` `ArcaneBadge` `ArcaneAvatar` `ArcaneTooltip` `ArcaneTable`
 
-        // Destructive button (red background for delete actions)
-        ArcaneTextButton(
-            text = "Delete",
-            onClick = { },
-            style = ArcaneButtonStyle.Destructive
-        )
+### Feedback
+`ArcaneSpinner` `ArcaneCircularProgress` `ArcaneLinearProgress` `ArcaneSkeleton` `ArcaneEmptyState` `ArcaneAlertBanner` `ArcaneModal` `ArcaneConfirmationDialog` `ArcaneToast`
 
-        ArcaneTextField(
-            value = text,
-            onValueChange = { text = it },
-            placeholder = "Enter text..."
-        )
+### Chat (arcane-chat module)
+`ArcaneUserMessageBlock` `ArcaneAssistantMessageBlock` `ArcaneChatMessageList` `ArcaneAgentChatInput` `ArcaneChatScreenScaffold` `MessageBlock.Text` `MessageBlock.Image` `MessageBlock.AgentSuggestions` `MessageBlock.Custom`
 
-        ArcaneSwitch(
-            checked = isEnabled,
-            onCheckedChange = { isEnabled = it }
-        )
-    }
-}
-```
-
-### Custom Theme Colors
-
-```kotlin
-ArcaneTheme(
-    colors = ArcaneColors.Default.withPrimary(Color(0xFF00FFCC))
-) {
-    // Content with custom primary color
-}
-```
-
-### Toast Notifications
-
-```kotlin
-val toastState = rememberArcaneToastState()
-
-ArcaneToastHost(state = toastState) {
-    ArcaneButton(
-        text = "Show Toast",
-        onClick = {
-            toastState.show(
-                message = "Operation successful",
-                style = ArcaneToastStyle.Success
-            )
-        }
-    )
-}
-```
-
-## Catalog Apps
-
-Interactive demos showcasing all components:
-
-- **catalog** - Full component showcase with theme switcher
-- **catalog-chat** - Chat UI components demo
-
-### Run Locally
+## Run Catalog Apps
 
 ```bash
-# Desktop
+# Desktop (fast iteration)
 ./gradlew :catalog:composeApp:run
+./gradlew :catalog-chat:composeApp:run
 
-# Web (WasmJS)
-./gradlew :catalog:composeApp:wasmJsBrowserDevelopmentRun
-```
-
-### Publish to GitHub Pages
-
-```bash
-# Publish both catalogs to docs folder
+# Publish to GitHub Pages
 ./gradlew publishAllWasmJsToDocs
 ```
 
-Output: `docs/catalog/` and `docs/catalog-chat/`
-
 ## Claude Code Integration
 
-This project includes a Claude Code skill for AI-assisted development.
-
-### Install Skill Globally
+Install the skill globally:
 
 ```bash
 ./scripts/install-skill.sh
 ```
 
-### Trigger Phrases
-
+Trigger phrases:
 - "create new module for \<feature\>"
 - "start app with Arcane"
 - "add new screen using ArcaneDesignSystem"
 
-### What It Does
-
-1. Auto-detects context (internal module vs external app)
-2. Generates correct Gradle configuration
-3. Guides component selection (Arcane over raw Material 3)
-4. Provides screen templates
-
-See [CLAUDE.md](CLAUDE.md) for full details.
+See [CLAUDE.md](CLAUDE.md) for full Claude Code instructions.
 
 ## License
 
