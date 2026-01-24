@@ -79,9 +79,10 @@ import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneBorder
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneRadius
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
+import androidx.window.core.layout.WindowSizeClass
 
 @Composable
-fun DesignSpecScreen() {
+fun DesignSpecScreen(windowSizeClass: WindowSizeClass? = null) {
     val colors = ArcaneTheme.colors
     val typography = ArcaneTheme.typography
     val scrollState = rememberScrollState()

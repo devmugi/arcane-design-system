@@ -25,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
 import io.github.devmugi.arcane.design.components.controls.ArcaneButtonShape
 import io.github.devmugi.arcane.design.components.controls.ArcaneButtonSize
 import io.github.devmugi.arcane.design.components.controls.ArcaneButtonStyle
@@ -40,7 +41,7 @@ import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
 @Composable
-fun ControlsScreen() {
+fun ControlsScreen(windowSizeClass: WindowSizeClass? = null) {
     val typography = ArcaneTheme.typography
     val colors = ArcaneTheme.colors
     val scrollState = rememberScrollState()

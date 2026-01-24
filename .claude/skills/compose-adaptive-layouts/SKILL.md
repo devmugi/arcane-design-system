@@ -55,6 +55,7 @@ Search `libs.versions.toml` and module `build.gradle.kts` for:
 | `compose-material3-adaptive` | Core adaptive APIs |
 | `compose-material3-adaptive-layout` | Scaffold components |
 | `compose-material3-adaptive-navigation` | Navigation integration |
+| `compose-material3-windowsizeclass` | WindowSizeClass type (required) |
 
 ### Step 4: Scan UI Elements
 
@@ -174,6 +175,8 @@ Add to `[libraries]`:
 compose-material3-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "compose-material3-adaptive" }
 compose-material3-adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "compose-material3-adaptive" }
 compose-material3-adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation", version.ref = "compose-material3-adaptive" }
+# Note: Use compose-material3 version, not compose-material3-adaptive
+compose-material3-windowsizeclass = { module = "org.jetbrains.compose.material3:material3-window-size-class", version.ref = "compose-material3" }
 ```
 
 **Edit module `build.gradle.kts`:**
@@ -183,7 +186,21 @@ Add to `commonMain.dependencies`:
 implementation(libs.compose.material3.adaptive)
 implementation(libs.compose.material3.adaptive.layout)
 implementation(libs.compose.material3.adaptive.navigation)
+implementation(libs.compose.material3.windowsizeclass)
 ```
+
+### Step 3.5: Verify Theme Properties
+
+Before using navigation colors, verify these properties exist in your theme (e.g., `ArcaneColors.kt`):
+
+| Property | Purpose | Fallback if Missing |
+|----------|---------|---------------------|
+| `secondaryContainer` | Navigation indicator background | Use `primary.copy(alpha = 0.12f)` |
+| `primary` | Selected icon/text color | Required |
+| `textSecondary` | Unselected icon/text color | Use `onSurface.copy(alpha = 0.6f)` |
+| `surfaceContainerLow` | Navigation container background | Use `surface` |
+
+**Note:** ArcaneColors does NOT have `primaryContainer`. Use `secondaryContainer` instead.
 
 ### Step 4: Update App Entry Point
 
@@ -191,13 +208,12 @@ implementation(libs.compose.material3.adaptive.navigation)
 
 ```kotlin
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.material3.adaptive.WindowSizeClass
+import androidx.window.core.layout.WindowSizeClass
 
 @Composable
-fun App(
-    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-) {
-    // Pass to layout logic
+fun App() {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    // Pass to screens and layout logic
 }
 ```
 
@@ -205,11 +221,11 @@ fun App(
 
 ```kotlin
 @Composable
-fun App(
-    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-) {
+fun App() {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
     var currentScreen by remember { mutableStateOf(Screen.Home) }
 
+    // Use MEDIUM (600dp) to show rail on tablets in portrait
     val useNavigationRail = windowSizeClass.isWidthAtLeastBreakpoint(
         WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
     )
@@ -269,7 +285,7 @@ fun AppNavigationRail(
                 colors = NavigationRailItemDefaults.colors(
                     selectedIconColor = ArcaneTheme.colors.primary,
                     selectedTextColor = ArcaneTheme.colors.primary,
-                    indicatorColor = ArcaneTheme.colors.primaryContainer
+                    indicatorColor = ArcaneTheme.colors.secondaryContainer
                 )
             )
         }
@@ -299,7 +315,7 @@ fun AppNavigationBar(
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = ArcaneTheme.colors.primary,
                     selectedTextColor = ArcaneTheme.colors.primary,
-                    indicatorColor = ArcaneTheme.colors.primaryContainer
+                    indicatorColor = ArcaneTheme.colors.secondaryContainer
                 )
             )
         }
@@ -309,24 +325,29 @@ fun AppNavigationBar(
 
 ### Step 6: Update Screens (if Feed Layout selected)
 
-**Add responsive grid:**
+**Screen parameter pattern:**
+
+Screens receive `WindowSizeClass` from the parent `App.kt` rather than calling `currentWindowAdaptiveInfo()` themselves. This ensures a single source of truth.
 
 ```kotlin
+// In App.kt - single call, pass to screens
+val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+ScreenContent(currentScreen, windowSizeClass)
+
+// In screens - receive from parent, optional for compatibility
 @Composable
-fun ComponentScreen(
-    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-) {
+fun ComponentScreen(windowSizeClass: WindowSizeClass? = null) {
     val columns = when {
-        windowSizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_EXPANDED_LOWER_BOUND) -> 3
-        windowSizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND) -> 2
+        windowSizeClass?.isWidthAtLeastBreakpoint(WIDTH_DP_EXPANDED_LOWER_BOUND) == true -> 3
+        windowSizeClass?.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND) == true -> 2
         else -> 1
     }
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(columns),
-        contentPadding = PaddingValues(ArcaneSpacing.md),
-        horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.md),
-        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.md)
+        contentPadding = PaddingValues(ArcaneSpacing.Medium),
+        horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium),
+        verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
     ) {
         // Grid items
     }
@@ -355,7 +376,8 @@ After implementing, verify:
 ```
 ## Dependencies
 - [ ] compose-material3-adaptive in libs.versions.toml
-- [ ] Dependencies added to module build.gradle.kts
+- [ ] compose-material3-windowsizeclass in libs.versions.toml (uses compose-material3 version)
+- [ ] All 4 dependencies added to module build.gradle.kts
 - [ ] Build succeeds
 
 ## Window Size Class
@@ -394,21 +416,36 @@ After implementing, verify:
 ### Key Imports
 
 ```kotlin
+// Adaptive API
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.material3.adaptive.WindowSizeClass
+
+// WindowSizeClass - from window.core, NOT material3.adaptive
+import androidx.window.core.layout.WindowSizeClass
+
+// Navigation components
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.NavigationRailItemDefaults
 ```
 
-### Breakpoint Check
+### Breakpoint Selection
+
+| Breakpoint | Width | When to Use |
+|------------|-------|-------------|
+| `WIDTH_DP_MEDIUM_LOWER_BOUND` | 600dp | **Recommended** - Shows rail on tablets in portrait |
+| `WIDTH_DP_EXPANDED_LOWER_BOUND` | 840dp | Only for large screens (tablets landscape+) |
 
 ```kotlin
-val isExpanded = windowSizeClass.isWidthAtLeastBreakpoint(
-    WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
+// Recommended: Use MEDIUM for earlier rail appearance
+val useNavigationRail = windowSizeClass.isWidthAtLeastBreakpoint(
+    WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND  // 600dp
 )
-val isMedium = windowSizeClass.isWidthAtLeastBreakpoint(
-    WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
+
+// Alternative: Use EXPANDED for later rail appearance
+val useNavigationRail = windowSizeClass.isWidthAtLeastBreakpoint(
+    WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND  // 840dp
 )
 ```

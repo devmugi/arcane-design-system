@@ -44,11 +44,12 @@ import io.github.devmugi.arcane.design.foundation.primitives.ArcaneSurface
 import io.github.devmugi.arcane.design.foundation.primitives.SurfaceVariant
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
+import androidx.window.core.layout.WindowSizeClass
 
 private data class TableItem(val name: String, val status: String, val date: String)
 
 @Composable
-fun DataDisplayScreen() {
+fun DataDisplayScreen(windowSizeClass: WindowSizeClass? = null) {
     val typography = ArcaneTheme.typography
     val colors = ArcaneTheme.colors
     val scrollState = rememberScrollState()

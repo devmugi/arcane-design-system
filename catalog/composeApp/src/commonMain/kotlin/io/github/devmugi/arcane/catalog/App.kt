@@ -6,10 +6,27 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Place
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
+import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.window.core.layout.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -18,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import io.github.devmugi.arcane.catalog.components.PrChangesEmptyState
 import io.github.devmugi.arcane.catalog.prchanges.PrChangesConfig
 import io.github.devmugi.arcane.catalog.prchanges.loadPrChangesManifest
@@ -26,19 +44,20 @@ import io.github.devmugi.arcane.catalog.screens.DataDisplayScreen
 import io.github.devmugi.arcane.catalog.screens.DesignSpecScreen
 import io.github.devmugi.arcane.catalog.screens.FeedbackScreen
 import io.github.devmugi.arcane.catalog.screens.NavigationScreen
-import io.github.devmugi.arcane.design.components.navigation.ArcaneTab
-import io.github.devmugi.arcane.design.components.navigation.ArcaneTabStyle
-import io.github.devmugi.arcane.design.components.navigation.ArcaneTabs
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneColors
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
-sealed class Screen {
-    data object DesignSpec : Screen()
-    data object Controls : Screen()
-    data object Navigation : Screen()
-    data object DataDisplay : Screen()
-    data object Feedback : Screen()
+sealed class Screen(
+    val displayName: String,
+    val catalogName: String,
+    val icon: ImageVector
+) {
+    data object DesignSpec : Screen("Overview", "Design Spec", Icons.Default.Info)
+    data object Controls : Screen("Controls", "Controls", Icons.Default.Build)
+    data object Navigation : Screen("Navigation", "Navigation", Icons.Default.Place)
+    data object DataDisplay : Screen("Data Display", "Data Display", Icons.Default.List)
+    data object Feedback : Screen("Feedback", "Feedback", Icons.Default.Notifications)
 
     companion object {
         fun all(): List<Screen> = listOf(
@@ -60,48 +79,11 @@ sealed class Screen {
     }
 }
 
-val Screen.displayName: String
-    get() = when (this) {
-        Screen.DesignSpec -> "Overview"
-        Screen.Controls -> "Controls"
-        Screen.Navigation -> "Navigation"
-        Screen.DataDisplay -> "Data Display"
-        Screen.Feedback -> "Feedback"
-    }
-
-val Screen.catalogName: String
-    get() = when (this) {
-        Screen.DesignSpec -> "Design Spec"
-        Screen.Controls -> "Controls"
-        Screen.Navigation -> "Navigation"
-        Screen.DataDisplay -> "Data Display"
-        Screen.Feedback -> "Feedback"
-    }
-
 enum class ThemeVariant {
     ARCANE,
     PERPLEXITY,
     CLAUDE,
     MTG
-}
-
-// Convert Screen to tab index for ArcaneTabs
-fun Screen.toTabIndex(): Int = when(this) {
-    Screen.DesignSpec -> 0
-    Screen.Controls -> 1
-    Screen.Navigation -> 2
-    Screen.DataDisplay -> 3
-    Screen.Feedback -> 4
-}
-
-// Convert tab index back to Screen
-fun Int.toScreen(): Screen = when(this) {
-    0 -> Screen.DesignSpec
-    1 -> Screen.Controls
-    2 -> Screen.Navigation
-    3 -> Screen.DataDisplay
-    4 -> Screen.Feedback
-    else -> Screen.DesignSpec
 }
 
 @Composable
@@ -121,9 +103,11 @@ private fun ThemeOption(
 @Composable
 private fun ThemeSelector(
     currentTheme: ThemeVariant,
-    onThemeChange: (ThemeVariant) -> Unit
+    onThemeChange: (ThemeVariant) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Row(
+        modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(ArcaneSpacing.Small),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -157,12 +141,69 @@ private fun ThemeSelector(
 }
 
 @Composable
-private fun CatalogTopBar(
+private fun CatalogNavigationRail(
     currentScreen: Screen,
     onScreenSelected: (Screen) -> Unit,
+    availableScreens: List<Screen>,
+    modifier: Modifier = Modifier
+) {
+    NavigationRail(
+        modifier = modifier,
+        containerColor = ArcaneTheme.colors.surfaceContainerLow
+    ) {
+        Spacer(Modifier.height(ArcaneSpacing.Medium))
+        availableScreens.forEach { screen ->
+            NavigationRailItem(
+                selected = currentScreen == screen,
+                onClick = { onScreenSelected(screen) },
+                icon = { Icon(screen.icon, contentDescription = screen.displayName) },
+                label = { Text(screen.displayName, style = ArcaneTheme.typography.labelSmall) },
+                colors = NavigationRailItemDefaults.colors(
+                    selectedIconColor = ArcaneTheme.colors.primary,
+                    selectedTextColor = ArcaneTheme.colors.primary,
+                    indicatorColor = ArcaneTheme.colors.secondaryContainer,
+                    unselectedIconColor = ArcaneTheme.colors.textSecondary,
+                    unselectedTextColor = ArcaneTheme.colors.textSecondary
+                )
+            )
+        }
+    }
+}
+
+@Composable
+private fun CatalogNavigationBar(
+    currentScreen: Screen,
+    onScreenSelected: (Screen) -> Unit,
+    availableScreens: List<Screen>,
+    modifier: Modifier = Modifier
+) {
+    NavigationBar(
+        modifier = modifier,
+        containerColor = ArcaneTheme.colors.surfaceContainerLow
+    ) {
+        availableScreens.forEach { screen ->
+            NavigationBarItem(
+                selected = currentScreen == screen,
+                onClick = { onScreenSelected(screen) },
+                icon = { Icon(screen.icon, contentDescription = screen.displayName) },
+                label = { Text(screen.displayName, style = ArcaneTheme.typography.labelSmall) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = ArcaneTheme.colors.primary,
+                    selectedTextColor = ArcaneTheme.colors.primary,
+                    indicatorColor = ArcaneTheme.colors.secondaryContainer,
+                    unselectedIconColor = ArcaneTheme.colors.textSecondary,
+                    unselectedTextColor = ArcaneTheme.colors.textSecondary
+                )
+            )
+        }
+    }
+}
+
+@Composable
+private fun CatalogTopBar(
     currentTheme: ThemeVariant,
     onThemeChange: (ThemeVariant) -> Unit,
-    availableScreens: List<Screen> = Screen.all(),
+    title: String? = null,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -173,16 +214,16 @@ private fun CatalogTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Left side: Navigation tabs (filtered if in PR changes mode)
-        ArcaneTabs(
-            tabs = availableScreens.map { ArcaneTab(it.displayName) },
-            selectedIndex = availableScreens.indexOf(currentScreen).coerceAtLeast(0),
-            onTabSelected = { index ->
-                availableScreens.getOrNull(index)?.let { onScreenSelected(it) }
-            },
-            style = ArcaneTabStyle.Filled,
-            scrollable = true
-        )
+        // Left side: Title (optional)
+        if (title != null) {
+            Text(
+                text = title,
+                style = ArcaneTheme.typography.headlineMedium,
+                color = ArcaneTheme.colors.text
+            )
+        } else {
+            Spacer(Modifier)
+        }
 
         // Right side: Theme selector
         ThemeSelector(
@@ -193,7 +234,26 @@ private fun CatalogTopBar(
 }
 
 @Composable
+private fun ScreenContent(
+    currentScreen: Screen,
+    windowSizeClass: WindowSizeClass,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier) {
+        when (currentScreen) {
+            Screen.DesignSpec -> DesignSpecScreen(windowSizeClass)
+            Screen.Controls -> ControlsScreen(windowSizeClass)
+            Screen.Navigation -> NavigationScreen(windowSizeClass)
+            Screen.DataDisplay -> DataDisplayScreen(windowSizeClass)
+            Screen.Feedback -> FeedbackScreen(windowSizeClass)
+        }
+    }
+}
+
+@Composable
 fun App(isFilteredMode: Boolean = false) {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+
     var currentTheme by remember { mutableStateOf(ThemeVariant.ARCANE) }
     val colors = when (currentTheme) {
         ThemeVariant.ARCANE -> ArcaneColors.default()
@@ -217,43 +277,76 @@ fun App(isFilteredMode: Boolean = false) {
         Screen.all()
     }
 
+    // Determine if we should use rail navigation (medium width and above)
+    val useNavigationRail = windowSizeClass.isWidthAtLeastBreakpoint(
+        WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
+    )
+
     ArcaneTheme(colors = colors) {
         var currentScreen by remember(availableScreens) {
             mutableStateOf(availableScreens.firstOrNull() ?: Screen.DesignSpec)
         }
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(ArcaneTheme.colors.surfaceContainerLow)
-        ) {
-            // Show empty state if filtered mode but no affected screens
-            if (isFilteredMode && !PrChangesConfig.isFilteredMode) {
+        // Show empty state if filtered mode but no affected screens
+        if (isFilteredMode && !PrChangesConfig.isFilteredMode) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(ArcaneTheme.colors.surfaceContainerLow)
+            ) {
                 PrChangesEmptyState(
                     onViewFullCatalog = {
                         navigateToFullCatalog()
                     }
                 )
-            } else {
-                // Top navigation bar (persistent)
-                CatalogTopBar(
+            }
+        } else if (useNavigationRail) {
+            // Expanded layout: NavigationRail on left
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(ArcaneTheme.colors.surfaceContainerLow)
+            ) {
+                CatalogNavigationRail(
                     currentScreen = currentScreen,
                     onScreenSelected = { currentScreen = it },
-                    currentTheme = currentTheme,
-                    onThemeChange = { currentTheme = it },
                     availableScreens = availableScreens
                 )
-
-                // Screen content area
-                Box(modifier = Modifier.weight(1f)) {
-                    when (currentScreen) {
-                        Screen.DesignSpec -> DesignSpecScreen()
-                        Screen.Controls -> ControlsScreen()
-                        Screen.Navigation -> NavigationScreen()
-                        Screen.DataDisplay -> DataDisplayScreen()
-                        Screen.Feedback -> FeedbackScreen()
-                    }
+                Column(modifier = Modifier.weight(1f)) {
+                    CatalogTopBar(
+                        currentTheme = currentTheme,
+                        onThemeChange = { currentTheme = it },
+                        title = currentScreen.displayName
+                    )
+                    ScreenContent(
+                        currentScreen = currentScreen,
+                        windowSizeClass = windowSizeClass,
+                        modifier = Modifier.weight(1f)
+                    )
                 }
+            }
+        } else {
+            // Compact layout: NavigationBar at bottom
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(ArcaneTheme.colors.surfaceContainerLow)
+            ) {
+                CatalogTopBar(
+                    currentTheme = currentTheme,
+                    onThemeChange = { currentTheme = it },
+                    title = currentScreen.displayName
+                )
+                ScreenContent(
+                    currentScreen = currentScreen,
+                    windowSizeClass = windowSizeClass,
+                    modifier = Modifier.weight(1f)
+                )
+                CatalogNavigationBar(
+                    currentScreen = currentScreen,
+                    onScreenSelected = { currentScreen = it },
+                    availableScreens = availableScreens
+                )
             }
         }
     }
