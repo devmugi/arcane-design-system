@@ -87,7 +87,10 @@ sealed class Screen(
 enum class ThemeVariant {
     ARCANE,
     PERPLEXITY,
-    CLAUDE,
+    P2D,
+    P2L,
+    CLAUDE_D,
+    CLAUDE_L,
     MTG
 }
 
@@ -131,9 +134,30 @@ private fun ThemeSelector(
         Text("|", style = ArcaneTheme.typography.labelMedium, color = ArcaneTheme.colors.textDisabled)
 
         ThemeOption(
-            label = "Claude",
-            isSelected = currentTheme == ThemeVariant.CLAUDE,
-            onClick = { onThemeChange(ThemeVariant.CLAUDE) }
+            label = "P2D",
+            isSelected = currentTheme == ThemeVariant.P2D,
+            onClick = { onThemeChange(ThemeVariant.P2D) }
+        )
+        Text("|", style = ArcaneTheme.typography.labelMedium, color = ArcaneTheme.colors.textDisabled)
+
+        ThemeOption(
+            label = "P2L",
+            isSelected = currentTheme == ThemeVariant.P2L,
+            onClick = { onThemeChange(ThemeVariant.P2L) }
+        )
+        Text("|", style = ArcaneTheme.typography.labelMedium, color = ArcaneTheme.colors.textDisabled)
+
+        ThemeOption(
+            label = "ClaudeD",
+            isSelected = currentTheme == ThemeVariant.CLAUDE_D,
+            onClick = { onThemeChange(ThemeVariant.CLAUDE_D) }
+        )
+        Text("|", style = ArcaneTheme.typography.labelMedium, color = ArcaneTheme.colors.textDisabled)
+
+        ThemeOption(
+            label = "ClaudeL",
+            isSelected = currentTheme == ThemeVariant.CLAUDE_L,
+            onClick = { onThemeChange(ThemeVariant.CLAUDE_L) }
         )
         Text("|", style = ArcaneTheme.typography.labelMedium, color = ArcaneTheme.colors.textDisabled)
 
@@ -264,7 +288,10 @@ fun App(isFilteredMode: Boolean = false) {
     val colors = when (currentTheme) {
         ThemeVariant.ARCANE -> ArcaneColors.default()
         ThemeVariant.PERPLEXITY -> ArcaneColors.perplexity()
-        ThemeVariant.CLAUDE -> ArcaneColors.claude()
+        ThemeVariant.P2D -> ArcaneColors.p2d()
+        ThemeVariant.P2L -> ArcaneColors.p2l()
+        ThemeVariant.CLAUDE_D -> ArcaneColors.claudeD()
+        ThemeVariant.CLAUDE_L -> ArcaneColors.claudeL()
         ThemeVariant.MTG -> ArcaneColors.mtg()
     }
 

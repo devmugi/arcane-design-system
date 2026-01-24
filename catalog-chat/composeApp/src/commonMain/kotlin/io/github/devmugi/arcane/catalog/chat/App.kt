@@ -66,7 +66,7 @@ fun App() {
     val colors = when (selectedTheme) {
         ThemeVariant.ARCANE -> ArcaneColors.default()
         ThemeVariant.PERPLEXITY -> ArcaneColors.perplexity()
-        ThemeVariant.CLAUDE -> ArcaneColors.claude()
+        ThemeVariant.CLAUDE -> ArcaneColors.claudeD()
         ThemeVariant.MTG -> ArcaneColors.mtg()
     }
 
