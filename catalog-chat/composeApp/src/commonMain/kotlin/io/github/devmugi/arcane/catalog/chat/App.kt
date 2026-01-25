@@ -31,7 +31,10 @@ enum class ThemeVariant {
     P2L,
     CLAUDE_D,
     CLAUDE_L,
-    MTG;
+    CV_AGENT_D,
+    CV_AGENT_L,
+    AGENT2_D,
+    AGENT2_L;
 
     val displayName: String
         get() = when (this) {
@@ -41,7 +44,10 @@ enum class ThemeVariant {
             P2L -> "P2L"
             CLAUDE_D -> "ClaudeD"
             CLAUDE_L -> "ClaudeL"
-            MTG -> "MTG"
+            CV_AGENT_D -> "cvAgentD"
+            CV_AGENT_L -> "cvAgentL"
+            AGENT2_D -> "agent2D"
+            AGENT2_L -> "agent2L"
         }
 }
 
@@ -92,7 +98,10 @@ fun App() {
         ThemeVariant.P2L -> ArcaneColors.p2l()
         ThemeVariant.CLAUDE_D -> ArcaneColors.claudeD()
         ThemeVariant.CLAUDE_L -> ArcaneColors.claudeL()
-        ThemeVariant.MTG -> ArcaneColors.mtg()
+        ThemeVariant.CV_AGENT_D -> ArcaneColors.cvAgentDark()
+        ThemeVariant.CV_AGENT_L -> ArcaneColors.cvAgentLight()
+        ThemeVariant.AGENT2_D -> ArcaneColors.agent2Dark()
+        ThemeVariant.AGENT2_L -> ArcaneColors.agent2Light()
     }
 
     ArcaneTheme(colors = colors) {

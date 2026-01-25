@@ -93,7 +93,10 @@ enum class ThemeVariant {
     P2L,
     CLAUDE_D,
     CLAUDE_L,
-    MTG
+    CV_AGENT_D,
+    CV_AGENT_L,
+    AGENT2_D,
+    AGENT2_L
 }
 
 @Composable
@@ -124,7 +127,10 @@ private fun ThemeSelector(
         "P2L" to ThemeVariant.P2L,
         "ClaudeD" to ThemeVariant.CLAUDE_D,
         "ClaudeL" to ThemeVariant.CLAUDE_L,
-        "MTG" to ThemeVariant.MTG
+        "cvAgentD" to ThemeVariant.CV_AGENT_D,
+        "cvAgentL" to ThemeVariant.CV_AGENT_L,
+        "agent2D" to ThemeVariant.AGENT2_D,
+        "agent2L" to ThemeVariant.AGENT2_L
     )
 
     FlowRow(
@@ -264,7 +270,10 @@ fun App(isFilteredMode: Boolean = false) {
         ThemeVariant.P2L -> ArcaneColors.p2l()
         ThemeVariant.CLAUDE_D -> ArcaneColors.claudeD()
         ThemeVariant.CLAUDE_L -> ArcaneColors.claudeL()
-        ThemeVariant.MTG -> ArcaneColors.mtg()
+        ThemeVariant.CV_AGENT_D -> ArcaneColors.cvAgentDark()
+        ThemeVariant.CV_AGENT_L -> ArcaneColors.cvAgentLight()
+        ThemeVariant.AGENT2_D -> ArcaneColors.agent2Dark()
+        ThemeVariant.AGENT2_L -> ArcaneColors.agent2Light()
     }
 
     // Load PR changes manifest on startup

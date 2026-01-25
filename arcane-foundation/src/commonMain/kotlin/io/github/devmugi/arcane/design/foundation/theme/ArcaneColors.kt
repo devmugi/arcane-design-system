@@ -269,11 +269,11 @@ data class ArcaneColors(
         )
 
         /**
-         * MTG theme variant inspired by Magic: The Gathering deck builders.
+         * CV Agent dark theme variant.
          * Features a warm gold/amber accent with very dark backgrounds,
-         * creating a professional deck builder aesthetic reminiscent of legendary card borders.
+         * creating a professional aesthetic with gold accents.
          */
-        fun mtg(): ArcaneColors = ArcaneColors(
+        fun cvAgentDark(): ArcaneColors = ArcaneColors(
             primary = Color(0xFFD4AF37),                        // Gold/Amber (legendary border color)
             onPrimary = Color(0xFF000000),                      // Black text on gold
             primaryContainer = Color(0xFF2D2517),               // Muted gold container
@@ -299,6 +299,103 @@ data class ArcaneColors(
             error = Color(0xFFFF6B6B),                          // Red
             success = Color(0xFFD4AF37),                        // Gold for success
             warning = Color(0xFFFFB347),                        // Orange/yellow
+        )
+
+        /**
+         * CV Agent light theme variant.
+         * Features a warm gold/amber accent with light backgrounds,
+         * creating a professional aesthetic matching the dark variant.
+         */
+        fun cvAgentLight(): ArcaneColors = ArcaneColors(
+            primary = Color(0xFFB8942E),                        // Slightly darker gold for light bg
+            onPrimary = Color(0xFFFFFFFF),                      // White text on gold
+            primaryContainer = Color(0xFFFFF8E1),               // Light gold/cream container
+            onPrimaryContainer = Color(0xFF5D4A0D),             // Dark gold text
+            secondaryContainer = Color(0xFFF5F0E8),             // Warm light gray (distinct)
+            onSecondaryContainer = Color(0xFF5C534E),           // Dark warm text
+            tertiary = Color(0xFF7C3AED),                       // Purple accent for light
+            onTertiary = Color(0xFFFFFFFF),
+            tertiaryContainer = Color(0xFFEDE9FE),              // Light purple
+            onTertiaryContainer = Color(0xFF5B21B6),            // Dark purple
+            surfaceContainerLowest = Color(0xFFFFFFFF),         // Pure white (cards)
+            surfaceContainerLow = Color(0xFFFAFAFA),            // Off-white (main bg)
+            surfaceContainer = Color(0xFFF5F5F5),               // Light gray
+            surfaceContainerHigh = Color(0xFFEEEEEE),           // Medium gray
+            surfaceContainerHighest = Color(0xFFE0E0E0),        // Darker gray
+            glow = Color(0xFFB8942E).copy(alpha = 0.08f),       // Very subtle gold glow
+            glowStrong = Color(0xFFB8942E).copy(alpha = 0.15f), // Restrained gold glow
+            text = Color(0xFF111827),                           // Near-black
+            textSecondary = Color(0xFF6B7280),                  // Medium gray
+            textDisabled = Color(0xFF9CA3AF),                   // Light gray
+            outline = Color(0xFFE5E7EB),                        // Light border
+            outlineVariant = Color(0xFFF3F4F6),                 // Subtle dividers
+            error = Color(0xFFDC2626),                          // Red-600
+            success = Color(0xFFB8942E),                        // Gold for success
+            warning = Color(0xFFD97706),                        // Amber-600
+        )
+
+        /**
+         * Agent2 dark theme variant.
+         * Features a vibrant purple accent (#7C3AED) with dark backgrounds.
+         */
+        fun agent2Dark(): ArcaneColors = ArcaneColors(
+            primary = Color(0xFF7C3AED),                        // Vibrant purple
+            onPrimary = Color(0xFFFFFFFF),                      // White text on purple
+            primaryContainer = Color(0xFF2D1F5C),               // Dark purple container
+            onPrimaryContainer = Color(0xFFA78BFA),             // Light purple text
+            secondaryContainer = Color(0xFF2D2A3D),             // Neutral purple-gray (distinct)
+            onSecondaryContainer = Color(0xFFB8B0C8),           // Muted purple text
+            tertiary = Color(0xFF4DD4AC),                       // Cyan accent
+            onTertiary = Color(0xFF000000),
+            tertiaryContainer = Color(0xFF1A3D38),
+            onTertiaryContainer = Color(0xFF6DE0BC),
+            surfaceContainerLowest = Color(0xFF0A0A0F),         // Darkest
+            surfaceContainerLow = Color(0xFF121218),            // Base level
+            surfaceContainer = Color(0xFF1A1A22),               // Standard
+            surfaceContainerHigh = Color(0xFF24242E),           // Elevated
+            surfaceContainerHighest = Color(0xFF2E2E3A),        // Maximum emphasis
+            glow = Color(0xFF7C3AED).copy(alpha = 0.15f),       // Subtle purple glow
+            glowStrong = Color(0xFF7C3AED).copy(alpha = 0.3f),  // Moderate purple glow
+            text = Color(0xFFFFFFFF),                           // White
+            textSecondary = Color(0xFF9CA3AF),                  // Medium gray
+            textDisabled = Color(0xFF6B7280),                   // Darker gray
+            outline = Color(0xFF3D3A4D),                        // Purple-tinted outline
+            outlineVariant = Color(0xFF2D2A3D),                 // Subtle dividers
+            error = Color(0xFFFF6B6B),                          // Red
+            success = Color(0xFF4DD4AC),                        // Cyan for success
+            warning = Color(0xFFFFB347),                        // Orange
+        )
+
+        /**
+         * Agent2 light theme variant.
+         * Features a vibrant purple accent (#7C3AED) with light backgrounds.
+         */
+        fun agent2Light(): ArcaneColors = ArcaneColors(
+            primary = Color(0xFF7C3AED),                        // Vibrant purple (same)
+            onPrimary = Color(0xFFFFFFFF),                      // White text on purple
+            primaryContainer = Color(0xFFEDE9FE),               // Light purple container
+            onPrimaryContainer = Color(0xFF5B21B6),             // Dark purple text
+            secondaryContainer = Color(0xFFF3F0F7),             // Light neutral purple (distinct)
+            onSecondaryContainer = Color(0xFF4A4458),           // Dark muted text
+            tertiary = Color(0xFF0D9488),                       // Teal accent for light
+            onTertiary = Color(0xFFFFFFFF),
+            tertiaryContainer = Color(0xFFCCFBF1),              // Light teal
+            onTertiaryContainer = Color(0xFF115E59),            // Dark teal
+            surfaceContainerLowest = Color(0xFFFFFFFF),         // Pure white
+            surfaceContainerLow = Color(0xFFFAFAFC),            // Off-white
+            surfaceContainer = Color(0xFFF5F5F7),               // Light gray
+            surfaceContainerHigh = Color(0xFFEEEEF2),           // Medium gray
+            surfaceContainerHighest = Color(0xFFE5E5EB),        // Darker gray
+            glow = Color(0xFF7C3AED).copy(alpha = 0.08f),       // Very subtle purple glow
+            glowStrong = Color(0xFF7C3AED).copy(alpha = 0.15f), // Restrained purple glow
+            text = Color(0xFF111827),                           // Near-black
+            textSecondary = Color(0xFF6B7280),                  // Medium gray
+            textDisabled = Color(0xFF9CA3AF),                   // Light gray
+            outline = Color(0xFFE5E7EB),                        // Light border
+            outlineVariant = Color(0xFFF3F4F6),                 // Subtle dividers
+            error = Color(0xFFDC2626),                          // Red-600
+            success = Color(0xFF0D9488),                        // Teal for success
+            warning = Color(0xFFD97706),                        // Amber-600
         )
 
         /**
