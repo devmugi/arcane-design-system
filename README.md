@@ -2,6 +2,11 @@
 
 A Compose Multiplatform design system optimized for **Claude Code** and LLM-assisted development. Fast prototyping with consistent UI, minimal context, and predictable results.
 
+[![Maven](https://img.shields.io/badge/Maven-0.3.2-blue?style=flat-square)](https://github.com/devmugi/arcane-design-system)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.3.0-7F52FF?style=flat-square&logo=kotlin&logoColor=white)](https://kotlinlang.org)
+[![Compose](https://img.shields.io/badge/Compose-1.10.0-4285F4?style=flat-square&logo=jetpackcompose&logoColor=white)](https://www.jetbrains.com/compose-multiplatform/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+
 [![Try Chat Demo](https://img.shields.io/badge/Try%20Live-Chat%20Demo-7C3AED?style=for-the-badge)](https://devmugi.github.io/arcane-design-system/catalog-chat/)
 [![Component Catalog](https://img.shields.io/badge/Component-Catalog-6366F1?style=for-the-badge)](https://devmugi.github.io/arcane-design-system/catalog/)
 
@@ -30,7 +35,22 @@ ArcaneDesignSystem is **mandatory for Claude to use**. Material 3 imports must b
 
 ![Theme Switching Demo](assets/theme-switching-demo.gif)
 
-*Multiple theme support: Arcane, Perplexity, Claude, and MTG - switch themes instantly while preserving UI state*
+*Multiple theme support with 11 color palettes - switch themes instantly while preserving UI state*
+
+## Themes
+
+| Theme | Primary | Mode | Description |
+|-------|---------|------|-------------|
+| Arcane | `#8B5CF6` | Dark | Default sci-fi purple |
+| Perplexity | `#4DD4AC` | Dark | Cyan/turquoise accent |
+| P2D | `#20B2AA` | Dark | True teal |
+| P2L | `#20B2AA` | Light | True teal light mode |
+| ClaudeD | `#E07856` | Dark | Warm coral |
+| ClaudeL | `#C45A3B` | Light | Coral light mode |
+| cvAgentD | `#D4AF37` | Dark | Gold accent |
+| cvAgentL | `#B8942E` | Light | Gold light mode |
+| agent2D | `#7C3AED` | Dark | Vibrant purple |
+| agent2L | `#7C3AED` | Light | Purple light mode |
 
 ## Workflow: Module-First Prototyping
 
@@ -63,12 +83,13 @@ When module is ready:
 
 ```
 arcane-foundation    <- Design tokens, theme, colors, typography
-       ^
-arcane-components    <- UI components (controls, navigation, feedback)
-       ^
-arcane-chat          <- Chat-specific components (messages, blocks, input)
-       ^
-catalog-chat         <- Interactive demo app for chat module
+       ↑
+arcane-components    <- UI components (30+ controls, navigation, feedback)
+       ↑
+arcane-chat          <- Chat components (messages, input, scaffold)
+       ↑
+catalog/             <- Component showcase app
+catalog-chat/        <- Chat demo app
 ```
 
 ## Platforms
@@ -98,9 +119,9 @@ dependencyResolutionManagement {
 
 // build.gradle.kts
 dependencies {
-    implementation("io.github.devmugi.design.arcane:arcane-foundation:0.2.1")
-    implementation("io.github.devmugi.design.arcane:arcane-components:0.2.1")
-    implementation("io.github.devmugi.design.arcane:arcane-chat:0.2.1")  // optional
+    implementation("io.github.devmugi.design.arcane:arcane-foundation:0.3.2")
+    implementation("io.github.devmugi.design.arcane:arcane-components:0.3.2")
+    implementation("io.github.devmugi.design.arcane:arcane-chat:0.3.2")  // optional
 }
 ```
 
@@ -115,22 +136,42 @@ fun App() {
 }
 ```
 
-## Components
+### Theme Selection
+
+```kotlin
+val colors = when (selectedTheme) {
+    Theme.ARCANE -> ArcaneColors.default()
+    Theme.CLAUDE_DARK -> ArcaneColors.claudeD()
+    Theme.CLAUDE_LIGHT -> ArcaneColors.claudeL()
+    Theme.AGENT2_DARK -> ArcaneColors.agent2Dark()
+    // ... 11 themes available
+}
+
+ArcaneTheme(colors = colors) {
+    ArcaneButton(
+        text = "Click me",
+        onClick = { },
+        style = ArcaneButtonStyle.Primary
+    )
+}
+```
+
+## Components (30+)
 
 ### Controls
-`ArcaneButton` `ArcaneTextField` `ArcaneCheckbox` `ArcaneRadioButton` `ArcaneSwitch` `ArcaneSlider`
+`ArcaneButton` · `ArcaneTextField` · `ArcaneCheckbox` · `ArcaneRadioButton` · `ArcaneSwitch` · `ArcaneSlider`
 
 ### Navigation
-`ArcaneTabs` `ArcaneBreadcrumbs` `ArcanePagination` `ArcaneStepper`
+`ArcaneTabs` · `ArcaneBreadcrumbs` · `ArcanePagination` · `ArcaneStepper`
 
 ### Data Display
-`ArcaneCard` `ArcaneListItem` `ArcaneBadge` `ArcaneAvatar` `ArcaneTooltip` `ArcaneTable`
+`ArcaneCard` · `ArcaneListItem` · `ArcaneBadge` · `ArcaneAvatar` · `ArcaneTooltip` · `ArcaneTable`
 
 ### Feedback
-`ArcaneSpinner` `ArcaneCircularProgress` `ArcaneLinearProgress` `ArcaneSkeleton` `ArcaneEmptyState` `ArcaneAlertBanner` `ArcaneModal` `ArcaneConfirmationDialog` `ArcaneToast`
+`ArcaneSpinner` · `ArcaneCircularProgress` · `ArcaneLinearProgress` · `ArcaneSkeleton` · `ArcaneEmptyState` · `ArcaneAlertBanner` · `ArcaneModal` · `ArcaneConfirmationDialog` · `ArcaneToast` · `ArcaneDropdownMenu`
 
-### Chat (arcane-chat module)
-`ArcaneUserMessageBlock` `ArcaneAssistantMessageBlock` `ArcaneChatMessageList` `ArcaneAgentChatInput` `ArcaneChatScreenScaffold` `MessageBlock.Text` `MessageBlock.Image` `MessageBlock.AgentSuggestions` `MessageBlock.Custom`
+### Chat (`arcane-chat` module)
+`ArcaneUserMessageBlock` · `ArcaneAssistantMessageBlock` · `ArcaneChatMessageList` · `ArcaneAgentChatInput` · `ArcaneChatScreenScaffold`
 
 ## Run Catalog Apps
 
@@ -185,6 +226,10 @@ Trigger phrases:
 
 See [CLAUDE.md](CLAUDE.md) for full Claude Code instructions.
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for version history.
+
 ## License
 
-Apache License 2.0
+MIT License
