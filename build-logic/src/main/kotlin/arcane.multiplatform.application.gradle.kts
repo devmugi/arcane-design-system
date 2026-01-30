@@ -23,18 +23,15 @@ kotlin {
         }
     }
 
-    // iOS targets - only configure if explicitly enabled
-    val buildIos = project.findProperty("buildIos")?.toString()?.toBoolean() ?: false
-    if (buildIos) {
-        listOf(
-            iosX64(),
-            iosArm64(),
-            iosSimulatorArm64()
-        ).forEach { iosTarget ->
-            iosTarget.binaries.framework {
-                baseName = "ComposeApp"
-                isStatic = true
-            }
+    // iOS targets - always enabled
+    // Note: iosX64 (Intel simulator) is excluded as modern Macs use ARM64
+    listOf(
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
         }
     }
 
@@ -72,6 +69,13 @@ kotlin {
                 implementation(compose.desktop.currentOs)
             }
         }
+
+        // iOS source set - ensure proper dependency inheritance
+        val iosMain by creating {
+            dependsOn(commonMain.get())
+        }
+        val iosArm64Main by getting { dependsOn(iosMain) }
+        val iosSimulatorArm64Main by getting { dependsOn(iosMain) }
     }
 }
 
