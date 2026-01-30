@@ -23,7 +23,9 @@ import androidx.compose.ui.unit.dp
 import io.github.devmugi.arcane.catalog.chat.components.ComponentPreview
 import io.github.devmugi.arcane.catalog.chat.components.DeviceType
 import io.github.devmugi.arcane.chat.components.messages.ArcaneAssistantMessageBlock
+import io.github.devmugi.arcane.chat.components.messages.ArcaneOutlinedUserMessageBlock
 import io.github.devmugi.arcane.chat.components.messages.ArcaneUserMessageBlock
+import io.github.devmugi.arcane.chat.components.messages.OutlinedUserMessageBlockDefaults
 import io.github.devmugi.arcane.chat.models.MessageBlock
 import io.github.devmugi.arcane.chat.models.TextStyle
 import io.github.devmugi.arcane.design.foundation.primitives.ArcaneSurface
@@ -81,6 +83,67 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                             )
                         ),
                         timestamp = "2:34 PM"
+                    )
+                }
+            }
+
+            // Outlined User Messages Section
+            PreviewSection(
+                title = "Outlined User Messages",
+                deviceType = deviceType
+            ) {
+                Column(
+                    modifier = Modifier.padding(ArcaneSpacing.Medium),
+                    verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Medium)
+                ) {
+                    ArcaneText(
+                        text = "Default outlined style",
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
+                    )
+                    ArcaneOutlinedUserMessageBlock(
+                        blocks = listOf(
+                            MessageBlock.Text(
+                                id = "outlined-1",
+                                content = "Hello, Claude!",
+                                style = TextStyle.Body
+                            )
+                        )
+                    )
+
+                    ArcaneText(
+                        text = "With timestamp",
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
+                    )
+                    ArcaneOutlinedUserMessageBlock(
+                        blocks = listOf(
+                            MessageBlock.Text(
+                                id = "outlined-2",
+                                content = "This is an outlined message with a lighter visual style using border instead of fill.",
+                                style = TextStyle.Body
+                            )
+                        ),
+                        timestamp = "2:45 PM"
+                    )
+
+                    ArcaneText(
+                        text = "Custom border color",
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
+                    )
+                    ArcaneOutlinedUserMessageBlock(
+                        blocks = listOf(
+                            MessageBlock.Text(
+                                id = "outlined-3",
+                                content = "Custom border styling",
+                                style = TextStyle.Body
+                            )
+                        ),
+                        border = OutlinedUserMessageBlockDefaults.border(
+                            color = colors.tertiary,
+                            width = 2.dp
+                        )
                     )
                 }
             }
