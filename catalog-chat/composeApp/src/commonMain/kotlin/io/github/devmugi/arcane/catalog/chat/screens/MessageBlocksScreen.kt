@@ -16,12 +16,18 @@ import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import io.github.devmugi.arcane.design.components.display.ArcaneText
 import io.github.devmugi.arcane.design.components.display.ArcaneTextVariant
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.devmugi.arcane.catalog.chat.components.ComponentPreview
 import io.github.devmugi.arcane.catalog.chat.components.DeviceType
+import io.github.devmugi.arcane.chat.components.actions.ArcaneMessageActions
+import io.github.devmugi.arcane.chat.components.actions.LikeState
 import io.github.devmugi.arcane.chat.components.messages.ArcaneAssistantMessageBlock
 import io.github.devmugi.arcane.chat.components.messages.ArcaneOutlinedUserMessageBlock
 import io.github.devmugi.arcane.chat.components.messages.ArcaneUserMessageBlock
@@ -334,6 +340,83 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                                     .clickable { }
                             )
                         }
+                    )
+                }
+            }
+
+            // Message Actions Section
+            PreviewSection(
+                title = "Message Actions",
+                deviceType = deviceType
+            ) {
+                Column(
+                    modifier = Modifier.padding(ArcaneSpacing.Medium),
+                    verticalArrangement = Arrangement.spacedBy(ArcaneSpacing.Large)
+                ) {
+                    var likeState1 by remember { mutableStateOf(LikeState.None) }
+                    var likeState2 by remember { mutableStateOf(LikeState.Liked) }
+                    var likeState3 by remember { mutableStateOf(LikeState.Disliked) }
+
+                    ArcaneText(
+                        text = "All actions (no feedback)",
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
+                    )
+                    ArcaneMessageActions(
+                        onCopy = { },
+                        onShare = { },
+                        onLike = { likeState1 = LikeState.Liked },
+                        onDislike = { likeState1 = LikeState.Disliked },
+                        onRegenerate = { },
+                        likeState = likeState1
+                    )
+
+                    ArcaneText(
+                        text = "Liked state",
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
+                    )
+                    ArcaneMessageActions(
+                        onCopy = { },
+                        onShare = { },
+                        onLike = { likeState2 = if (likeState2 == LikeState.Liked) LikeState.None else LikeState.Liked },
+                        onDislike = { likeState2 = LikeState.Disliked },
+                        onRegenerate = { },
+                        likeState = likeState2
+                    )
+
+                    ArcaneText(
+                        text = "Disliked state",
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
+                    )
+                    ArcaneMessageActions(
+                        onCopy = { },
+                        onShare = { },
+                        onLike = { likeState3 = LikeState.Liked },
+                        onDislike = { likeState3 = if (likeState3 == LikeState.Disliked) LikeState.None else LikeState.Disliked },
+                        onRegenerate = { },
+                        likeState = likeState3
+                    )
+
+                    ArcaneText(
+                        text = "Copy + Share only",
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
+                    )
+                    ArcaneMessageActions(
+                        onCopy = { },
+                        onShare = { }
+                    )
+
+                    ArcaneText(
+                        text = "Like/Dislike only",
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
+                    )
+                    ArcaneMessageActions(
+                        onLike = { },
+                        onDislike = { }
                     )
                 }
             }
