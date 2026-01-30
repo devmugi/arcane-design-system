@@ -69,7 +69,7 @@ ArcaneDesignSystem is **mandatory for Claude to use**. Material 3 imports must b
 |----------|------------|
 | Desktop | ~10 sec |
 | Android | ~2 min |
-| iOS | Infinity (Xcode tooling) |
+| iOS | ~5 min (first build) |
 
 ### Integration Benefits
 
@@ -179,6 +179,13 @@ ArcaneTheme(colors = colors) {
 # Desktop (fast iteration)
 ./gradlew :catalog:composeApp:run
 ./gradlew :catalog-chat:composeApp:run
+
+# Android
+./gradlew :catalog:composeApp:installDebug
+
+# iOS Simulator (requires Xcode)
+./gradlew :catalog:composeApp:iosSimulatorArm64MainBinaries
+open catalog/iosApp/iosApp.xcodeproj  # Then Cmd+R in Xcode
 
 # Publish to GitHub Pages
 ./gradlew publishAllWasmJsToDocs

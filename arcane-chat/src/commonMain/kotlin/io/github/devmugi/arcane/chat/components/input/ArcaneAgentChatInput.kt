@@ -3,6 +3,7 @@ package io.github.devmugi.arcane.chat.components.input
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -49,6 +50,26 @@ import io.github.devmugi.arcane.design.foundation.tokens.ArcaneBorder
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneRadius
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
+/**
+ * A chat input field with text entry, voice buttons, and send functionality.
+ *
+ * @param value Current text value
+ * @param onValueChange Callback when text changes
+ * @param onSend Callback when send is triggered
+ * @param modifier Modifier for the container
+ * @param placeholder Placeholder text when empty
+ * @param enabled Whether the input is enabled
+ * @param maxLines Maximum number of lines before scrolling
+ * @param animateFocus When true, animates width on focus (expands from focusWidthFraction to 100%)
+ * @param focusWidthFraction Width fraction when unfocused (0.0 to 1.0), only used when animateFocus is true
+ * @param focusAnimationDuration Duration of focus animation in milliseconds
+ * @param onFocusChanged Callback when focus state changes
+ * @param onVoiceToTextClick Callback for voice-to-text button, null hides the button
+ * @param onAudioRecordClick Callback for audio record button, null hides the button
+ * @param addMenuContent Content for the add button menu
+ * @param activeItemsContent Content for active items row (e.g., attached files)
+ * @param interactionSource Interaction source for the text field
+ */
 @Composable
 fun ArcaneAgentChatInput(
     value: String,
@@ -58,6 +79,10 @@ fun ArcaneAgentChatInput(
     placeholder: String = "Reply to Claude...",
     enabled: Boolean = true,
     maxLines: Int = 6,
+    animateFocus: Boolean = false,
+    focusWidthFraction: Float = 0.9f,
+    focusAnimationDuration: Int = 200,
+    onFocusChanged: (Boolean) -> Unit = {},
     onVoiceToTextClick: (() -> Unit)? = null,
     onAudioRecordClick: (() -> Unit)? = null,
     addMenuContent: (@Composable () -> Unit)? = null,
@@ -68,6 +93,18 @@ fun ArcaneAgentChatInput(
     val typography = ArcaneTheme.typography
     val isFocused by interactionSource.collectIsFocusedAsState()
     val hasText = value.isNotBlank()
+
+    // Notify focus changes
+    androidx.compose.runtime.LaunchedEffect(isFocused) {
+        onFocusChanged(isFocused)
+    }
+
+    // Animated width for focus effect
+    val widthFraction by animateFloatAsState(
+        targetValue = if (animateFocus && !isFocused) focusWidthFraction else 1f,
+        animationSpec = tween(durationMillis = focusAnimationDuration),
+        label = "inputWidthAnimation"
+    )
 
     val borderColor by animateColorAsState(
         targetValue = when {
@@ -88,6 +125,7 @@ fun ArcaneAgentChatInput(
 
     Column(
         modifier = modifier
+            .fillMaxWidth(widthFraction)
             .clip(ArcaneRadius.Large)
             .border(ArcaneBorder.Thin, borderColor, ArcaneRadius.Large)
             .padding(ArcaneSpacing.XSmall),

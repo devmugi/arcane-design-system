@@ -23,6 +23,7 @@ Arcane Design System is a Kotlin Compose Multiplatform UI component library targ
 # Run catalog app
 ./gradlew :catalog:composeApp:run              # Desktop
 ./gradlew :catalog:composeApp:installDebug     # Android (device/emulator)
+open catalog/iosApp/iosApp.xcodeproj           # iOS (open in Xcode, then Cmd+R)
 ```
 
 ## Viewing Web (WASM) Catalog

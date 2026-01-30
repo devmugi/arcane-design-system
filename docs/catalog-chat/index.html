@@ -106,6 +106,31 @@
     <div class="app-container">
         <div id="ComposeTarget"></div>
         <script src="composeApp.js"></script>
+        <script>
+            // Set up arcaneChat bridge after WASM module loads
+            (async function() {
+                try {
+                    // composeApp is a Promise that resolves to the module exports
+                    var mod = window.composeApp || globalThis.composeApp;
+                    if (mod && mod.then) {
+                        mod = await mod;
+                    }
+                    if (mod && typeof mod.arcaneChatSendMessage === 'function') {
+                        window.arcaneChat = {
+                            sendMessage: function(text) { mod.arcaneChatSendMessage(text); },
+                            setInput: function(text) { mod.arcaneChatSetInput(text); },
+                            getMessageCount: function() { return mod.arcaneChatGetMessageCount(); },
+                            clearMessages: function() { mod.arcaneChatClearMessages(); }
+                        };
+                        console.log("arcaneChat bridge initialized. Use window.arcaneChat.sendMessage('text') to send messages.");
+                    } else {
+                        console.warn("arcaneChat: exports not found in module", Object.keys(mod || {}));
+                    }
+                } catch (e) {
+                    console.error("arcaneChat bridge setup failed:", e);
+                }
+            })();
+        </script>
     </div>
 </body>
 </html>

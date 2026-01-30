@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "io.github.devmugi.design.arcane"
-version = "0.3.2"
+version = "0.3.3"
 
 val libs = versionCatalogs.named("libs")
 
@@ -27,18 +27,15 @@ kotlin {
         }
     }
 
-    // iOS targets - only configure if explicitly enabled
-    val buildIos = project.findProperty("buildIos")?.toString()?.toBoolean() ?: false
-    if (buildIos) {
-        listOf(
-            iosX64(),
-            iosArm64(),
-            iosSimulatorArm64()
-        ).forEach { iosTarget ->
-            iosTarget.binaries.framework {
-                baseName = project.name
-                isStatic = true
-            }
+    // iOS targets - always enabled
+    // Note: iosX64 (Intel simulator) is excluded as modern Macs use ARM64
+    listOf(
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = project.name
+            isStatic = true
         }
     }
 
