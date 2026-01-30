@@ -32,6 +32,8 @@ import io.github.devmugi.arcane.chat.components.messages.ArcaneAssistantMessageB
 import io.github.devmugi.arcane.chat.components.messages.ArcaneOutlinedUserMessageBlock
 import io.github.devmugi.arcane.chat.components.messages.ArcaneUserMessageBlock
 import io.github.devmugi.arcane.chat.components.messages.OutlinedUserMessageBlockDefaults
+import io.github.devmugi.arcane.chat.components.welcome.ArcaneChatWelcomeSection
+import io.github.devmugi.arcane.chat.components.welcome.ArcaneSuggestionChipsGrid
 import io.github.devmugi.arcane.chat.models.MessageBlock
 import io.github.devmugi.arcane.chat.models.TextStyle
 import io.github.devmugi.arcane.design.foundation.primitives.ArcaneSurface
@@ -417,6 +419,87 @@ fun MessageBlocksScreen(deviceType: DeviceType) {
                     ArcaneMessageActions(
                         onLike = { },
                         onDislike = { }
+                    )
+                }
+            }
+
+            // Welcome Section
+            PreviewSection(
+                title = "Welcome Section",
+                deviceType = deviceType
+            ) {
+                ArcaneChatWelcomeSection(
+                    title = {
+                        Text(
+                            text = "Welcome!",
+                            style = typography.displaySmall,
+                            color = colors.text
+                        )
+                    },
+                    subtitle = {
+                        Text(
+                            text = "I'm an AI assistant. Ask me anything about your projects.",
+                            style = typography.bodyLarge,
+                            color = colors.textSecondary
+                        )
+                    },
+                    suggestions = {
+                        ArcaneSuggestionChipsGrid(
+                            suggestions = listOf(
+                                "Tell me about your experience",
+                                "What projects have you worked on?",
+                                "What are your skills?",
+                                "How can I contact you?"
+                            ),
+                            onSuggestionClick = { /* handle click */ }
+                        )
+                    }
+                )
+            }
+
+            // Suggestion Chips Grid Only
+            PreviewSection(
+                title = "Suggestion Chips Grid",
+                deviceType = deviceType
+            ) {
+                Column(
+                    modifier = Modifier.padding(ArcaneSpacing.Medium)
+                ) {
+                    ArcaneText(
+                        text = "2-column grid (default)",
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
+                    )
+                    Spacer(modifier = Modifier.height(ArcaneSpacing.Small))
+                    ArcaneSuggestionChipsGrid(
+                        suggestions = listOf(
+                            "Option A",
+                            "Option B",
+                            "Option C",
+                            "Option D"
+                        ),
+                        onSuggestionClick = { }
+                    )
+
+                    Spacer(modifier = Modifier.height(ArcaneSpacing.Large))
+
+                    ArcaneText(
+                        text = "3-column grid",
+                        variant = ArcaneTextVariant.Secondary,
+                        style = typography.labelMedium
+                    )
+                    Spacer(modifier = Modifier.height(ArcaneSpacing.Small))
+                    ArcaneSuggestionChipsGrid(
+                        suggestions = listOf(
+                            "One",
+                            "Two",
+                            "Three",
+                            "Four",
+                            "Five",
+                            "Six"
+                        ),
+                        columns = 3,
+                        onSuggestionClick = { }
                     )
                 }
             }
