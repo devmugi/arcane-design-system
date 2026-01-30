@@ -27,18 +27,15 @@ kotlin {
         }
     }
 
-    // iOS targets - only configure if explicitly enabled
-    val buildIos = project.findProperty("buildIos")?.toString()?.toBoolean() ?: false
-    if (buildIos) {
-        listOf(
-            iosX64(),
-            iosArm64(),
-            iosSimulatorArm64()
-        ).forEach { iosTarget ->
-            iosTarget.binaries.framework {
-                baseName = project.name
-                isStatic = true
-            }
+    // iOS targets - always enabled
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = project.name
+            isStatic = true
         }
     }
 
