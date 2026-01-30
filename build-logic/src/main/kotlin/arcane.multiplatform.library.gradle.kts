@@ -28,8 +28,8 @@ kotlin {
     }
 
     // iOS targets - always enabled
+    // Note: iosX64 (Intel simulator) is excluded as modern Macs use ARM64
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach { iosTarget ->

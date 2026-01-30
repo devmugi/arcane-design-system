@@ -31,3 +31,10 @@ kmmbridge {
         iOS { v("15") }
     }
 }
+
+skie {
+    build {
+        // Enable library mode for XCFramework distribution
+        produceDistributableFramework()
+    }
+}
