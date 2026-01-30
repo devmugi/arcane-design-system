@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import io.github.devmugi.arcane.catalog.chat.components.ComponentPreview
 import io.github.devmugi.arcane.catalog.chat.components.DeviceType
 import io.github.devmugi.arcane.chat.components.input.ArcaneAgentChatInput
+import io.github.devmugi.arcane.chat.components.input.ArcaneFloatingInputContainer
 import io.github.devmugi.arcane.design.foundation.primitives.ArcaneSurface
 import io.github.devmugi.arcane.design.foundation.primitives.SurfaceVariant
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
@@ -81,6 +82,52 @@ fun ChatInputScreen(deviceType: DeviceType) {
                     .fillMaxWidth()
                     .padding(ArcaneSpacing.Medium)
             )
+        }
+
+        // Focus Animation
+        PreviewSection(
+            title = "Focus Animation",
+            deviceType = deviceType
+        ) {
+            var animatedText by remember { mutableStateOf("") }
+            Column(
+                modifier = Modifier.padding(ArcaneSpacing.Medium),
+                horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+            ) {
+                ArcaneText(
+                    text = "Tap to see width expand on focus",
+                    variant = ArcaneTextVariant.Secondary,
+                    style = typography.labelMedium,
+                    modifier = Modifier.padding(bottom = ArcaneSpacing.Small)
+                )
+                ArcaneAgentChatInput(
+                    value = animatedText,
+                    onValueChange = { animatedText = it },
+                    onSend = { animatedText = "" },
+                    animateFocus = true,
+                    focusWidthFraction = 0.85f,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+        }
+
+        // Floating Container
+        PreviewSection(
+            title = "Floating Input Container",
+            deviceType = deviceType
+        ) {
+            var floatingText by remember { mutableStateOf("") }
+            ArcaneFloatingInputContainer(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                ArcaneAgentChatInput(
+                    value = floatingText,
+                    onValueChange = { floatingText = it },
+                    onSend = { floatingText = "" },
+                    animateFocus = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
     }
 }
