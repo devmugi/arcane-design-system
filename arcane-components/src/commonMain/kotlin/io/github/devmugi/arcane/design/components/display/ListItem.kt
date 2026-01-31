@@ -94,7 +94,7 @@ fun ArcaneListItemIcon(
         modifier = modifier
             .size(32.dp)
             .clip(CircleShape)
-            .background(colors.surfaceInset),
+            .background(colors.surfaceContainerLowest),
         contentAlignment = Alignment.Center
     ) {
         Icon(

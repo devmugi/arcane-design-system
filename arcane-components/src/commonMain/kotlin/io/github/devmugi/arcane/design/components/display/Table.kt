@@ -92,7 +92,7 @@ fun <T> ArcaneTableHeader(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(colors.surfaceInset)
+            .background(colors.surfaceContainerLowest)
             .defaultMinSize(minHeight = 40.dp)
             .padding(vertical = ArcaneSpacing.XSmall),
         verticalAlignment = Alignment.CenterVertically
@@ -166,7 +166,7 @@ fun ArcaneTableRow(
     val isHovered by interactionSource.collectIsHoveredAsState()
 
     val backgroundColor = when {
-        isHovered && onClick != null -> colors.surfacePressed
+        isHovered && onClick != null -> colors.surfaceContainerHigh
         isAlternate -> colors.surface.copy(alpha = 0.5f)
         else -> Color.Transparent
     }

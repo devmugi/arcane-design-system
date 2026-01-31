@@ -61,7 +61,7 @@ fun ArcaneSlider(
     val normalizedValue = ((value - valueRange.start) / (valueRange.endInclusive - valueRange.start))
         .coerceIn(0f, 1f)
 
-    val trackColor = if (enabled) colors.surfaceInset else colors.surfaceInset.copy(alpha = 0.5f)
+    val trackColor = if (enabled) colors.surfaceContainerLowest else colors.surfaceContainerLowest.copy(alpha = 0.5f)
     val activeTrackColor = if (enabled) colors.primary else colors.textDisabled
     val thumbColor = if (enabled) colors.primary else colors.textDisabled
     val borderColor = if (enabled) colors.border else colors.textDisabled.copy(alpha = 0.3f)
@@ -90,7 +90,7 @@ fun ArcaneSlider(
                 modifier = Modifier
                     .width(48.dp)
                     .clip(ArcaneRadius.Small)
-                    .background(colors.surfaceRaised)
+                    .background(colors.surfaceContainer)
                     .border(ArcaneBorder.Thin, colors.border, ArcaneRadius.Small)
                     .padding(horizontal = ArcaneSpacing.XSmall, vertical = ArcaneSpacing.XXSmall),
                 contentAlignment = Alignment.Center

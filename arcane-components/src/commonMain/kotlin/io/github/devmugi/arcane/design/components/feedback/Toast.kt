@@ -186,7 +186,7 @@ private fun ArcaneToastItem(
             modifier = Modifier
                 .widthIn(min = 200.dp, max = 400.dp)
                 .clip(shape)
-                .background(colors.surfaceRaised)
+                .background(colors.surfaceContainer)
                 .border(1.dp, accentColor.copy(alpha = 0.5f), shape)
                 .padding(
                     start = ArcaneSpacing.Medium,

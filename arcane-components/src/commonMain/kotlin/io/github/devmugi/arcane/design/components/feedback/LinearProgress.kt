@@ -21,7 +21,7 @@ fun ArcaneLinearProgress(
     progress: Float,
     modifier: Modifier = Modifier,
     height: Dp = 8.dp,
-    trackColor: Color = ArcaneTheme.colors.surfaceInset,
+    trackColor: Color = ArcaneTheme.colors.surfaceContainerLowest,
     progressColor: Color = ArcaneTheme.colors.primary
 ) {
     val animatedProgress by animateFloatAsState(

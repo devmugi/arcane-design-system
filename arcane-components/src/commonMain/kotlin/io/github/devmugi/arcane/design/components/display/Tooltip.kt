@@ -38,7 +38,7 @@ fun ArcaneTooltipBox(
     Box(
         modifier = modifier
             .shadow(4.dp, ArcaneRadius.Small)
-            .background(colors.surfaceRaised, ArcaneRadius.Small)
+            .background(colors.surfaceContainer, ArcaneRadius.Small)
             .padding(
                 horizontal = ArcaneSpacing.XSmall,
                 vertical = ArcaneSpacing.XXSmall

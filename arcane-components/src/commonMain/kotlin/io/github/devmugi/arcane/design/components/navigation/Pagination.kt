@@ -143,7 +143,7 @@ private fun PaginationButton(
     val backgroundColor by animateColorAsState(
         targetValue = when {
             !enabled -> Color.Transparent
-            isPressed -> colors.surfacePressed
+            isPressed -> colors.surfaceContainerHigh
             selected -> colors.primary
             else -> Color.Transparent
         },

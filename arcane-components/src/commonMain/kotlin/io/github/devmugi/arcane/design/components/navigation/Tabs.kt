@@ -69,7 +69,7 @@ internal fun ArcaneTabItem(
     val backgroundColor by animateColorAsState(
         targetValue = when {
             !tab.enabled -> Color.Transparent
-            isPressed -> colors.surfacePressed
+            isPressed -> colors.surfaceContainerHigh
             selected && isFilled -> colors.primary
             else -> Color.Transparent
         },

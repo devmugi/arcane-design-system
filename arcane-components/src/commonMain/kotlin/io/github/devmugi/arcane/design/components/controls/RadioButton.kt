@@ -78,7 +78,7 @@ fun ArcaneRadioButton(
             modifier = Modifier
                 .size(22.dp)
                 .clip(CircleShape)
-                .background(colors.surfaceInset)
+                .background(colors.surfaceContainerLowest)
                 .border(ArcaneBorder.Thin, borderColor, CircleShape)
                 .padding(4.dp),
             contentAlignment = Alignment.Center

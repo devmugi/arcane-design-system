@@ -131,9 +131,9 @@ internal fun SkeletonBox(
 
     val shimmerBrush = Brush.linearGradient(
         colors = listOf(
-            colors.surfaceInset,
-            colors.surfaceRaised,
-            colors.surfaceInset
+            colors.surfaceContainerLowest,
+            colors.surfaceContainer,
+            colors.surfaceContainerLowest
         ),
         start = Offset(shimmerProgress * 1000f - 500f, 0f),
         end = Offset(shimmerProgress * 1000f + 500f, 0f)
