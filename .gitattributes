@@ -1,0 +1,2 @@
+# Golden images for screenshot testing
+**/golden/**/*.png filter=lfs diff=lfs merge=lfs -text
