@@ -70,9 +70,8 @@ kotlin {
                 implementation(libs.findLibrary("kotest-assertions-core").get())
                 implementation(libs.findLibrary("compose-ui-test").get())
                 implementation(libs.findLibrary("compose-ui-test-junit4").get())
-                implementation(libs.findLibrary("roborazzi").get())
-                implementation(libs.findLibrary("roborazzi-compose").get())
-                implementation(libs.findLibrary("roborazzi-junit-rule").get())
+                // Note: Roborazzi is Android-only. Desktop screenshot testing uses
+                // Compose Multiplatform's built-in screenshot testing or Skiko.
                 implementation(compose.desktop.currentOs)
             }
         }
