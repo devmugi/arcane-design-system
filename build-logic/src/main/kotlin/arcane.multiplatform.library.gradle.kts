@@ -56,8 +56,16 @@ kotlin {
             implementation(libs.findLibrary("compose-material3").get())
             implementation(libs.findLibrary("compose-material-icons-core").get())
             implementation(libs.findLibrary("compose-material-icons-extended").get())
+            implementation(compose.components.resources)
         }
     }
+}
+
+// Configure Compose Resources for library modules
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "io.github.devmugi.arcane.design.${project.name.replace("-", ".")}.generated.resources"
+    generateResClass = always
 }
 
 android {

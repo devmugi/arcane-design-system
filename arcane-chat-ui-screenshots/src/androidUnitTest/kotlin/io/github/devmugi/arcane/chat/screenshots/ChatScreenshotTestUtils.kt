@@ -3,9 +3,21 @@ package io.github.devmugi.arcane.chat.screenshots
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.onRoot
+import com.github.takahirom.roborazzi.RoborazziOptions
 import com.github.takahirom.roborazzi.captureRoboImage
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneColors
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
+
+/**
+ * Roborazzi options with tolerance for minor rendering differences.
+ * Allows 1% pixel difference to account for font anti-aliasing variations
+ * between local development (macOS) and CI (Ubuntu) environments.
+ */
+private val roborazziOptions = RoborazziOptions(
+    compareOptions = RoborazziOptions.CompareOptions(
+        changeThreshold = 0.01f // Allow 1% pixel difference
+    )
+)
 
 /**
  * Captures a screenshot of the given composable content wrapped in ArcaneTheme.
@@ -33,5 +45,9 @@ fun captureChatScreenshot(
         }
     }
 
-    composeTestRule.onRoot().captureRoboImage(filePath)
+    composeTestRule.waitForIdle()
+    composeTestRule.onRoot().captureRoboImage(
+        filePath = filePath,
+        roborazziOptions = roborazziOptions
+    )
 }
