@@ -21,15 +21,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import io.github.devmugi.arcane.design.foundation.modifiers.arcaneGlowIf
 import io.github.devmugi.arcane.design.foundation.primitives.ArcaneSurface
 import io.github.devmugi.arcane.design.foundation.primitives.SurfaceVariant
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
+import io.github.devmugi.arcane.design.foundation.tokens.ArcaneMotion
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneRadius
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
@@ -51,27 +49,18 @@ fun ArcaneCard(
             isHovered -> 0.25f
             else -> 0f
         },
-        animationSpec = tween(150),
+        animationSpec = tween(ArcaneMotion.Fast),
         label = "cardGlowAlpha"
     )
 
     Box(
         modifier = modifier
-            .then(
-                if (glowAlpha > 0f) {
-                    Modifier.drawBehind {
-                        drawCircle(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    colors.glow.copy(alpha = glowAlpha),
-                                    Color.Transparent
-                                ),
-                                center = Offset(size.width / 2, size.height / 2),
-                                radius = maxOf(size.width, size.height) * 0.6f
-                            )
-                        )
-                    }
-                } else Modifier
+            // Glow effect using arcaneGlow modifier
+            .arcaneGlowIf(
+                enabled = onClick != null,
+                color = colors.glow,
+                alpha = glowAlpha,
+                radiusFactor = 0.6f
             )
     ) {
         ArcaneSurface(
