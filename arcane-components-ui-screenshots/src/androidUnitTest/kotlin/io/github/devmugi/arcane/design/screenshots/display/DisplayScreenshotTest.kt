@@ -31,7 +31,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun card_TitleOnly_Light() {
-        captureArcaneScreenshot(composeTestRule, "Card_TitleOnly", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "display", "Card_TitleOnly", isDark = false) {
             ArcaneCard {
                 ArcaneCardContent(title = "Card Title")
             }
@@ -40,7 +40,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun card_TitleOnly_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Card_TitleOnly", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "display", "Card_TitleOnly", isDark = true) {
             ArcaneCard {
                 ArcaneCardContent(title = "Card Title")
             }
@@ -53,7 +53,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun card_WithDescription_Light() {
-        captureArcaneScreenshot(composeTestRule, "Card_WithDescription", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "display", "Card_WithDescription", isDark = false) {
             ArcaneCard {
                 ArcaneCardContent(
                     title = "Card Title",
@@ -65,7 +65,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun card_WithDescription_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Card_WithDescription", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "display", "Card_WithDescription", isDark = true) {
             ArcaneCard {
                 ArcaneCardContent(
                     title = "Card Title",
@@ -81,7 +81,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun card_Clickable_Light() {
-        captureArcaneScreenshot(composeTestRule, "Card_Clickable", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "display", "Card_Clickable", isDark = false) {
             ArcaneCard(onClick = {}) {
                 ArcaneCardContent(
                     title = "Clickable Card",
@@ -93,7 +93,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun card_Clickable_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Card_Clickable", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "display", "Card_Clickable", isDark = true) {
             ArcaneCard(onClick = {}) {
                 ArcaneCardContent(
                     title = "Clickable Card",
@@ -109,7 +109,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun card_CustomContent_Light() {
-        captureArcaneScreenshot(composeTestRule, "Card_CustomContent", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "display", "Card_CustomContent", isDark = false) {
             ArcaneCard {
                 Text("Custom card content")
             }
@@ -118,7 +118,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun card_CustomContent_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Card_CustomContent", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "display", "Card_CustomContent", isDark = true) {
             ArcaneCard {
                 Text("Custom card content")
             }
@@ -131,14 +131,14 @@ class DisplayScreenshotTest {
 
     @Test
     fun listItem_HeadlineOnly_Light() {
-        captureArcaneScreenshot(composeTestRule, "ListItem_HeadlineOnly", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "display", "ListItem_HeadlineOnly", isDark = false) {
             ArcaneListItem(headlineText = "List Item Title")
         }
     }
 
     @Test
     fun listItem_HeadlineOnly_Dark() {
-        captureArcaneScreenshot(composeTestRule, "ListItem_HeadlineOnly", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "display", "ListItem_HeadlineOnly", isDark = true) {
             ArcaneListItem(headlineText = "List Item Title")
         }
     }
@@ -149,7 +149,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun listItem_WithSupportingText_Light() {
-        captureArcaneScreenshot(composeTestRule, "ListItem_WithSupportingText", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "display", "ListItem_WithSupportingText", isDark = false) {
             ArcaneListItem(
                 headlineText = "Primary Text",
                 supportingText = "Secondary supporting text"
@@ -159,7 +159,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun listItem_WithSupportingText_Dark() {
-        captureArcaneScreenshot(composeTestRule, "ListItem_WithSupportingText", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "display", "ListItem_WithSupportingText", isDark = true) {
             ArcaneListItem(
                 headlineText = "Primary Text",
                 supportingText = "Secondary supporting text"
@@ -173,7 +173,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun listItem_Clickable_Light() {
-        captureArcaneScreenshot(composeTestRule, "ListItem_Clickable", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "display", "ListItem_Clickable", isDark = false) {
             ArcaneListItem(
                 headlineText = "Clickable Item",
                 supportingText = "Tap to select",
@@ -184,7 +184,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun listItem_Clickable_Dark() {
-        captureArcaneScreenshot(composeTestRule, "ListItem_Clickable", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "display", "ListItem_Clickable", isDark = true) {
             ArcaneListItem(
                 headlineText = "Clickable Item",
                 supportingText = "Tap to select",
@@ -199,7 +199,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun listItem_WithLeading_Light() {
-        captureArcaneScreenshot(composeTestRule, "ListItem_WithLeading", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "display", "ListItem_WithLeading", isDark = false) {
             ArcaneListItem(
                 headlineText = "Item with Icon",
                 supportingText = "Leading content example",
@@ -212,7 +212,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun listItem_WithLeading_Dark() {
-        captureArcaneScreenshot(composeTestRule, "ListItem_WithLeading", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "display", "ListItem_WithLeading", isDark = true) {
             ArcaneListItem(
                 headlineText = "Item with Icon",
                 supportingText = "Leading content example",
@@ -229,7 +229,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun listItem_WithTrailing_Light() {
-        captureArcaneScreenshot(composeTestRule, "ListItem_WithTrailing", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "display", "ListItem_WithTrailing", isDark = false) {
             ArcaneListItem(
                 headlineText = "Item with Trailing",
                 supportingText = "Trailing content example",
@@ -242,7 +242,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun listItem_WithTrailing_Dark() {
-        captureArcaneScreenshot(composeTestRule, "ListItem_WithTrailing", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "display", "ListItem_WithTrailing", isDark = true) {
             ArcaneListItem(
                 headlineText = "Item with Trailing",
                 supportingText = "Trailing content example",
@@ -259,7 +259,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun listItem_FullFeatured_Light() {
-        captureArcaneScreenshot(composeTestRule, "ListItem_FullFeatured", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "display", "ListItem_FullFeatured", isDark = false) {
             ArcaneListItem(
                 headlineText = "Full Featured Item",
                 supportingText = "With all options",
@@ -272,7 +272,7 @@ class DisplayScreenshotTest {
 
     @Test
     fun listItem_FullFeatured_Dark() {
-        captureArcaneScreenshot(composeTestRule, "ListItem_FullFeatured", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "display", "ListItem_FullFeatured", isDark = true) {
             ArcaneListItem(
                 headlineText = "Full Featured Item",
                 supportingText = "With all options",

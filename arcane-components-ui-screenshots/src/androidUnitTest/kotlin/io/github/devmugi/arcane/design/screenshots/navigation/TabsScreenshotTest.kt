@@ -36,7 +36,7 @@ class TabsScreenshotTest {
 
     @Test
     fun tabs_Filled_FirstSelected_Light() {
-        captureArcaneScreenshot(composeTestRule, "Tabs_Filled_FirstSelected", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "navigation", "Tabs_Filled_FirstSelected", isDark = false) {
             ArcaneTabs(
                 tabs = basicTabs,
                 selectedIndex = 0,
@@ -48,7 +48,7 @@ class TabsScreenshotTest {
 
     @Test
     fun tabs_Filled_FirstSelected_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Tabs_Filled_FirstSelected", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "navigation", "Tabs_Filled_FirstSelected", isDark = true) {
             ArcaneTabs(
                 tabs = basicTabs,
                 selectedIndex = 0,
@@ -64,7 +64,7 @@ class TabsScreenshotTest {
 
     @Test
     fun tabs_Filled_SecondSelected_Light() {
-        captureArcaneScreenshot(composeTestRule, "Tabs_Filled_SecondSelected", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "navigation", "Tabs_Filled_SecondSelected", isDark = false) {
             ArcaneTabs(
                 tabs = basicTabs,
                 selectedIndex = 1,
@@ -76,7 +76,7 @@ class TabsScreenshotTest {
 
     @Test
     fun tabs_Filled_SecondSelected_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Tabs_Filled_SecondSelected", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "navigation", "Tabs_Filled_SecondSelected", isDark = true) {
             ArcaneTabs(
                 tabs = basicTabs,
                 selectedIndex = 1,
@@ -92,7 +92,7 @@ class TabsScreenshotTest {
 
     @Test
     fun tabs_Underline_Light() {
-        captureArcaneScreenshot(composeTestRule, "Tabs_Underline", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "navigation", "Tabs_Underline", isDark = false) {
             ArcaneTabs(
                 tabs = basicTabs,
                 selectedIndex = 0,
@@ -104,7 +104,7 @@ class TabsScreenshotTest {
 
     @Test
     fun tabs_Underline_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Tabs_Underline", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "navigation", "Tabs_Underline", isDark = true) {
             ArcaneTabs(
                 tabs = basicTabs,
                 selectedIndex = 0,
@@ -126,7 +126,7 @@ class TabsScreenshotTest {
             ArcaneTab(label = "Active")
         )
 
-        captureArcaneScreenshot(composeTestRule, "Tabs_WithDisabled", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "navigation", "Tabs_WithDisabled", isDark = false) {
             ArcaneTabs(
                 tabs = tabsWithDisabled,
                 selectedIndex = 0,
@@ -144,7 +144,7 @@ class TabsScreenshotTest {
             ArcaneTab(label = "Active")
         )
 
-        captureArcaneScreenshot(composeTestRule, "Tabs_WithDisabled", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "navigation", "Tabs_WithDisabled", isDark = true) {
             ArcaneTabs(
                 tabs = tabsWithDisabled,
                 selectedIndex = 0,
@@ -168,7 +168,7 @@ class TabsScreenshotTest {
             ArcaneTab(label = "Epsilon")
         )
 
-        captureArcaneScreenshot(composeTestRule, "Tabs_Scrollable", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "navigation", "Tabs_Scrollable", isDark = false) {
             ArcaneTabs(
                 tabs = manyTabs,
                 selectedIndex = 0,
@@ -189,7 +189,7 @@ class TabsScreenshotTest {
             ArcaneTab(label = "Epsilon")
         )
 
-        captureArcaneScreenshot(composeTestRule, "Tabs_Scrollable", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "navigation", "Tabs_Scrollable", isDark = true) {
             ArcaneTabs(
                 tabs = manyTabs,
                 selectedIndex = 0,
@@ -211,7 +211,7 @@ class TabsScreenshotTest {
             ArcaneTab(label = "Details")
         )
 
-        captureArcaneScreenshot(composeTestRule, "Tabs_TwoTabs", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "navigation", "Tabs_TwoTabs", isDark = false) {
             ArcaneTabs(
                 tabs = twoTabs,
                 selectedIndex = 0,
@@ -228,7 +228,7 @@ class TabsScreenshotTest {
             ArcaneTab(label = "Details")
         )
 
-        captureArcaneScreenshot(composeTestRule, "Tabs_TwoTabs", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "navigation", "Tabs_TwoTabs", isDark = true) {
             ArcaneTabs(
                 tabs = twoTabs,
                 selectedIndex = 0,

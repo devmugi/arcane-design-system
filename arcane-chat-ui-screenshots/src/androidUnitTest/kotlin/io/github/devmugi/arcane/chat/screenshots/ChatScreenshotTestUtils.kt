@@ -29,12 +29,13 @@ private val roborazziOptions = RoborazziOptions(
  */
 fun captureChatScreenshot(
     composeTestRule: ComposeContentTestRule,
+    category: String,
     componentName: String,
     isDark: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val theme = if (isDark) "dark" else "light"
-    val filePath = "src/androidUnitTest/resources/golden/android/$theme/${componentName}.png"
+    val filePath = "src/androidUnitTest/resources/golden/android/$theme/$category/${componentName}.png"
 
     composeTestRule.setContent {
         ArcaneTheme(

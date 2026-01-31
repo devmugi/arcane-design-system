@@ -31,7 +31,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Filled_Light() {
-        captureArcaneScreenshot(composeTestRule, "Button_Filled", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Filled", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Filled(), onClick = {}) {
                 Text("Filled Button")
             }
@@ -40,7 +40,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Filled_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Button_Filled", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Filled", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Filled(), onClick = {}) {
                 Text("Filled Button")
             }
@@ -49,7 +49,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Filled_Disabled_Light() {
-        captureArcaneScreenshot(composeTestRule, "Button_Filled_Disabled", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Filled_Disabled", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Filled(), onClick = {}, enabled = false) {
                 Text("Disabled")
             }
@@ -58,7 +58,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Filled_Disabled_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Button_Filled_Disabled", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Filled_Disabled", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Filled(), onClick = {}, enabled = false) {
                 Text("Disabled")
             }
@@ -71,7 +71,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Tonal_Light() {
-        captureArcaneScreenshot(composeTestRule, "Button_Tonal", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Tonal", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Tonal(), onClick = {}) {
                 Text("Tonal Button")
             }
@@ -80,7 +80,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Tonal_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Button_Tonal", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Tonal", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Tonal(), onClick = {}) {
                 Text("Tonal Button")
             }
@@ -93,7 +93,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Outlined_Light() {
-        captureArcaneScreenshot(composeTestRule, "Button_Outlined", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Outlined", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Outlined(), onClick = {}) {
                 Text("Outlined Button")
             }
@@ -102,7 +102,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Outlined_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Button_Outlined", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Outlined", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Outlined(), onClick = {}) {
                 Text("Outlined Button")
             }
@@ -115,7 +115,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Elevated_Light() {
-        captureArcaneScreenshot(composeTestRule, "Button_Elevated", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Elevated", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Elevated(), onClick = {}) {
                 Text("Elevated Button")
             }
@@ -124,7 +124,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Elevated_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Button_Elevated", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Elevated", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Elevated(), onClick = {}) {
                 Text("Elevated Button")
             }
@@ -137,7 +137,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Text_Light() {
-        captureArcaneScreenshot(composeTestRule, "Button_Text", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Text", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Text, onClick = {}) {
                 Text("Text Button")
             }
@@ -146,7 +146,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Text_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Button_Text", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Text", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Text, onClick = {}) {
                 Text("Text Button")
             }
@@ -159,7 +159,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Size_ExtraSmall_Light() {
-        captureArcaneScreenshot(composeTestRule, "Button_Size_ExtraSmall", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Size_ExtraSmall", isDark = false) {
             ArcaneButton(
                 style = ArcaneButtonStyle.Filled(),
                 size = ArcaneButtonSize.ExtraSmall,
@@ -172,7 +172,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Size_Small_Light() {
-        captureArcaneScreenshot(composeTestRule, "Button_Size_Small", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Size_Small", isDark = false) {
             ArcaneButton(
                 style = ArcaneButtonStyle.Filled(),
                 size = ArcaneButtonSize.Small,
@@ -185,7 +185,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Size_Medium_Light() {
-        captureArcaneScreenshot(composeTestRule, "Button_Size_Medium", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Size_Medium", isDark = false) {
             ArcaneButton(
                 style = ArcaneButtonStyle.Filled(),
                 size = ArcaneButtonSize.Medium,
@@ -202,7 +202,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Loading_Light() {
-        captureArcaneScreenshot(composeTestRule, "Button_Loading", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Loading", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Filled(), onClick = {}, loading = true) {
                 Text("Loading")
             }
@@ -211,7 +211,7 @@ class ButtonScreenshotTest {
 
     @Test
     fun button_Loading_Dark() {
-        captureArcaneScreenshot(composeTestRule, "Button_Loading", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "Button_Loading", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Filled(), onClick = {}, loading = true) {
                 Text("Loading")
             }

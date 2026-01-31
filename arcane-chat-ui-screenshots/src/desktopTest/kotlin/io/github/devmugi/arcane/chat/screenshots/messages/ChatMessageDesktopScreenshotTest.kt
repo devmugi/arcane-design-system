@@ -21,7 +21,7 @@ class ChatMessageDesktopScreenshotTest {
             )
         )
 
-        captureChatDesktopScreenshot("UserMessage_Basic", isDark = false, height = 100) {
+        captureChatDesktopScreenshot("messages", "UserMessage_Basic", isDark = false, height = 100) {
             ArcaneUserMessageBlock(blocks = blocks)
         }
     }
@@ -35,7 +35,7 @@ class ChatMessageDesktopScreenshotTest {
             )
         )
 
-        captureChatDesktopScreenshot("UserMessage_Basic", isDark = true, height = 100) {
+        captureChatDesktopScreenshot("messages", "UserMessage_Basic", isDark = true, height = 100) {
             ArcaneUserMessageBlock(blocks = blocks)
         }
     }
@@ -49,7 +49,7 @@ class ChatMessageDesktopScreenshotTest {
             )
         )
 
-        captureChatDesktopScreenshot("UserMessage_WithTimestamp", isDark = false, height = 100) {
+        captureChatDesktopScreenshot("messages", "UserMessage_WithTimestamp", isDark = false, height = 100) {
             ArcaneUserMessageBlock(
                 blocks = blocks,
                 timestamp = "10:30 AM"
@@ -66,7 +66,7 @@ class ChatMessageDesktopScreenshotTest {
             )
         )
 
-        captureChatDesktopScreenshot("UserMessage_WithTimestamp", isDark = true, height = 100) {
+        captureChatDesktopScreenshot("messages", "UserMessage_WithTimestamp", isDark = true, height = 100) {
             ArcaneUserMessageBlock(
                 blocks = blocks,
                 timestamp = "10:30 AM"
@@ -87,7 +87,7 @@ class ChatMessageDesktopScreenshotTest {
             )
         )
 
-        captureChatDesktopScreenshot("AssistantMessage_Basic", isDark = false, height = 100) {
+        captureChatDesktopScreenshot("messages", "AssistantMessage_Basic", isDark = false, height = 100) {
             ArcaneAssistantMessageBlock(
                 blocks = blocks,
                 enableTruncation = false
@@ -104,7 +104,7 @@ class ChatMessageDesktopScreenshotTest {
             )
         )
 
-        captureChatDesktopScreenshot("AssistantMessage_Basic", isDark = true, height = 100) {
+        captureChatDesktopScreenshot("messages", "AssistantMessage_Basic", isDark = true, height = 100) {
             ArcaneAssistantMessageBlock(
                 blocks = blocks,
                 enableTruncation = false
@@ -121,7 +121,7 @@ class ChatMessageDesktopScreenshotTest {
             )
         )
 
-        captureChatDesktopScreenshot("AssistantMessage_WithTitle", isDark = false, height = 120) {
+        captureChatDesktopScreenshot("messages", "AssistantMessage_WithTitle", isDark = false, height = 120) {
             ArcaneAssistantMessageBlock(
                 blocks = blocks,
                 title = "Claude",
@@ -139,7 +139,7 @@ class ChatMessageDesktopScreenshotTest {
             )
         )
 
-        captureChatDesktopScreenshot("AssistantMessage_WithTitle", isDark = true, height = 120) {
+        captureChatDesktopScreenshot("messages", "AssistantMessage_WithTitle", isDark = true, height = 120) {
             ArcaneAssistantMessageBlock(
                 blocks = blocks,
                 title = "Claude",

@@ -28,7 +28,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_Default_Light() {
-        captureArcaneScreenshot(composeTestRule, "TextField_Default", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_Default", isDark = false) {
             ArcaneTextField(
                 value = "Sample text",
                 onValueChange = {}
@@ -38,7 +38,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_Default_Dark() {
-        captureArcaneScreenshot(composeTestRule, "TextField_Default", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_Default", isDark = true) {
             ArcaneTextField(
                 value = "Sample text",
                 onValueChange = {}
@@ -52,7 +52,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_Placeholder_Light() {
-        captureArcaneScreenshot(composeTestRule, "TextField_Placeholder", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_Placeholder", isDark = false) {
             ArcaneTextField(
                 value = "",
                 onValueChange = {},
@@ -63,7 +63,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_Placeholder_Dark() {
-        captureArcaneScreenshot(composeTestRule, "TextField_Placeholder", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_Placeholder", isDark = true) {
             ArcaneTextField(
                 value = "",
                 onValueChange = {},
@@ -78,7 +78,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_WithLabel_Light() {
-        captureArcaneScreenshot(composeTestRule, "TextField_WithLabel", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_WithLabel", isDark = false) {
             ArcaneTextField(
                 value = "Input value",
                 onValueChange = {},
@@ -89,7 +89,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_WithLabel_Dark() {
-        captureArcaneScreenshot(composeTestRule, "TextField_WithLabel", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_WithLabel", isDark = true) {
             ArcaneTextField(
                 value = "Input value",
                 onValueChange = {},
@@ -104,7 +104,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_WithHelperText_Light() {
-        captureArcaneScreenshot(composeTestRule, "TextField_WithHelperText", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_WithHelperText", isDark = false) {
             ArcaneTextField(
                 value = "user@example.com",
                 onValueChange = {},
@@ -116,7 +116,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_WithHelperText_Dark() {
-        captureArcaneScreenshot(composeTestRule, "TextField_WithHelperText", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_WithHelperText", isDark = true) {
             ArcaneTextField(
                 value = "user@example.com",
                 onValueChange = {},
@@ -132,7 +132,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_Error_Light() {
-        captureArcaneScreenshot(composeTestRule, "TextField_Error", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_Error", isDark = false) {
             ArcaneTextField(
                 value = "invalid",
                 onValueChange = {},
@@ -144,7 +144,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_Error_Dark() {
-        captureArcaneScreenshot(composeTestRule, "TextField_Error", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_Error", isDark = true) {
             ArcaneTextField(
                 value = "invalid",
                 onValueChange = {},
@@ -160,7 +160,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_Disabled_Light() {
-        captureArcaneScreenshot(composeTestRule, "TextField_Disabled", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_Disabled", isDark = false) {
             ArcaneTextField(
                 value = "Disabled text",
                 onValueChange = {},
@@ -171,7 +171,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_Disabled_Dark() {
-        captureArcaneScreenshot(composeTestRule, "TextField_Disabled", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_Disabled", isDark = true) {
             ArcaneTextField(
                 value = "Disabled text",
                 onValueChange = {},
@@ -186,7 +186,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_DisabledWithLabel_Light() {
-        captureArcaneScreenshot(composeTestRule, "TextField_DisabledWithLabel", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_DisabledWithLabel", isDark = false) {
             ArcaneTextField(
                 value = "Disabled content",
                 onValueChange = {},
@@ -198,7 +198,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_DisabledWithLabel_Dark() {
-        captureArcaneScreenshot(composeTestRule, "TextField_DisabledWithLabel", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_DisabledWithLabel", isDark = true) {
             ArcaneTextField(
                 value = "Disabled content",
                 onValueChange = {},
@@ -214,7 +214,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_Password_Light() {
-        captureArcaneScreenshot(composeTestRule, "TextField_Password", isDark = false) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_Password", isDark = false) {
             ArcaneTextField(
                 value = "secretpass",
                 onValueChange = {},
@@ -226,7 +226,7 @@ class TextFieldScreenshotTest {
 
     @Test
     fun textField_Password_Dark() {
-        captureArcaneScreenshot(composeTestRule, "TextField_Password", isDark = true) {
+        captureArcaneScreenshot(composeTestRule, "controls", "TextField_Password", isDark = true) {
             ArcaneTextField(
                 value = "secretpass",
                 onValueChange = {},

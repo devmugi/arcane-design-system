@@ -12,7 +12,7 @@ class TextFieldDesktopScreenshotTest {
 
     @Test
     fun textField_Default_Light() {
-        captureDesktopScreenshot("TextField_Default", isDark = false) {
+        captureDesktopScreenshot("controls", "TextField_Default", isDark = false) {
             ArcaneTextField(
                 value = "Sample text",
                 onValueChange = {}
@@ -22,7 +22,7 @@ class TextFieldDesktopScreenshotTest {
 
     @Test
     fun textField_Default_Dark() {
-        captureDesktopScreenshot("TextField_Default", isDark = true) {
+        captureDesktopScreenshot("controls", "TextField_Default", isDark = true) {
             ArcaneTextField(
                 value = "Sample text",
                 onValueChange = {}
@@ -36,7 +36,7 @@ class TextFieldDesktopScreenshotTest {
 
     @Test
     fun textField_Placeholder_Light() {
-        captureDesktopScreenshot("TextField_Placeholder", isDark = false) {
+        captureDesktopScreenshot("controls", "TextField_Placeholder", isDark = false) {
             ArcaneTextField(
                 value = "",
                 onValueChange = {},
@@ -47,7 +47,7 @@ class TextFieldDesktopScreenshotTest {
 
     @Test
     fun textField_Placeholder_Dark() {
-        captureDesktopScreenshot("TextField_Placeholder", isDark = true) {
+        captureDesktopScreenshot("controls", "TextField_Placeholder", isDark = true) {
             ArcaneTextField(
                 value = "",
                 onValueChange = {},
@@ -62,7 +62,7 @@ class TextFieldDesktopScreenshotTest {
 
     @Test
     fun textField_WithLabel_Light() {
-        captureDesktopScreenshot("TextField_WithLabel", isDark = false, height = 80) {
+        captureDesktopScreenshot("controls", "TextField_WithLabel", isDark = false, height = 80) {
             ArcaneTextField(
                 value = "Input value",
                 onValueChange = {},
@@ -73,7 +73,7 @@ class TextFieldDesktopScreenshotTest {
 
     @Test
     fun textField_WithLabel_Dark() {
-        captureDesktopScreenshot("TextField_WithLabel", isDark = true, height = 80) {
+        captureDesktopScreenshot("controls", "TextField_WithLabel", isDark = true, height = 80) {
             ArcaneTextField(
                 value = "Input value",
                 onValueChange = {},
@@ -88,7 +88,7 @@ class TextFieldDesktopScreenshotTest {
 
     @Test
     fun textField_Error_Light() {
-        captureDesktopScreenshot("TextField_Error", isDark = false, height = 100) {
+        captureDesktopScreenshot("controls", "TextField_Error", isDark = false, height = 100) {
             ArcaneTextField(
                 value = "invalid",
                 onValueChange = {},
@@ -100,7 +100,7 @@ class TextFieldDesktopScreenshotTest {
 
     @Test
     fun textField_Error_Dark() {
-        captureDesktopScreenshot("TextField_Error", isDark = true, height = 100) {
+        captureDesktopScreenshot("controls", "TextField_Error", isDark = true, height = 100) {
             ArcaneTextField(
                 value = "invalid",
                 onValueChange = {},
@@ -116,7 +116,7 @@ class TextFieldDesktopScreenshotTest {
 
     @Test
     fun textField_Disabled_Light() {
-        captureDesktopScreenshot("TextField_Disabled", isDark = false) {
+        captureDesktopScreenshot("controls", "TextField_Disabled", isDark = false) {
             ArcaneTextField(
                 value = "Disabled text",
                 onValueChange = {},
@@ -127,7 +127,7 @@ class TextFieldDesktopScreenshotTest {
 
     @Test
     fun textField_Disabled_Dark() {
-        captureDesktopScreenshot("TextField_Disabled", isDark = true) {
+        captureDesktopScreenshot("controls", "TextField_Disabled", isDark = true) {
             ArcaneTextField(
                 value = "Disabled text",
                 onValueChange = {},

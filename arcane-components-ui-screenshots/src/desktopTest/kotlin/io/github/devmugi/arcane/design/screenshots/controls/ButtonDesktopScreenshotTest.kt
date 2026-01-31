@@ -14,7 +14,7 @@ class ButtonDesktopScreenshotTest {
 
     @Test
     fun button_Filled_Light() {
-        captureDesktopScreenshot("Button_Filled", isDark = false) {
+        captureDesktopScreenshot("controls", "Button_Filled", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Filled(), onClick = {}) {
                 Text("Filled Button")
             }
@@ -23,7 +23,7 @@ class ButtonDesktopScreenshotTest {
 
     @Test
     fun button_Filled_Dark() {
-        captureDesktopScreenshot("Button_Filled", isDark = true) {
+        captureDesktopScreenshot("controls", "Button_Filled", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Filled(), onClick = {}) {
                 Text("Filled Button")
             }
@@ -32,7 +32,7 @@ class ButtonDesktopScreenshotTest {
 
     @Test
     fun button_Filled_Disabled_Light() {
-        captureDesktopScreenshot("Button_Filled_Disabled", isDark = false) {
+        captureDesktopScreenshot("controls", "Button_Filled_Disabled", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Filled(), onClick = {}, enabled = false) {
                 Text("Disabled")
             }
@@ -41,7 +41,7 @@ class ButtonDesktopScreenshotTest {
 
     @Test
     fun button_Filled_Disabled_Dark() {
-        captureDesktopScreenshot("Button_Filled_Disabled", isDark = true) {
+        captureDesktopScreenshot("controls", "Button_Filled_Disabled", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Filled(), onClick = {}, enabled = false) {
                 Text("Disabled")
             }
@@ -54,7 +54,7 @@ class ButtonDesktopScreenshotTest {
 
     @Test
     fun button_Tonal_Light() {
-        captureDesktopScreenshot("Button_Tonal", isDark = false) {
+        captureDesktopScreenshot("controls", "Button_Tonal", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Tonal(), onClick = {}) {
                 Text("Tonal Button")
             }
@@ -63,7 +63,7 @@ class ButtonDesktopScreenshotTest {
 
     @Test
     fun button_Tonal_Dark() {
-        captureDesktopScreenshot("Button_Tonal", isDark = true) {
+        captureDesktopScreenshot("controls", "Button_Tonal", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Tonal(), onClick = {}) {
                 Text("Tonal Button")
             }
@@ -76,7 +76,7 @@ class ButtonDesktopScreenshotTest {
 
     @Test
     fun button_Outlined_Light() {
-        captureDesktopScreenshot("Button_Outlined", isDark = false) {
+        captureDesktopScreenshot("controls", "Button_Outlined", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Outlined(), onClick = {}) {
                 Text("Outlined Button")
             }
@@ -85,7 +85,7 @@ class ButtonDesktopScreenshotTest {
 
     @Test
     fun button_Outlined_Dark() {
-        captureDesktopScreenshot("Button_Outlined", isDark = true) {
+        captureDesktopScreenshot("controls", "Button_Outlined", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Outlined(), onClick = {}) {
                 Text("Outlined Button")
             }
@@ -98,7 +98,7 @@ class ButtonDesktopScreenshotTest {
 
     @Test
     fun button_Elevated_Light() {
-        captureDesktopScreenshot("Button_Elevated", isDark = false) {
+        captureDesktopScreenshot("controls", "Button_Elevated", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Elevated(), onClick = {}) {
                 Text("Elevated Button")
             }
@@ -107,7 +107,7 @@ class ButtonDesktopScreenshotTest {
 
     @Test
     fun button_Elevated_Dark() {
-        captureDesktopScreenshot("Button_Elevated", isDark = true) {
+        captureDesktopScreenshot("controls", "Button_Elevated", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Elevated(), onClick = {}) {
                 Text("Elevated Button")
             }
@@ -120,7 +120,7 @@ class ButtonDesktopScreenshotTest {
 
     @Test
     fun button_Text_Light() {
-        captureDesktopScreenshot("Button_Text", isDark = false) {
+        captureDesktopScreenshot("controls", "Button_Text", isDark = false) {
             ArcaneButton(style = ArcaneButtonStyle.Text, onClick = {}) {
                 Text("Text Button")
             }
@@ -129,7 +129,7 @@ class ButtonDesktopScreenshotTest {
 
     @Test
     fun button_Text_Dark() {
-        captureDesktopScreenshot("Button_Text", isDark = true) {
+        captureDesktopScreenshot("controls", "Button_Text", isDark = true) {
             ArcaneButton(style = ArcaneButtonStyle.Text, onClick = {}) {
                 Text("Text Button")
             }

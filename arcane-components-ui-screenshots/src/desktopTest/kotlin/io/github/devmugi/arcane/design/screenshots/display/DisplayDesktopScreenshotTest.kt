@@ -15,7 +15,7 @@ class DisplayDesktopScreenshotTest {
 
     @Test
     fun card_TitleOnly_Light() {
-        captureDesktopScreenshot("Card_TitleOnly", isDark = false, height = 100) {
+        captureDesktopScreenshot("display", "Card_TitleOnly", isDark = false, height = 100) {
             ArcaneCard {
                 ArcaneCardContent(title = "Card Title")
             }
@@ -24,7 +24,7 @@ class DisplayDesktopScreenshotTest {
 
     @Test
     fun card_TitleOnly_Dark() {
-        captureDesktopScreenshot("Card_TitleOnly", isDark = true, height = 100) {
+        captureDesktopScreenshot("display", "Card_TitleOnly", isDark = true, height = 100) {
             ArcaneCard {
                 ArcaneCardContent(title = "Card Title")
             }
@@ -37,7 +37,7 @@ class DisplayDesktopScreenshotTest {
 
     @Test
     fun card_WithDescription_Light() {
-        captureDesktopScreenshot("Card_WithDescription", isDark = false, height = 120) {
+        captureDesktopScreenshot("display", "Card_WithDescription", isDark = false, height = 120) {
             ArcaneCard {
                 ArcaneCardContent(
                     title = "Card Title",
@@ -49,7 +49,7 @@ class DisplayDesktopScreenshotTest {
 
     @Test
     fun card_WithDescription_Dark() {
-        captureDesktopScreenshot("Card_WithDescription", isDark = true, height = 120) {
+        captureDesktopScreenshot("display", "Card_WithDescription", isDark = true, height = 120) {
             ArcaneCard {
                 ArcaneCardContent(
                     title = "Card Title",
@@ -65,14 +65,14 @@ class DisplayDesktopScreenshotTest {
 
     @Test
     fun listItem_HeadlineOnly_Light() {
-        captureDesktopScreenshot("ListItem_HeadlineOnly", isDark = false, height = 60) {
+        captureDesktopScreenshot("display", "ListItem_HeadlineOnly", isDark = false, height = 60) {
             ArcaneListItem(headlineText = "List Item Title")
         }
     }
 
     @Test
     fun listItem_HeadlineOnly_Dark() {
-        captureDesktopScreenshot("ListItem_HeadlineOnly", isDark = true, height = 60) {
+        captureDesktopScreenshot("display", "ListItem_HeadlineOnly", isDark = true, height = 60) {
             ArcaneListItem(headlineText = "List Item Title")
         }
     }
@@ -83,7 +83,7 @@ class DisplayDesktopScreenshotTest {
 
     @Test
     fun listItem_WithSupportingText_Light() {
-        captureDesktopScreenshot("ListItem_WithSupportingText", isDark = false, height = 70) {
+        captureDesktopScreenshot("display", "ListItem_WithSupportingText", isDark = false, height = 70) {
             ArcaneListItem(
                 headlineText = "Primary Text",
                 supportingText = "Secondary supporting text"
@@ -93,7 +93,7 @@ class DisplayDesktopScreenshotTest {
 
     @Test
     fun listItem_WithSupportingText_Dark() {
-        captureDesktopScreenshot("ListItem_WithSupportingText", isDark = true, height = 70) {
+        captureDesktopScreenshot("display", "ListItem_WithSupportingText", isDark = true, height = 70) {
             ArcaneListItem(
                 headlineText = "Primary Text",
                 supportingText = "Secondary supporting text"

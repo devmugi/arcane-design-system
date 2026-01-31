@@ -20,7 +20,7 @@ class TabsDesktopScreenshotTest {
 
     @Test
     fun tabs_Filled_Light() {
-        captureDesktopScreenshot("Tabs_Filled", isDark = false, height = 60) {
+        captureDesktopScreenshot("navigation", "Tabs_Filled", isDark = false, height = 60) {
             ArcaneTabs(
                 tabs = basicTabs,
                 selectedIndex = 0,
@@ -32,7 +32,7 @@ class TabsDesktopScreenshotTest {
 
     @Test
     fun tabs_Filled_Dark() {
-        captureDesktopScreenshot("Tabs_Filled", isDark = true, height = 60) {
+        captureDesktopScreenshot("navigation", "Tabs_Filled", isDark = true, height = 60) {
             ArcaneTabs(
                 tabs = basicTabs,
                 selectedIndex = 0,
@@ -48,7 +48,7 @@ class TabsDesktopScreenshotTest {
 
     @Test
     fun tabs_Underline_Light() {
-        captureDesktopScreenshot("Tabs_Underline", isDark = false, height = 60) {
+        captureDesktopScreenshot("navigation", "Tabs_Underline", isDark = false, height = 60) {
             ArcaneTabs(
                 tabs = basicTabs,
                 selectedIndex = 0,
@@ -60,7 +60,7 @@ class TabsDesktopScreenshotTest {
 
     @Test
     fun tabs_Underline_Dark() {
-        captureDesktopScreenshot("Tabs_Underline", isDark = true, height = 60) {
+        captureDesktopScreenshot("navigation", "Tabs_Underline", isDark = true, height = 60) {
             ArcaneTabs(
                 tabs = basicTabs,
                 selectedIndex = 0,
@@ -82,7 +82,7 @@ class TabsDesktopScreenshotTest {
             ArcaneTab(label = "Active")
         )
 
-        captureDesktopScreenshot("Tabs_WithDisabled", isDark = false, height = 60) {
+        captureDesktopScreenshot("navigation", "Tabs_WithDisabled", isDark = false, height = 60) {
             ArcaneTabs(
                 tabs = tabsWithDisabled,
                 selectedIndex = 0,
@@ -100,7 +100,7 @@ class TabsDesktopScreenshotTest {
             ArcaneTab(label = "Active")
         )
 
-        captureDesktopScreenshot("Tabs_WithDisabled", isDark = true, height = 60) {
+        captureDesktopScreenshot("navigation", "Tabs_WithDisabled", isDark = true, height = 60) {
             ArcaneTabs(
                 tabs = tabsWithDisabled,
                 selectedIndex = 0,

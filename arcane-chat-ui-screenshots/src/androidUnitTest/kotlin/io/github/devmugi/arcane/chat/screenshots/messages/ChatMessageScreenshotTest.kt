@@ -37,7 +37,7 @@ class ChatMessageScreenshotTest {
             )
         )
 
-        captureChatScreenshot(composeTestRule, "UserMessage_Basic", isDark = false) {
+        captureChatScreenshot(composeTestRule, "messages", "UserMessage_Basic", isDark = false) {
             ArcaneUserMessageBlock(blocks = blocks)
         }
     }
@@ -51,7 +51,7 @@ class ChatMessageScreenshotTest {
             )
         )
 
-        captureChatScreenshot(composeTestRule, "UserMessage_Basic", isDark = true) {
+        captureChatScreenshot(composeTestRule, "messages", "UserMessage_Basic", isDark = true) {
             ArcaneUserMessageBlock(blocks = blocks)
         }
     }
@@ -69,7 +69,7 @@ class ChatMessageScreenshotTest {
             )
         )
 
-        captureChatScreenshot(composeTestRule, "UserMessage_WithTimestamp", isDark = false) {
+        captureChatScreenshot(composeTestRule, "messages", "UserMessage_WithTimestamp", isDark = false) {
             ArcaneUserMessageBlock(
                 blocks = blocks,
                 timestamp = "10:30 AM"
@@ -86,7 +86,7 @@ class ChatMessageScreenshotTest {
             )
         )
 
-        captureChatScreenshot(composeTestRule, "UserMessage_WithTimestamp", isDark = true) {
+        captureChatScreenshot(composeTestRule, "messages", "UserMessage_WithTimestamp", isDark = true) {
             ArcaneUserMessageBlock(
                 blocks = blocks,
                 timestamp = "10:30 AM"
@@ -107,7 +107,7 @@ class ChatMessageScreenshotTest {
             )
         )
 
-        captureChatScreenshot(composeTestRule, "UserMessage_LongText", isDark = false) {
+        captureChatScreenshot(composeTestRule, "messages", "UserMessage_LongText", isDark = false) {
             ArcaneUserMessageBlock(blocks = blocks)
         }
     }
@@ -121,7 +121,7 @@ class ChatMessageScreenshotTest {
             )
         )
 
-        captureChatScreenshot(composeTestRule, "UserMessage_LongText", isDark = true) {
+        captureChatScreenshot(composeTestRule, "messages", "UserMessage_LongText", isDark = true) {
             ArcaneUserMessageBlock(blocks = blocks)
         }
     }
@@ -139,7 +139,7 @@ class ChatMessageScreenshotTest {
             )
         )
 
-        captureChatScreenshot(composeTestRule, "AssistantMessage_Basic", isDark = false) {
+        captureChatScreenshot(composeTestRule, "messages", "AssistantMessage_Basic", isDark = false) {
             ArcaneAssistantMessageBlock(
                 blocks = blocks,
                 enableTruncation = false
@@ -156,7 +156,7 @@ class ChatMessageScreenshotTest {
             )
         )
 
-        captureChatScreenshot(composeTestRule, "AssistantMessage_Basic", isDark = true) {
+        captureChatScreenshot(composeTestRule, "messages", "AssistantMessage_Basic", isDark = true) {
             ArcaneAssistantMessageBlock(
                 blocks = blocks,
                 enableTruncation = false
@@ -177,7 +177,7 @@ class ChatMessageScreenshotTest {
             )
         )
 
-        captureChatScreenshot(composeTestRule, "AssistantMessage_WithTitle", isDark = false) {
+        captureChatScreenshot(composeTestRule, "messages", "AssistantMessage_WithTitle", isDark = false) {
             ArcaneAssistantMessageBlock(
                 blocks = blocks,
                 title = "Claude",
@@ -195,7 +195,7 @@ class ChatMessageScreenshotTest {
             )
         )
 
-        captureChatScreenshot(composeTestRule, "AssistantMessage_WithTitle", isDark = true) {
+        captureChatScreenshot(composeTestRule, "messages", "AssistantMessage_WithTitle", isDark = true) {
             ArcaneAssistantMessageBlock(
                 blocks = blocks,
                 title = "Claude",
@@ -217,7 +217,7 @@ class ChatMessageScreenshotTest {
             )
         )
 
-        captureChatScreenshot(composeTestRule, "AssistantMessage_Loading", isDark = false) {
+        captureChatScreenshot(composeTestRule, "messages", "AssistantMessage_Loading", isDark = false) {
             ArcaneAssistantMessageBlock(
                 blocks = blocks,
                 title = "Claude",
@@ -236,7 +236,7 @@ class ChatMessageScreenshotTest {
             )
         )
 
-        captureChatScreenshot(composeTestRule, "AssistantMessage_Loading", isDark = true) {
+        captureChatScreenshot(composeTestRule, "messages", "AssistantMessage_Loading", isDark = true) {
             ArcaneAssistantMessageBlock(
                 blocks = blocks,
                 title = "Claude",
@@ -257,7 +257,7 @@ class ChatMessageScreenshotTest {
             MessageBlock.Text(id = "block-2", content = "Second paragraph of content")
         )
 
-        captureChatScreenshot(composeTestRule, "AssistantMessage_MultipleBlocks", isDark = false) {
+        captureChatScreenshot(composeTestRule, "messages", "AssistantMessage_MultipleBlocks", isDark = false) {
             ArcaneAssistantMessageBlock(
                 blocks = blocks,
                 title = "Claude",
@@ -273,7 +273,7 @@ class ChatMessageScreenshotTest {
             MessageBlock.Text(id = "block-2", content = "Second paragraph of content")
         )
 
-        captureChatScreenshot(composeTestRule, "AssistantMessage_MultipleBlocks", isDark = true) {
+        captureChatScreenshot(composeTestRule, "messages", "AssistantMessage_MultipleBlocks", isDark = true) {
             ArcaneAssistantMessageBlock(
                 blocks = blocks,
                 title = "Claude",

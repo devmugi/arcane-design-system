@@ -22,6 +22,7 @@ import java.io.File
  */
 @OptIn(ExperimentalTestApi::class)
 fun captureChatDesktopScreenshot(
+    category: String,
     componentName: String,
     isDark: Boolean = false,
     width: Int = 400,
@@ -29,7 +30,7 @@ fun captureChatDesktopScreenshot(
     content: @Composable () -> Unit
 ) {
     val theme = if (isDark) "dark" else "light"
-    val goldenPath = "src/desktopTest/resources/golden/desktop/$theme/${componentName}.png"
+    val goldenPath = "src/desktopTest/resources/golden/desktop/$theme/$category/${componentName}.png"
     val goldenFile = File(goldenPath)
 
     runDesktopComposeUiTest(width = width, height = height) {
