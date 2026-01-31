@@ -1,7 +1,7 @@
 package io.github.devmugi.arcane.design.components.navigation
 
+import io.kotest.matchers.shouldBe
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class PaginationTest {
 
@@ -24,7 +24,7 @@ class PaginationTest {
             PaginationItem.Page(10)
         )
 
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     // Test: Page 5 of 10 with siblingCount=1, boundaryCount=1
@@ -48,7 +48,7 @@ class PaginationTest {
             PaginationItem.Page(10)
         )
 
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     // Test: Page 10 of 10 with siblingCount=1, boundaryCount=1
@@ -70,7 +70,7 @@ class PaginationTest {
             PaginationItem.Page(10)
         )
 
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     // Test: Small number of pages where no ellipsis is needed
@@ -91,7 +91,7 @@ class PaginationTest {
             PaginationItem.Page(5)
         )
 
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     // Test: Only one page
@@ -106,7 +106,7 @@ class PaginationTest {
 
         val expected = listOf(PaginationItem.Page(1))
 
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     // Test: Page 2 of 10 - should only show end ellipsis
@@ -127,7 +127,7 @@ class PaginationTest {
             PaginationItem.Page(10)
         )
 
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     // Test: Page 9 of 10 - should only show start ellipsis
@@ -148,7 +148,7 @@ class PaginationTest {
             PaginationItem.Page(10)
         )
 
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     // Test: Higher siblingCount value
@@ -173,7 +173,7 @@ class PaginationTest {
             PaginationItem.Page(12)
         )
 
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     // Test: Higher boundaryCount value
@@ -198,7 +198,7 @@ class PaginationTest {
             PaginationItem.Page(12)
         )
 
-        assertEquals(expected, result)
+        result shouldBe expected
     }
 
     // Test: Edge case - zero pages should return empty list
@@ -211,6 +211,6 @@ class PaginationTest {
             boundaryCount = 1
         )
 
-        assertEquals(emptyList(), result)
+        result shouldBe emptyList()
     }
 }

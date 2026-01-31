@@ -26,12 +26,12 @@ import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 import kotlin.math.max
 import kotlin.math.min
 
-internal sealed class PaginationItem {
+sealed class PaginationItem {
     data class Page(val number: Int) : PaginationItem()
     data object Ellipsis : PaginationItem()
 }
 
-internal fun calculatePaginationItems(
+fun calculatePaginationItems(
     currentPage: Int,
     totalPages: Int,
     siblingCount: Int,
