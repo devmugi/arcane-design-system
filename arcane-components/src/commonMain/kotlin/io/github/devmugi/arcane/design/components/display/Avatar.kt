@@ -62,7 +62,7 @@ fun ArcaneAvatar(
         modifier = modifier
             .size(size.dp)
             .clip(CircleShape)
-            .background(colors.surfaceInset)
+            .background(colors.surfaceContainerLowest)
             .border(2.dp, colors.surface, CircleShape),
         contentAlignment = Alignment.Center
     ) {
@@ -115,7 +115,7 @@ fun ArcaneAvatarGroup(
                     .offset(x = (size.dp - overlap) * visibleAvatars.size)
                     .size(size.dp)
                     .clip(CircleShape)
-                    .background(colors.surfaceRaised)
+                    .background(colors.surfaceContainer)
                     .border(2.dp, colors.surface, CircleShape),
                 contentAlignment = Alignment.Center
             ) {

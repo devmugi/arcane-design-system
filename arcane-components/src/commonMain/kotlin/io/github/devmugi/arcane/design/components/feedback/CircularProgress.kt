@@ -24,7 +24,7 @@ fun ArcaneCircularProgress(
     modifier: Modifier = Modifier,
     size: Dp = 48.dp,
     strokeWidth: Dp = 4.dp,
-    trackColor: Color = ArcaneTheme.colors.surfaceInset,
+    trackColor: Color = ArcaneTheme.colors.surfaceContainerLowest,
     progressColor: Color = ArcaneTheme.colors.primary,
     showLabel: Boolean = false
 ) {

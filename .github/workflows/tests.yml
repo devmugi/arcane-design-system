@@ -1,0 +1,251 @@
+name: Tests
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ============================================================================
+  # Unit Tests - Run first, all other jobs depend on this
+  # ============================================================================
+  unit-tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run Foundation Unit Tests
+        run: ./gradlew :arcane-foundation-tests:allTests
+
+      - name: Run Components Unit Tests
+        run: ./gradlew :arcane-components-tests:allTests
+
+      - name: Run Chat Unit Tests
+        run: ./gradlew :arcane-chat-tests:allTests
+
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: unit-test-reports
+          path: |
+            **/build/reports/tests/
+            **/build/test-results/
+
+  # ============================================================================
+  # UI Integration Tests - Compose interaction tests
+  # ============================================================================
+  ui-tests:
+    name: UI Tests
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run Components UI Tests
+        run: ./gradlew :arcane-components-ui-tests:jvmTest
+
+      - name: Run Chat UI Tests
+        run: ./gradlew :arcane-chat-ui-tests:jvmTest
+
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ui-test-reports
+          path: |
+            **/build/reports/tests/
+            **/build/test-results/
+
+  # ============================================================================
+  # Android Screenshot Tests - Roborazzi verification
+  # ============================================================================
+  screenshots-android:
+    name: Android Screenshots
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout with LFS
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Verify Components Screenshots
+        run: ./gradlew :arcane-components-ui-screenshots:verifyRoborazziDebug
+
+      - name: Verify Chat Screenshots
+        run: ./gradlew :arcane-chat-ui-screenshots:verifyRoborazziDebug
+
+      - name: Upload Screenshot Diffs
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: screenshot-diffs-android
+          path: |
+            **/build/outputs/roborazzi/
+            **/build/reports/roborazzi/
+
+  # ============================================================================
+  # Desktop Screenshot Tests - Skiko-based capture
+  # ============================================================================
+  screenshots-desktop:
+    name: Desktop Screenshots
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout with LFS
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run Components Desktop Tests
+        run: ./gradlew :arcane-components-ui-screenshots:desktopTest
+
+      - name: Run Chat Desktop Tests
+        run: ./gradlew :arcane-chat-ui-screenshots:desktopTest
+
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: desktop-test-reports
+          path: |
+            **/build/reports/tests/
+            **/build/test-results/
+
+  # ============================================================================
+  # iOS Screenshot Tests - Requires macOS runner
+  # ============================================================================
+  screenshots-ios:
+    name: iOS Screenshots
+    needs: unit-tests
+    runs-on: macos-latest
+    # Disabled by default - enable when iOS screenshot tests are ready
+    if: false
+    steps:
+      - name: Checkout with LFS
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run Components iOS Tests
+        run: ./gradlew :arcane-components-ui-screenshots:iosSimulatorArm64Test
+
+      - name: Run Chat iOS Tests
+        run: ./gradlew :arcane-chat-ui-screenshots:iosSimulatorArm64Test
+
+      - name: Upload Test Reports
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: ios-test-reports
+          path: |
+            **/build/reports/tests/
+            **/build/test-results/
+
+  # ============================================================================
+  # Build Verification - Ensure all modules compile
+  # ============================================================================
+  build:
+    name: Build All
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build All Modules
+        run: ./gradlew build -x test -x allTests
+
+  # ============================================================================
+  # Summary - Report overall status
+  # ============================================================================
+  test-summary:
+    name: Test Summary
+    needs: [unit-tests, ui-tests, screenshots-android, screenshots-desktop, build]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Check Results
+        run: |
+          echo "## Test Results Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Job | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----|--------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Unit Tests | ${{ needs.unit-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| UI Tests | ${{ needs.ui-tests.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Android Screenshots | ${{ needs.screenshots-android.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Desktop Screenshots | ${{ needs.screenshots-desktop.result }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Build | ${{ needs.build.result }} |" >> $GITHUB_STEP_SUMMARY
+
+      - name: Fail if any job failed
+        if: |
+          needs.unit-tests.result == 'failure' ||
+          needs.ui-tests.result == 'failure' ||
+          needs.screenshots-android.result == 'failure' ||
+          needs.screenshots-desktop.result == 'failure' ||
+          needs.build.result == 'failure'
+        run: exit 1

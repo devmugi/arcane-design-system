@@ -26,12 +26,12 @@ import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 import kotlin.math.max
 import kotlin.math.min
 
-internal sealed class PaginationItem {
+sealed class PaginationItem {
     data class Page(val number: Int) : PaginationItem()
     data object Ellipsis : PaginationItem()
 }
 
-internal fun calculatePaginationItems(
+fun calculatePaginationItems(
     currentPage: Int,
     totalPages: Int,
     siblingCount: Int,
@@ -143,7 +143,7 @@ private fun PaginationButton(
     val backgroundColor by animateColorAsState(
         targetValue = when {
             !enabled -> Color.Transparent
-            isPressed -> colors.surfacePressed
+            isPressed -> colors.surfaceContainerHigh
             selected -> colors.primary
             else -> Color.Transparent
         },

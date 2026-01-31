@@ -1,7 +1,6 @@
 // arcane-components/src/commonMain/kotlin/io/github/devmugi/arcane/design/components/controls/Button.kt
 package io.github.devmugi.arcane.design.components.controls
 
-import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
@@ -30,10 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.Role
@@ -41,8 +37,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.devmugi.arcane.design.foundation.modifiers.arcaneGlowIf
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneColors
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
+import io.github.devmugi.arcane.design.foundation.tokens.ArcaneMotion
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 import kotlinx.coroutines.delay
 
@@ -239,7 +237,7 @@ fun ArcaneButton(
     // Scale animation (expressive)
     val scale by animateFloatAsState(
         targetValue = if (isPressed && enabled && !loading) 0.96f else 1f,
-        animationSpec = spring(dampingRatio = 0.6f),
+        animationSpec = spring(dampingRatio = ArcaneMotion.SpringDampingBouncy),
         label = "buttonScale"
     )
 
@@ -248,13 +246,13 @@ fun ArcaneButton(
     LaunchedEffect(isPressed) {
         if (isPressed && enabled && !loading && buttonColors.hasGlow) {
             glowPulse = true
-            delay(300)
+            delay(ArcaneMotion.Medium.toLong())
             glowPulse = false
         }
     }
     val glowAlpha by animateFloatAsState(
         targetValue = if (glowPulse) 0.3f else 0f,
-        animationSpec = tween(300, easing = EaseOut),
+        animationSpec = tween(ArcaneMotion.Medium, easing = ArcaneMotion.EaseOut),
         label = "glowPulse"
     )
 
@@ -268,7 +266,7 @@ fun ArcaneButton(
     // Content/spinner crossfade
     val contentAlpha by animateFloatAsState(
         targetValue = if (loading) 0f else 1f,
-        animationSpec = tween(150),
+        animationSpec = tween(ArcaneMotion.Fast),
         label = "contentAlpha"
     )
 
@@ -283,21 +281,12 @@ fun ArcaneButton(
                 scaleX = scale
                 scaleY = scale
             }
-            .then(
-                if (glowAlpha > 0f && buttonColors.hasGlow) {
-                    Modifier.drawBehind {
-                        drawCircle(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    colors.glow.copy(alpha = glowAlpha),
-                                    Color.Transparent
-                                ),
-                                center = Offset(this.size.width / 2, this.size.height / 2),
-                                radius = maxOf(this.size.width, this.size.height) * 0.8f
-                            )
-                        )
-                    }
-                } else Modifier
+            // Glow effect using arcaneGlow modifier
+            .arcaneGlowIf(
+                enabled = buttonColors.hasGlow,
+                color = colors.glow,
+                alpha = glowAlpha,
+                radiusFactor = 0.8f
             )
             .then(
                 if (buttonColors.hasElevation) {

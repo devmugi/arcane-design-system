@@ -7,17 +7,17 @@ import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.unit.dp
+import io.github.devmugi.arcane.design.foundation.modifiers.arcaneGlowIf
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneBorder
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneElevation
+import io.github.devmugi.arcane.design.foundation.tokens.ArcaneOpacity
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneRadius
 
 enum class SurfaceVariant {
@@ -59,48 +59,38 @@ fun ArcaneSurface(
         SurfaceVariant.ContainerHighest -> colors.surfaceContainerHighest
     }
 
-    // Neutral shadow elevation (Material 3 approach)
+    // Neutral shadow elevation (Material 3 approach) using tokens
     @Suppress("DEPRECATION")
     val shadowElevation = when (variant) {
-        SurfaceVariant.ContainerLowest, SurfaceVariant.Inset -> 0.dp
-        SurfaceVariant.ContainerLow, SurfaceVariant.Base -> 0.dp
-        SurfaceVariant.Container, SurfaceVariant.Raised -> 2.dp
-        SurfaceVariant.ContainerHigh -> 4.dp
-        SurfaceVariant.ContainerHighest -> 8.dp
+        SurfaceVariant.ContainerLowest, SurfaceVariant.Inset -> ArcaneElevation.Level0
+        SurfaceVariant.ContainerLow, SurfaceVariant.Base -> ArcaneElevation.Level0
+        SurfaceVariant.Container, SurfaceVariant.Raised -> ArcaneElevation.Level2
+        SurfaceVariant.ContainerHigh -> ArcaneElevation.Level3
+        SurfaceVariant.ContainerHighest -> ArcaneElevation.Level4
     }
 
-    // Consistent border alpha
-    val borderAlpha = 0.3f
+    // Consistent border alpha using opacity token
+    val borderAlpha = ArcaneOpacity.Medium
 
     Box(
         modifier = modifier
             // Apply neutral shadow before clipping (M3 approach)
             .then(
-                if (shadowElevation > 0.dp) {
+                if (shadowElevation > ArcaneElevation.Level0) {
                     Modifier.shadow(
                         elevation = shadowElevation,
                         shape = shape,
-                        ambientColor = Color.Black.copy(alpha = 0.15f),
-                        spotColor = Color.Black.copy(alpha = 0.25f)
+                        ambientColor = Color.Black.copy(alpha = ArcaneOpacity.Subtle),
+                        spotColor = Color.Black.copy(alpha = ArcaneOpacity.Medium)
                     )
                 } else Modifier
             )
-            // Optional glow effect (only when explicitly requested via showGlow)
-            .then(
-                if (showGlow) {
-                    Modifier.drawBehind {
-                        drawCircle(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    colors.glow.copy(alpha = 0.3f),
-                                    Color.Transparent
-                                ),
-                                center = Offset(size.width / 2, size.height / 2),
-                                radius = maxOf(size.width, size.height) * 0.8f
-                            )
-                        )
-                    }
-                } else Modifier
+            // Optional glow effect using arcaneGlow modifier
+            .arcaneGlowIf(
+                enabled = showGlow,
+                color = colors.glow,
+                alpha = ArcaneOpacity.Medium,
+                radiusFactor = 0.8f
             )
             .clip(shape)
             .background(backgroundColor, shape)
@@ -115,7 +105,7 @@ fun ArcaneSurface(
                             brush = Brush.radialGradient(
                                 colors = listOf(
                                     Color.Transparent,
-                                    Color.Black.copy(alpha = 0.5f)
+                                    Color.Black.copy(alpha = ArcaneOpacity.Strong)
                                 ),
                                 center = Offset(size.width / 2, size.height / 2),
                                 radius = size.minDimension / 1.2f

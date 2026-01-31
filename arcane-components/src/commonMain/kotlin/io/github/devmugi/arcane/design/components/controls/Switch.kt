@@ -56,9 +56,9 @@ fun ArcaneSwitch(
 
     val trackColor by animateColorAsState(
         targetValue = when {
-            !enabled -> colors.surfaceInset.copy(alpha = 0.5f)
+            !enabled -> colors.surfaceContainerLowest.copy(alpha = 0.5f)
             checked -> colors.primary
-            else -> colors.surfaceInset
+            else -> colors.surfaceContainerLowest
         },
         animationSpec = tween(200),
         label = "trackColor"

@@ -28,14 +28,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import io.github.devmugi.arcane.design.foundation.modifiers.arcaneGlowIf
 import io.github.devmugi.arcane.design.foundation.theme.ArcaneTheme
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneIconography
+import io.github.devmugi.arcane.design.foundation.tokens.ArcaneMotion
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneRadius
 import io.github.devmugi.arcane.design.foundation.tokens.ArcaneSpacing
 
@@ -69,11 +68,11 @@ internal fun ArcaneTabItem(
     val backgroundColor by animateColorAsState(
         targetValue = when {
             !tab.enabled -> Color.Transparent
-            isPressed -> colors.surfacePressed
+            isPressed -> colors.surfaceContainerHigh
             selected && isFilled -> colors.primary
             else -> Color.Transparent
         },
-        animationSpec = tween(200),
+        animationSpec = tween(ArcaneMotion.Fast),
         label = "tabBackgroundColor"
     )
 
@@ -84,34 +83,25 @@ internal fun ArcaneTabItem(
             selected -> colors.primary
             else -> colors.textSecondary
         },
-        animationSpec = tween(200),
+        animationSpec = tween(ArcaneMotion.Fast),
         label = "tabContentColor"
     )
 
     val glowAlpha by animateFloatAsState(
         targetValue = if (tab.enabled && selected && isFilled) 0.3f else 0f,
-        animationSpec = tween(200),
+        animationSpec = tween(ArcaneMotion.Fast),
         label = "tabGlowAlpha"
     )
 
     Box(
         modifier = modifier
             .height(40.dp)
-            .then(
-                if (glowAlpha > 0f) {
-                    Modifier.drawBehind {
-                        drawCircle(
-                            brush = Brush.radialGradient(
-                                colors = listOf(
-                                    colors.glow.copy(alpha = glowAlpha),
-                                    Color.Transparent
-                                ),
-                                center = Offset(size.width / 2, size.height / 2),
-                                radius = maxOf(size.width, size.height) * 0.8f
-                            )
-                        )
-                    }
-                } else Modifier
+            // Glow effect using arcaneGlow modifier
+            .arcaneGlowIf(
+                enabled = tab.enabled && isFilled,
+                color = colors.glow,
+                alpha = glowAlpha,
+                radiusFactor = 0.8f
             )
             .clip(ArcaneRadius.Medium)
             .background(backgroundColor, ArcaneRadius.Medium)
