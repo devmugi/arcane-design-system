@@ -22,6 +22,7 @@ kotlin {
                 implementation(libs.findLibrary("kotest-assertions-core").get())
                 implementation(libs.findLibrary("compose-ui-test").get())
                 implementation(libs.findLibrary("compose-ui-test-junit4").get())
+                implementation(libs.findLibrary("compose-material3").get())
                 implementation(compose.desktop.currentOs)
             }
         }
