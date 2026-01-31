@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("org.jetbrains.kotlin.multiplatform")
+    id("com.android.library")
 }
 
 val libs = versionCatalogs.named("libs")
@@ -36,5 +37,19 @@ kotlin {
             implementation(libs.findLibrary("kotlinx-coroutines-test").get())
             implementation(libs.findLibrary("turbine").get())
         }
+    }
+}
+
+android {
+    namespace = "io.github.devmugi.arcane.design.${project.name.replace("-", ".")}"
+    compileSdk = 35
+
+    defaultConfig {
+        minSdk = 26
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
