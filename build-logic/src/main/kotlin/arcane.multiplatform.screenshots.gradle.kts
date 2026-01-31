@@ -56,6 +56,7 @@ kotlin {
                 implementation(libs.findLibrary("kotest-assertions-core").get())
                 implementation(libs.findLibrary("compose-ui-test").get())
                 implementation(libs.findLibrary("compose-ui-test-junit4").get())
+                implementation(libs.findLibrary("androidx-compose-ui-test-manifest").get())
                 implementation(libs.findLibrary("roborazzi").get())
                 implementation(libs.findLibrary("roborazzi-compose").get())
                 implementation(libs.findLibrary("roborazzi-junit-rule").get())

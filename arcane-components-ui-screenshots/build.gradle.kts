@@ -12,6 +12,7 @@ kotlin {
             dependencies {
                 implementation(project(":arcane-foundation"))
                 implementation(project(":arcane-components"))
+                implementation(libs.compose.material3)
             }
         }
 
@@ -19,6 +20,7 @@ kotlin {
             dependencies {
                 implementation(project(":arcane-foundation"))
                 implementation(project(":arcane-components"))
+                implementation(libs.compose.material3)
             }
         }
     }

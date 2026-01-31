@@ -44,6 +44,7 @@ turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 # Compose UI Testing
 compose-ui-test = { module = "org.jetbrains.compose.ui:ui-test", version.ref = "compose-multiplatform" }
 compose-ui-test-junit4 = { module = "org.jetbrains.compose.ui:ui-test-junit4", version.ref = "compose-multiplatform" }
+androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version = "1.7.7" }
 
 # Screenshot Testing
 roborazzi = { module = "io.github.takahirom.roborazzi:roborazzi", version.ref = "roborazzi" }
